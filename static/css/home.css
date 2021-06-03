@@ -1,0 +1,31 @@
+body {
+    height: 1920;
+    background: #303841;
+}
+
+h1 {
+    font-family: Times New Roman, Helvetica, sans-serif;
+    text-align: center;
+    color: #303841;
+}
+
+.rectangle{
+	min-width: 1400px;
+	min-height:200px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background:#00ADB5;
+}
+
+.zoneactus {
+    font-family: Arial, Helvetica, sans-serif;
+    float: right;
+    color: blue;
+}
+
+.rectangle2{
+	width:300px;
+	height:400px;
+    border-radius: 25% 10%;
+    background:#FF5722;
+}
