@@ -9,7 +9,7 @@ h1 {
     color: #303841;
 }
 
-.rectangle{
+.rectangle {
 	min-width: 1400px;
 	min-height:200px;
     border-bottom-left-radius: 25px;
@@ -20,12 +20,15 @@ h1 {
 .zoneactus {
     font-family: Arial, Helvetica, sans-serif;
     float: right;
-    color: blue;
+    text-align: center;
+    font-family: Times New Roman, Helvetica, sans-serif;
+    color: #303841;
 }
 
-.rectangle2{
+.rectangle2 {
 	width:300px;
 	height:400px;
     border-radius: 25% 10%;
+    border: 2px solid #eeeeee;
     background:#FF5722;
 }
