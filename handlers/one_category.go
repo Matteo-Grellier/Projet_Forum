@@ -7,9 +7,6 @@ import (
 	"text/template"
 )
 
-var t *template.Template
-var tErr *template.Template
-
 func One_Category(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
 	t, err := template.ParseFiles("templates/one_category.html", "templates/layouts/sidebar.html")

@@ -7,9 +7,6 @@ import (
 	"text/template"
 )
 
-var t *template.Template
-var tErr *template.Template
-
 func TopicPage(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html")
