@@ -1,4 +1,4 @@
-package All_Categories
+package handlers
 
 import (
 	"fmt"

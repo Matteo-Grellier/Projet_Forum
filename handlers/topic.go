@@ -1,4 +1,4 @@
-package Topic
+package handlers
 
 import (
 	"fmt"
