@@ -5,11 +5,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
     <title>Home</title>
 </head>
 
 <body>
-    test
+    <!-- SideBar Menu -->
+    <div class="sidebar">
+        <div class="logo_content">
+            <div class="logo">
+                <div class="logo_name">Menu</div>
+            </div>
+            <i class='bx bx-menu' style='color:#ffffff' id="btn"></i>
+        </div>
+        <ul class="nav_list">
+            <li>
+                <a href="">
+                    <i class='bx bxs-home'></i>
+                    <span class="links_name">Accueil</span>
+                </a>
+                <span class="tooltip">Accueil</span>
+            </li>
+            <li>
+                <a href="">
+                    <i class='bx bxs-news'></i>
+                    <span class="links_name">L'actualité</span>
+                </a>
+                <span class="tooltip">L'actualité</span>
+            </li>
+            <li>
+                <a href="">
+                    <i class='bx bxs-category'></i>
+                    <span class="links_name">Catégories</span>
+                </a>
+                <span class="tooltip">Catégories</span>
+            </li>
+        </ul>
+    </div>
+    <!-- SideBar Menu End -->
+    <div class="home_content">
+        <div class="text"></div>
+    </div>
+
+    <script src="../static/js/home.js"></script>
 </body>
 
 </html>
