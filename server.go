@@ -12,7 +12,7 @@ func main() {
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
-	http.HandleFunc("/oneCategory", handlers.One_Category)
+	http.HandleFnc("/oneCategory", handlers.One_Category)
 	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
