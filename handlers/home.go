@@ -9,8 +9,7 @@ import (
 
 func Home(w http.ResponseWriter, req *http.Request) {
 
-
-	t, _ := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
 		log.Fatalf("Template execution: %s", err)
 		return
