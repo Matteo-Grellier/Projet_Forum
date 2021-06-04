@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"text/template"
 )
@@ -10,8 +9,10 @@ import (
 func Home(w http.ResponseWriter, req *http.Request) {
 
 	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/actus.html", "./templates/layouts/sidebar.html")
-	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+	if req.URL.Path != "/" {
+		fmt.Printf("error 404 %s", err)
+		t, _ = template.ParseFiles("./templates/layouts/error.html")
+		t.Execute(w, nil)
 		return
 	}
 	fmt.Println("Page Home ✅")
