@@ -19,7 +19,8 @@ body {
 
 .home_content {
     position: absolute;
-    height: 20%;
+    /* height: 20%; */
+    padding: 2rem;
     width: calc(100% - 78px);
     left: 78px;
     background: #00ADB5;
@@ -27,27 +28,52 @@ body {
     transition: all 0.5s ease;
 }
 
-.sidebar.active~.home_content {
-    z-index: 100;
-}
-
 .home_content .text {
-    position: absolute;
-    font-size: 100px;
-    font-weight: 500;
-    color: white;
-    margin: 12px;
-    top: -10px;
-    right: 390px;
+    /* background-color: red; */
+    text-align: center;
+    height: 100%;
 }
 
-.sidebar.active~.home_content {
-    width: calc(100% - 240px);
-    left: 240px;
-}
-
-.button a {
+.home_content .text h1 {
     position: relative;
+    top: 1px;
+    font-size: 80px;
+    color: white;
+    text-transform: uppercase;
+}
+
+.button {
+    position: relative;
+    z-index: 500;
+    /* width: 30%; */
+    height: 100%;
+    margin-left: 1100px;
+}
+
+
+/* Maybe responsive */
+
+
+/* @media screen and (max-width: 800px) {
+    .button {
+        margin-left: 600px;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .button {
+        margin-left: 1000px;
+    }
+}
+
+@media screen and (max-width: 1920px) {
+    .button {
+        margin-left: 1700px;
+    }
+} */
+
+.home_content .button a {
+    position: absolute;
     display: inline-block;
     padding: 15px 30px;
     color: #ffffff;
@@ -57,8 +83,9 @@ body {
     font-size: 24px;
     overflow: hidden;
     transition: 0.2s;
-    margin-left: 900px;
-    top: 40px;
+    /* margin-left: 800px; */
+    top: -75px;
+    z-index: 500;
 }
 
 .button a i {
