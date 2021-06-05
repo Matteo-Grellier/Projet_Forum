@@ -260,29 +260,3 @@ body {
 .sidebar.active .profile #log_out {
     background: none
 }
-
-.home_content {
-    position: absolute;
-    height: 100%;
-    width: calc(100% - 78px);
-    left: 78px;
-    background: red;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2px);
-    transition: all 0.5s ease;
-}
-
-.sidebar.active~.home_content {
-    z-index: 100;
-}
-
-.home_content .text {
-    font-size: 25px;
-    font-weight: 500;
-    color: #1d1b31;
-    margin: 12px;
-}
-
-.sidebar.active~.home_content {
-    width: calc(100% - 240px);
-    left: 240px;
-}
