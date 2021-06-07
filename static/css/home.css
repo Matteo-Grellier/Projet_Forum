@@ -3,12 +3,6 @@ body {
     background: #303841;
 }
 
-h1 {
-    font-family: Times New Roman, Helvetica, sans-serif;
-    text-align: center;
-    color: #303841;
-}
-
 .rectangle {
 	min-width: 1400px;
 	min-height:200px;
@@ -21,7 +15,7 @@ h1 {
     float: right;
     margin-top: 70px;
 	width:300px;
-	height:400px;
+	height:500px;
     border-radius: 25% 10%;
     border: 2px solid #eeeeee;
     background:#FF5722;
@@ -29,7 +23,7 @@ h1 {
 
 h2 {
     text-align: center;
-    font-family: Times New Roman, Helvetica, sans-serif;
+    color: #ffffff;
 }
 
 .zone {
@@ -38,25 +32,39 @@ h2 {
 
 .titre {
     cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
     font-weight: bold;
-    margin-left: 10%;
-    text-justify: newspaper;
-    color: #303841;
+    margin-left: 7%;
+    color: #ffffff;
 }
 
 .utilisateur {
     cursor: pointer;
     text-decoration: underline;
-    font-family: Arial, Helvetica, sans-serif;
-    float: right;
     font-style: italic;
-    color: #303841;
+    margin-left: 80%;
+    color: #ffffff;
 }
 
 .lepost {
     cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
     margin-left: 3%;
-    color: #303841;
+    color: #ffffff;
+}
+
+hr {
+    border: none;
+    border-top: 3px double #ffffff;
+    color: #ffffff;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    margin-top: 7%;
+}
+
+
+hr:after {
+    background: #FF5722;
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
 }
