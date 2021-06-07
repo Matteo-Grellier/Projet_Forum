@@ -8,12 +8,12 @@
 </head>
 <body>
     <h1>Ceci est mon test BDD. Je veux afficher et créer des nouveaux utilisateurs :</h1>
-    <!-- {{range .Users}}
+    {{range .Users}}
     <p>{{.Pseudo}}</p>
     <p>{{.Mail}}</p>
-    {{end}} -->
+    {{end}}
 
-    <form action="/" method="get">
+    <form action="/test" method="get">
     <button name="update" value="update">UPDATE</button>
     <button name="delete" value="delete">DELETE</button>
     <button name="create" value="create">CREATE</button>
