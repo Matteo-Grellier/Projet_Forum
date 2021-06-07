@@ -15,11 +15,21 @@ type User struct{
 }
 type DataUsed struct {
 	Users []User
+	Topics []Topic
+}
+
+type Topic struct {
+	ID int
+	Title string
+	Content string
+	User_pseudo string
+	Category_ID int
 }
 func Afficher(w http.ResponseWriter, req *http.Request){
 	t, _ := template.ParseFiles("./templates/index.html")
 	DataUsedOK := DataUsed{
 		Users : SelectUsers(),
+		Topics : SelectTopics(),
 	}
 	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
@@ -50,6 +60,23 @@ func SelectUsers() []User {
 		tabUsers = append(tabUsers, eachUser)
 	}
 	return tabUsers
+}
+
+func SelectTopics() []Topic {
+	db := OpenDataBase()
+	var eachTopic Topic
+	var tabTopics []Topic
+	topics, err := db.Query("SELECT * FROM topic")
+	if (err!=nil){
+		fmt.Println("Could not query database")
+		log.Fatal(err)
+	}
+	for topics.Next(){
+		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.Category_ID)
+		tabTopics = append(tabTopics, eachTopic)
+	}
+	fmt.Println(tabTopics)
+	return tabTopics
 }
 
 // func update(){
