@@ -13,25 +13,26 @@
 
 <body>
     {{template "sidebar"}} {{template "header"}}
-    <form action="">
+    <form action="/login" method="POST" id="form">
         <div class="connexion">
             <div class="login-form">
                 <h1>Connexion</h1>
                 <div class="textb">
-                    <input type="text" required>
+                    <input type="text" name="Pseudo" required>
                     <div class="placeholder">Pseudo</div>
                 </div>
                 <div class="textb">
-                    <input type="password" required id="myInput">
+                    <label for="Password"></label>
+                    <input type="password" required id="myInput" name="Password">
                     <div class="placeholder">Mot de passe</div>
                     <span onclick="showPassword()">
                         <div class="show-password fas fa-eye-slash" id="slash"></div>
                         <div class="show-password fas fa-eye" id="eye"></div>
                     </span>
                 </div>
-                <a href="">Créer un compte</a>
+                <a href="/inscription">Créer un compte</a>
                 <div class="button_login">
-                    <a class="" href="#">
+                    <a class="btn" onclick="formSubmit()">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -44,6 +45,7 @@
     </form>
 
     <script src="../static/js/showPassword.js"></script>
+    <script src="../static/js/login&register.js"></script>
 </body>
 
 </html>
