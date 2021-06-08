@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
+	"regexp"
+	BDD "../BDD"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -44,7 +45,9 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(pseudo, password, confirmPwd, email)
 	var newPass = hashPassword(password)
 	fmt.Println(newPass)
-	http.Redirect(w, r, "/connexion", http.StatusSeeOther)
+	if isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo"){
+		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
+	}
 }
 
 func hashPassword(password string) string {
@@ -57,8 +60,42 @@ func hashPassword(password string) string {
 
 	return string(hash)
 }
+func isValidEmail(email string) bool{
+	// Vérifie si l'email entré est valide
+	var re = regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
+	if re.MatchString(email) {
+		return true
+	}
+	fmt.Println("Email non correct.")
+	return false
+}
 
-/* func verifyInput(label []string) {
+func verifyBDD(element string, column string) bool {
+	// Vérifie si l'élément est déjà dans la base de donnée ou pas.
+	db := BDD.OpenDataBase()
+	var oneElement string
+	var tabElements []string
+	allElements, err := db.Query("SELECT " + column + " FROM user")
+	if (err!=nil){
+		fmt.Println("Could not query database")
+		log.Fatal(err)
+	}
+	for allElements.Next(){
+		allElements.Scan(&oneElement)
+		tabElements = append(tabElements, oneElement)
+	}
+	for _,eachElement := range tabElements{
+		if (eachElement == element) {
+			fmt.Println(column + " déjà dans la base de données.")
+			// créer une erreur qui lance la template !
+			return false
+		}
+	}
+
+	return true
+}
+
+/*func verifyInput(label []string) {
 
 	for index := 0; index < len(label); index++ {
 		if len(label[index]) == 0 {
@@ -66,4 +103,4 @@ func hashPassword(password string) string {
 
 		}
 	}
-} */
+}*/
