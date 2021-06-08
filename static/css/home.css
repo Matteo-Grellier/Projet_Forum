@@ -1,0 +1,70 @@
+body {
+    height: 1920;
+    background: #303841;
+}
+
+.rectangle {
+	min-width: 1400px;
+	min-height:200px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background:#00ADB5;
+}
+
+.zoneactus {
+    float: right;
+    margin-top: 70px;
+	width:300px;
+	height:500px;
+    border-radius: 25% 10%;
+    border: 2px solid #eeeeee;
+    background:#FF5722;
+}
+
+h2 {
+    text-align: center;
+    color: #ffffff;
+}
+
+.zone {
+    margin-right: 20%;
+}
+
+.titre {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 7%;
+    color: #ffffff;
+}
+
+.utilisateur {
+    cursor: pointer;
+    text-decoration: underline;
+    font-style: italic;
+    margin-left: 80%;
+    color: #ffffff;
+}
+
+.lepost {
+    cursor: pointer;
+    margin-left: 3%;
+    color: #ffffff;
+}
+
+hr {
+    border: none;
+    border-top: 3px double #ffffff;
+    color: #ffffff;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    margin-top: 7%;
+}
+
+
+hr:after {
+    background: #FF5722;
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}
