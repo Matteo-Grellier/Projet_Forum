@@ -11,16 +11,16 @@
   --neon-border-color: #00adb5;
 }
 
-body {
+/*body {
   font-family: 'Exo 2', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;  
   background: #303841;
   min-height: 100vh;
-}
+}*/
 
-h1 {
+.Bouton_categories {
   font-size: 13rem;
   font-weight: 200;
   font-style: italic;
@@ -32,17 +32,17 @@ h1 {
   animation: flicker 1.5s infinite alternate;     
 }
 
-h1::-moz-selection {
+.Bouton_categories::-moz-selection {
   background-color: var(--neon-border-color);
   color: var(--neon-text-color);
 }
 
-h1::selection {
+.Bouton_categories::selection {
   background-color: var(--neon-border-color);
   color: var(--neon-text-color);
 }
 
-h1:focus {
+.Bouton_categories:focus {
   outline: none;
 }
 
