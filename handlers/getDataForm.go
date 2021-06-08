@@ -41,7 +41,7 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 
 	/* var allDataRegister = []string{pseudo, email, password, confirmPwd}
 	verifyInput(allDataRegister) */
-
+	verifMdp(password)
 	fmt.Println(pseudo, password, confirmPwd, email)
 	var newPass = hashPassword(password)
 	fmt.Println(newPass)
@@ -103,4 +103,48 @@ func verifyBDD(element string, column string) bool {
 
 		}
 	}
-}*/
+
+} */
+
+func verifMdp(mdp string) bool {
+	var maj int = 0
+	var min int = 0
+	var chiffre int = 0
+
+	for index := 0; index < len(mdp); index++ {
+		if mdp[index] >= 65 && mdp[index] <= 90 {
+			maj++
+		}
+		if mdp[index] >= 97 && mdp[index] <= 122 {
+			min++
+		}
+		if mdp[index] >= 48 && mdp[index] <= 57 {
+			chiffre++
+		}
+	}
+	if len(mdp) >= 7 {
+		fmt.Println("CA MARCHE")
+		if maj >= 1 {
+			fmt.Println("Maj Présente")
+		} else {
+			fmt.Println("PAS DE MAJ")
+			return false
+		}
+		if min >= 1 {
+			fmt.Println("Min présente")
+		} else {
+			fmt.Println("Pas de min")
+			return false
+		}
+		if chiffre >= 1 {
+			fmt.Println("Chiffre présent")
+		} else {
+			fmt.Println("Pas de chiffre")
+			return false
+		}
+	} else {
+		fmt.Println("CA MARCHE PAS DEBILE")
+		return false
+	}
+	return true
+}
