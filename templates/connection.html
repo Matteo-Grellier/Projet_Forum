@@ -1,12 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../static/css/connexion.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
     <title>Document</title>
 </head>
+
 <body>
-    
+    {{template "sidebar"}} {{template "header"}}
+    <form action="">
+        <div class="connexion">
+            <div class="login-form">
+                <h1>Connexion</h1>
+                <div class="textb">
+                    <input type="text" required>
+                    <div class="placeholder">Pseudo</div>
+                </div>
+                <div class="textb">
+                    <input type="password" required id="myInput">
+                    <div class="placeholder">Mot de passe</div>
+                    <span onclick="showPassword()">
+                        <div class="show-password fas fa-eye-slash" id="slash"></div>
+                        <div class="show-password fas fa-eye" id="eye"></div>
+                    </span>
+                </div>
+                <a href="">Créer un compte</a>
+                <div class="button_login">
+                    <a class="" href="#">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span> Login
+                        <i class='bx bxs-log-in'></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="../static/js/showPassword.js"></script>
 </body>
+
 </html>
