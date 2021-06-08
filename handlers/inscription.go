@@ -14,7 +14,7 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Template execution: %s", err)
 		return
 	}
-	/* getPassword(w, r) */
+	GetRegister(w, r)
 	fmt.Println("Page Inscription ✅")
 	t.Execute(w, nil)
 
