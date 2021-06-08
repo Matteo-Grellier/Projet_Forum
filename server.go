@@ -13,6 +13,8 @@ func main() {
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
+	http.HandleFunc("/login", handlers.GetLogin)
+	http.HandleFunc("/register", handlers.GetRegister)
 	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 	http.HandleFunc("/oneCategory", handlers.One_Category)
 	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
