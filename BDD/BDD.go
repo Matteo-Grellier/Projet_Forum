@@ -26,10 +26,16 @@ type Topic struct {
 	Category_ID int
 }
 func Afficher(w http.ResponseWriter, req *http.Request){
-	t, _ := template.ParseFiles("./templates/index.html")
+	t, _ := template.ParseFiles("./templates/BDD.html")
 	DataUsedOK := DataUsed{
 		Users : SelectUsers(),
 		Topics : SelectTopics(),
+	}
+
+	if req.Method == "GET"{
+		if req.FormValue("delete") == "delete"{
+			delete()
+		}
 	}
 	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
@@ -96,8 +102,8 @@ func SelectTopics() []Topic {
 // 	creation.Exec(inputPseudo, inputMail, inputPassword)
 // }
 
-// func delete(inputMail string){
-// 	db := OpenDataBase()
-// 	delete, _ := db.Prepare("DELETE FROM user WHERE mail = ?")
-// 	delete.Exec(inputMail)
-// }
+func delete(){
+	db := OpenDataBase()
+	delete, _ := db.Prepare("DELETE FROM user WHERE pseudo = ?")
+	delete.Exec("RenJag")
+}
