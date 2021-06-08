@@ -54,5 +54,3 @@ INSERT INTO user( pseudo, mail, password ) VALUES ( 'ShildowTV', 'shildowTV@gmai
 INSERT INTO user( pseudo, mail, password ) VALUES ( 'OlivMo', 'molive@gmail.com', 'qwerty');
 INSERT INTO user( pseudo, mail, password ) VALUES ( 'RenJag', 'renjag@gmail.com', 'qwerty');
 INSERT INTO user( pseudo, mail, password ) VALUES ( 'Mat', 'mat@gmail.com', 'qwerty');
-INSERT INTO user( pseudo, mail, password ) VALUES ( 'test2', 'test@gmail.com', '1234');
-INSERT INTO user( pseudo, mail, password ) VALUES ( 'test3', 'test@gmail.com', '1234');

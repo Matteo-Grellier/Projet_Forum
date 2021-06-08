@@ -35,6 +35,10 @@ func Afficher(w http.ResponseWriter, req *http.Request){
 	if req.Method == "GET"{
 		if req.FormValue("delete") == "delete"{
 			delete()
+		} else if req.FormValue("create") == "create" {
+			create()
+		} else if req.FormValue("update") == "update"{
+			update()
 		}
 	}
 	fmt.Println(DataUsedOK)
@@ -85,25 +89,21 @@ func SelectTopics() []Topic {
 	return tabTopics
 }
 
-// func update(){
-// 	db := OpenDataBase()
-// 	update, err := db.Prepare("UPDATE user SET pseudo = ? WHERE pseudo = ?")
-// 	update.Exec("testUdpate", "test3")
-// 	if err != nil {
-// 		fmt.Println(err)
-// 	} else if update == nil {
-// 		fmt.Println(update)
-// 	}
-// }
+func update(){
+	db := OpenDataBase()
+	update, _ := db.Prepare("UPDATE user SET pseudo = ? WHERE pseudo = ?")
+	update.Exec("nouveaupseudo", "ancienpseudo")
+}
 
-// func create(inputPseudo string, inputMail string, inputPassword string){
-// 	db := OpenDataBase()
-// 	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
-// 	creation.Exec(inputPseudo, inputMail, inputPassword)
-// }
+func create(){
+	db := OpenDataBase()
+	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
+	creation.Exec("pseudo", "mail@gmail.com", "password")
+}
 
 func delete(){
 	db := OpenDataBase()
-	delete, _ := db.Prepare("DELETE FROM user WHERE pseudo = ?")
-	delete.Exec("RenJag")
+	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
+	delete.Exec()
+	// Modifier les ? en fonction de ce qu'on veut supprimer
 }

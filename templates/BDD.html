@@ -9,15 +9,14 @@
 <body>
     <h1>Ceci est mon test BDD. Je veux afficher et créer des nouveaux utilisateurs :</h1>
     {{range .Users}}
-    <p>{{.Pseudo}}</p>
-    <p>{{.Mail}}</p>
+    <p>@{{.Pseudo}}</p>
+    <p>mail :{{.Mail}}</p>
     {{end}}
 
     {{range .Topics}}
-    <p>{{.Title}}</p>
+    <p>Titre du topic : {{.Title}}</p>
     <p>{{.Content}}</p>
-    <p>{{.User_pseudo}}</p>
-
+    <p>User : @{{.User_pseudo}}</p>
     {{end}}
 
     <form action="/test" method="get">
