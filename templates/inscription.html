@@ -27,7 +27,7 @@
                 </div>
                 <div class="textb">
                     {{ if .Error }}
-                    <input type="text" name="Email" value={{.Mail}} required>
+                    <input type="text" name="Email" required value={{.Mail}} >
                     {{ else }}
                     <input type="text" name="Email" required>
                     {{end}}
