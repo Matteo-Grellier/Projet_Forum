@@ -17,11 +17,21 @@
             <div class="login-form">
                 <h1>Inscription</h1>
                 <div class="textb">
-                    <input type="text" name="Pseudo" required>
+                    {{ if .Error }}
+                    <input type="text" name="Pseudo" required value={{.Pseudo}}>
+                    {{ else }}
+                    <input type="text" name="Pseudo" required >
+                    {{end}}
+
                     <div class="placeholder">Pseudo</div>
                 </div>
                 <div class="textb">
+                    {{ if .Error }}
+                    <input type="text" name="Email" value={{.Mail}} required>
+                    {{ else }}
                     <input type="text" name="Email" required>
+                    {{end}}
+
                     <div class="placeholder">Email</div>
                 </div>
                 <div class="textb">
@@ -40,6 +50,13 @@
                         <div class="show-password fas fa-eye" id="eye2"></div>
                     </span>
                 </div>
+                <div class='erreurs'>
+                    {{if .Error}}
+                    <p>Erreur : {{.Error}}</p>
+                    {{end}}
+                </div>
+                
+
                 <a href="/connexion">Déjà inscrit ? <br> Connecte-toi</a>
                 <div class="button_login">
                     <a class="btn" onclick="formSubmit()">
@@ -50,6 +67,7 @@
                         <i class='bx bxs-user-account'></i>
                     </a>
                 </div>
+
             </div>
         </div>
     </form>
