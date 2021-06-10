@@ -35,13 +35,13 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	pseudoFound := false
 	password := r.FormValue("Password")
 	passwordFound := false
-	//var HashPass = hashPassword(password)
 	verifPseudo, err := db.Query("SELECT pseudo FROM user")
 	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-	verifPassword, err := db.Query("SELECT password FROM user")
+
+	verifPassword, err := db.Query("SELECT Password FROM user")
 	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
@@ -49,26 +49,25 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	for verifPseudo.Next() {
 		verifPseudo.Scan(&eachPseudo.User_pseudo)
 		if eachPseudo.User_pseudo == pseudo {
-			fmt.Println("LE PSEUDO EXISTE")
 			pseudoFound = true
 			break
 		}
 	}
-	verifPassword.Scan(&eachPseudo.User_password)
-	error := bcrypt.CompareHashAndPassword([]byte(eachPseudo.User_password), []byte(password))
-	if error != nil {
-		log.Println(err)
-		return
+
+	for verifPassword.Next() {
+		verifPassword.Scan(&eachPseudo.User_password)
+		err := bcrypt.CompareHashAndPassword([]byte(eachPseudo.User_password), []byte(password))
+		if err != nil {
+			log.Println(err)
+		} else {
+			passwordFound = true
+		}
 	}
-	passwordFound = true
 	if passwordFound && pseudoFound {
 		fmt.Println("VOUS ETES CONNECTER")
+	} else {
+		fmt.Println("VOUS NETES PAS CONNECTER")
 	}
-	/* if pseudo != verifPseudo {
-		fmt.Println("le pseudo n'est pas dans la BDD")
-	} */
-	/* var allDataLogin = []string{pseudo, password}
-	verifyInput(allDataLogin) */
 
 	fmt.Println(pseudo, password)
 	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
