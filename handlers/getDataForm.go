@@ -5,26 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/crypto/bcrypt"
 )
-
-func GetLogin(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
-	if err != nil {
-		log.Fatal(err)
-	}
-	pseudo := r.FormValue("Pseudo")
-	password := r.FormValue("Password")
-
-	/* var allDataLogin = []string{pseudo, password}
-	verifyInput(allDataLogin) */
-
-	fmt.Println(pseudo, password)
-	var newPass = hashPassword(password)
-	fmt.Println(newPass)
-	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
-}
 
 func GetRegister(w http.ResponseWriter, r *http.Request) {
 
@@ -54,7 +37,6 @@ func hashPassword(password string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return string(hash)
 }
 

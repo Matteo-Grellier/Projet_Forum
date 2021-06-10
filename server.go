@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	handlers "./handlers"
 	BDD "./BDD"
-
+	handlers "./handlers"
 )
 
 func main() {
