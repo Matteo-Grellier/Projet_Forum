@@ -4,19 +4,20 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"golang.org/x/crypto/bcrypt"
 	"regexp"
-	BDD "../BDD"
 	"text/template"
+
+	BDD "../BDD"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var ErrorMessage string
-type Errors struct{
-	Error string
-	Pseudo string
-	Mail string
-}
 
+type Errors struct {
+	Error  string
+	Pseudo string
+	Mail   string
+}
 
 func GetLogin(w http.ResponseWriter, r *http.Request) {
 
@@ -47,7 +48,6 @@ func hashPassword(password string) string {
 	return string(hash)
 }
 
-
 func GetRegister(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
@@ -64,28 +64,26 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 	password := r.FormValue("Password")
 	confirmPwd := r.FormValue("ConfirmPassword")
 
-	
-	/* var allDataRegister = []string{pseudo, email, password, confirmPwd}
-	verifyInput(allDataRegister) */
-	verifMdp(password)
+	var allDataRegister = []string{pseudo, email, password, confirmPwd}
+
 	fmt.Println(pseudo, password, confirmPwd, email)
 	var newPass = hashPassword(password)
 	fmt.Println(newPass)
-	if isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password){
+	if verifyInput(allDataRegister) && isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password) {
 		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 	} else {
 		fmt.Println(ErrorMessage)
 		ErrorsInscriptions := Errors{
-			Error : ErrorMessage,
-			Pseudo : pseudo,
-			Mail : email,
+			Error:  ErrorMessage,
+			Pseudo: pseudo,
+			Mail:   email,
 		}
-		ErrorMessage = ""	
+		ErrorMessage = ""
 		t.Execute(w, ErrorsInscriptions)
 	}
 }
 
-func isValidEmail(email string) bool{
+func isValidEmail(email string) bool {
 	// Vérifie si l'email entré est valide
 	var re = regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
 	if re.MatchString(email) {
@@ -101,13 +99,13 @@ func verifyBDD(element string, column string) bool {
 	db := BDD.OpenDataBase()
 	var oneElement string
 	allElements, err := db.Query("SELECT " + column + " FROM user")
-	if (err!=nil){
+	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-	for allElements.Next(){
+	for allElements.Next() {
 		allElements.Scan(&oneElement)
-		if (oneElement == element){
+		if oneElement == element {
 			ErrorMessage = column + " déjà dans la base de données."
 			return false
 		}
@@ -115,16 +113,19 @@ func verifyBDD(element string, column string) bool {
 	return true
 }
 
-/*func verifyInput(label []string) {
+func verifyInput(label []string) bool {
 
 	for index := 0; index < len(label); index++ {
 		if len(label[index]) == 0 {
 			fmt.Println("Erreur")
-
+			ErrorMessage = "Veuillez à renseigner tout les champs "
+			return false
 		}
 	}
+	fmt.Println("OK")
+	return true
 
-} */
+}
 
 func verifMdp(mdp string) bool {
 	var maj int = 0
