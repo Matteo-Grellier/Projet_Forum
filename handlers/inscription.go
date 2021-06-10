@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
 )
+
 
 func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
@@ -14,11 +16,12 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Template execution: %s", err)
 		return
 	}
-	GetRegister(w, r)
+	fmt.Printf("%T\n", t)
+
 	fmt.Println("Page Inscription ✅")
 	t.Execute(w, nil)
-
 }
+
 
 /* func getPassword(w http.ResponseWriter, r *http.Request) {
 

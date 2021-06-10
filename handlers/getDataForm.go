@@ -4,10 +4,19 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"golang.org/x/crypto/bcrypt"
 	"regexp"
 	BDD "../BDD"
-	"golang.org/x/crypto/bcrypt"
+	"text/template"
 )
+
+var ErrorMessage string
+type Errors struct{
+	Error string
+	Pseudo string
+	Mail string
+}
+
 
 func GetLogin(w http.ResponseWriter, r *http.Request) {
 
@@ -27,29 +36,6 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
 }
 
-func GetRegister(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	pseudo := r.FormValue("Pseudo")
-	email := r.FormValue("Email")
-	password := r.FormValue("Password")
-	confirmPwd := r.FormValue("ConfirmPassword")
-
-	/* var allDataRegister = []string{pseudo, email, password, confirmPwd}
-	verifyInput(allDataRegister) */
-	verifMdp(password)
-	fmt.Println(pseudo, password, confirmPwd, email)
-	var newPass = hashPassword(password)
-	fmt.Println(newPass)
-	if isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo"){
-		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
-	}
-}
-
 func hashPassword(password string) string {
 	var passByte = []byte(password)
 
@@ -60,13 +46,53 @@ func hashPassword(password string) string {
 
 	return string(hash)
 }
+
+
+func GetRegister(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+	if err != nil {
+		log.Fatalf("Template execution: %s", err)
+		return
+	}
+	err2 := r.ParseForm()
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+
+	pseudo := r.FormValue("Pseudo")
+	email := r.FormValue("Email")
+	password := r.FormValue("Password")
+	confirmPwd := r.FormValue("ConfirmPassword")
+
+	
+	/* var allDataRegister = []string{pseudo, email, password, confirmPwd}
+	verifyInput(allDataRegister) */
+	verifMdp(password)
+	fmt.Println(pseudo, password, confirmPwd, email)
+	var newPass = hashPassword(password)
+	fmt.Println(newPass)
+	if isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password){
+		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
+	} else {
+		fmt.Println(ErrorMessage)
+		ErrorsInscriptions := Errors{
+			Error : ErrorMessage,
+			Pseudo : pseudo,
+			Mail : email,
+		}
+		ErrorMessage = ""	
+		t.Execute(w, ErrorsInscriptions)
+	}
+}
+
 func isValidEmail(email string) bool{
 	// Vérifie si l'email entré est valide
 	var re = regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
 	if re.MatchString(email) {
 		return true
 	}
-	fmt.Println("Email non correct.")
+	ErrorMessage = "Email non valide."
+	// fmt.Println("Email non correct.")
 	return false
 }
 
@@ -74,7 +100,6 @@ func verifyBDD(element string, column string) bool {
 	// Vérifie si l'élément est déjà dans la base de donnée ou pas.
 	db := BDD.OpenDataBase()
 	var oneElement string
-	var tabElements []string
 	allElements, err := db.Query("SELECT " + column + " FROM user")
 	if (err!=nil){
 		fmt.Println("Could not query database")
@@ -82,16 +107,11 @@ func verifyBDD(element string, column string) bool {
 	}
 	for allElements.Next(){
 		allElements.Scan(&oneElement)
-		tabElements = append(tabElements, oneElement)
-	}
-	for _,eachElement := range tabElements{
-		if (eachElement == element) {
-			fmt.Println(column + " déjà dans la base de données.")
-			// créer une erreur qui lance la template !
+		if (oneElement == element){
+			ErrorMessage = column + " déjà dans la base de données."
 			return false
 		}
 	}
-
 	return true
 }
 
@@ -144,6 +164,7 @@ func verifMdp(mdp string) bool {
 		}
 	} else {
 		fmt.Println("CA MARCHE PAS DEBILE")
+		ErrorMessage = "Mot de passe non valide."
 		return false
 	}
 	return true
