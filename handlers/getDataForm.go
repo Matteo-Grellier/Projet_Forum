@@ -149,18 +149,21 @@ func verifMdp(mdp string) bool {
 	if len(mdp) >= 7 {
 		if maj >= 1 {
 		} else {
+			ErrorMessage = "Mot de passe non valide (au moins 1 majuscule)."
 			return false
 		}
 		if min >= 1 {
 		} else {
+			ErrorMessage = "Mot de passe non valide (au moins 1 minuscule)."
 			return false
 		}
 		if chiffre >= 1 {
 		} else {
+			ErrorMessage = "Mot de passe non valide (au moins 1 chiffre)."
 			return false
 		}
 	} else {
-		ErrorMessage = "Mot de passe non valide."
+		ErrorMessage = "Mot de passe non valide (minimum 7 caractères)."
 		return false
 	}
 	return true
