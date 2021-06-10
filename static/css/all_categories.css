@@ -4,13 +4,8 @@
 
 :root {
   /* Base font size */
-  font-size: 5px; 
+  font-size: 3px;   
   
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  grid-auto-rows: minmax(100px, auto);
-
   /* Set neon color */
   --neon-text-color: #ff5722;
   --neon-border-color: #00adb5;
@@ -24,11 +19,6 @@
   background: #303841;
   min-height: 100vh;
 }*/
-
-body {
-  grid-column: 2;
-  grid-row: 3;
-}
 
 .Bouton_categories {
   font-size: 13rem;
