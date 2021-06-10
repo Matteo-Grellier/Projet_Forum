@@ -32,12 +32,12 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	verifyInput(allDataLogin) */
 
 	fmt.Println(pseudo, password)
-	var newPass = hashPassword(password)
+	var newPass = HashPassword(password)
 	fmt.Println(newPass)
 	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
 }
 
-func hashPassword(password string) string {
+func HashPassword(password string) string {
 	var passByte = []byte(password)
 
 	hash, err := bcrypt.GenerateFromPassword(passByte, bcrypt.MinCost)
@@ -66,13 +66,18 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 
 	var allDataRegister = []string{pseudo, email, password, confirmPwd}
 
-	fmt.Println(pseudo, password, confirmPwd, email)
-	var newPass = hashPassword(password)
-	fmt.Println(newPass)
-	if verifyInput(allDataRegister) && isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password) {
+
+	var newPass = HashPassword(password)
+
+	if verifyInput(allDataRegister) && isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password) && sameMdp(password, confirmPwd){
+		db := BDD.OpenDataBase()
+		createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
+		if err != nil {
+			log.Fatal(err)
+		}
+		createNew.Exec(pseudo, email, newPass)
 		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 	} else {
-		fmt.Println(ErrorMessage)
 		ErrorsInscriptions := Errors{
 			Error:  ErrorMessage,
 			Pseudo: pseudo,
@@ -90,7 +95,7 @@ func isValidEmail(email string) bool {
 		return true
 	}
 	ErrorMessage = "Email non valide."
-	// fmt.Println("Email non correct.")
+
 	return false
 }
 
@@ -117,12 +122,10 @@ func verifyInput(label []string) bool {
 
 	for index := 0; index < len(label); index++ {
 		if len(label[index]) == 0 {
-			fmt.Println("Erreur")
-			ErrorMessage = "Veuillez à renseigner tout les champs "
+			ErrorMessage = "Veuillez renseigner tous les champs "
 			return false
 		}
 	}
-	fmt.Println("OK")
 	return true
 
 }
@@ -144,28 +147,28 @@ func verifMdp(mdp string) bool {
 		}
 	}
 	if len(mdp) >= 7 {
-		fmt.Println("CA MARCHE")
 		if maj >= 1 {
-			fmt.Println("Maj Présente")
 		} else {
-			fmt.Println("PAS DE MAJ")
 			return false
 		}
 		if min >= 1 {
-			fmt.Println("Min présente")
 		} else {
-			fmt.Println("Pas de min")
 			return false
 		}
 		if chiffre >= 1 {
-			fmt.Println("Chiffre présent")
 		} else {
-			fmt.Println("Pas de chiffre")
 			return false
 		}
 	} else {
-		fmt.Println("CA MARCHE PAS DEBILE")
 		ErrorMessage = "Mot de passe non valide."
+		return false
+	}
+	return true
+}
+
+func sameMdp(firstpwd string, secondpwd string) bool {
+	if firstpwd != secondpwd {
+		ErrorMessage = "les mots de passe ne correspondent pas."
 		return false
 	}
 	return true

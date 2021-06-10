@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"log"
+
 )
 
 type User struct{
@@ -85,15 +86,17 @@ func SelectTopics() []Topic {
 		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.Category_ID)
 		tabTopics = append(tabTopics, eachTopic)
 	}
-	fmt.Println(tabTopics)
 	return tabTopics
 }
 
+
 func update(){
 	db := OpenDataBase()
-	update, _ := db.Prepare("UPDATE user SET pseudo = ? WHERE pseudo = ?")
-	update.Exec("nouveaupseudo", "ancienpseudo")
+	update, _ := db.Prepare("UPDATE user SET user = ? WHERE pseudo = ?")
+	update.Exec("test", "test")
 }
+
+
 
 func create(){
 	db := OpenDataBase()
