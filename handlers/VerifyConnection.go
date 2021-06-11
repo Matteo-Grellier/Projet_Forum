@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"text/template"
 
 	BDD "../BDD"
 	"golang.org/x/crypto/bcrypt"
@@ -21,6 +22,12 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	t, err := template.ParseFiles("templates/connection.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+	if err != nil {
+		log.Fatalf("Template execution: %s", err)
+		return
 	}
 
 	pseudo := r.FormValue("Pseudo")
@@ -44,8 +51,12 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	message := false
 	if !pseudoFound {
-		fmt.Println("Ce pseudonyme n'existe pas dans notre base de donnée")
+
+		ErrorMessage = "Ce pseudonyme n'existe pas dans notre base de donnée"
+	} else {
+		message = true
 	}
 	for verifPassword.Next() {
 		verifPassword.Scan(&eachPseudo.User_password)
@@ -57,12 +68,23 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			passwordFound = true
 		}
 	}
-	if passwordFound && pseudoFound {
-		fmt.Println("VOUS ETES CONNECTÉ")
-	} else {
-		fmt.Println("VOUS NETES PAS CONNECTER")
+	if !passwordFound && message {
+		ErrorMessage = "Ce mot de passe n'existe pas"
 	}
 
-	fmt.Println(pseudo, password)
-	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
+	if passwordFound && pseudoFound {
+		fmt.Println("VOUS ETES CONNECTÉ")
+		fmt.Println(pseudo, password)
+
+		http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
+	} else {
+		fmt.Println("VOUS NETES PAS CONNECTER")
+		ErrorsConnections := Errors{
+			Error:  ErrorMessage,
+			Pseudo: pseudo,
+		}
+		ErrorMessage = ""
+		t.Execute(w, ErrorsConnections)
+	}
+
 }
