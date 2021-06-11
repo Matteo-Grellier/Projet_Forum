@@ -25,14 +25,19 @@ func CreateCookie(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(start)
 	start2 := start.Add(time.Second*20)
 	fmt.Println(start2)
-	// expire := time.Now().Add(time.Hour * 1)
 	c := http.Cookie{
 			Name:   "ithinkidroppedacookie",
 			Value:  "thedroppedcookiehasgoldinit",
-		Expires: start2}
+			Expires: start2}
 	http.SetCookie(w, &c)
+
+	expire := time.Now().Add(20 * time.Minute) // Expires in 20 minutes
+	cookie := http.Cookie{Name: "username", Value: "nonsecureuser", Path: "/", Expires: expire, MaxAge: 86400}
+	http.SetCookie(w, &cookie)
+	cookie = http.Cookie{Name: "secureusername", Value: "secureuser", Path: "/", Expires: expire, MaxAge: 86400, HttpOnly: true, Secure: true}
+	http.SetCookie(w, &cookie)	
+
 	fmt.Println(c)
-	// w.Write([]byte("new cookie created!\n"))
 }
 
 
