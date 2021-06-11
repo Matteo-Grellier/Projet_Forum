@@ -40,8 +40,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-
-	verifPassword, err := db.Query("SELECT Password FROM user")
+	verifPassword, err := db.Query("SELECT password FROM user WHERE pseudo = '" + pseudo + "'")
 	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
@@ -53,9 +52,9 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
-
 	for verifPassword.Next() {
 		verifPassword.Scan(&eachPseudo.User_password)
+		fmt.Println()
 		err := bcrypt.CompareHashAndPassword([]byte(eachPseudo.User_password), []byte(password))
 		if err != nil {
 			log.Println(err)
