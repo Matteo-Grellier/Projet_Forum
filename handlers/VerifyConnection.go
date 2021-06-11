@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 
+	BDD "../BDD"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -14,17 +14,9 @@ type User struct {
 	User_password string
 }
 
-func OpenDataBase() *sql.DB {
-	/*Ouverture de la base de données*/
-	db, err := sql.Open("sqlite3", "./BDD/BDDForum1.db")
-	if err != nil {
-		fmt.Println("Could Not open Database")
-	}
-	return db
-}
 func GetLogin(w http.ResponseWriter, r *http.Request) {
 
-	db := OpenDataBase()
+	db := BDD.OpenDataBase()
 	var eachPseudo User
 	err := r.ParseForm()
 	if err != nil {
@@ -52,6 +44,9 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	if !pseudoFound {
+		fmt.Println("Ce pseudonyme n'existe pas dans notre base de donnée")
+	}
 	for verifPassword.Next() {
 		verifPassword.Scan(&eachPseudo.User_password)
 		fmt.Println()
@@ -63,7 +58,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if passwordFound && pseudoFound {
-		fmt.Println("VOUS ETES CONNECTER")
+		fmt.Println("VOUS ETES CONNECTÉ")
 	} else {
 		fmt.Println("VOUS NETES PAS CONNECTER")
 	}
