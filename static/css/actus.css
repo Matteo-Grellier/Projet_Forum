@@ -1,18 +1,31 @@
-.rectangle {
-	min-width: 1400px;
-	min-height:200px;
-    border-bottom-left-radius: 25px;
-    border-bottom-right-radius: 25px;
-    background:#00ADB5;
+body {
+    font-size: 20px;
 }
 
+.rectangle {
+    min-width: 1400px;
+    min-height: 200px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background: #00ADB5;
+}
+
+
+/* .actus {
+    grid-column: 5;
+    grid-row: 3;
+} */
+
 .zoneactus {
+    position: relative;
+    left: 1135px;
+    top: 215px;
     float: right;
-	width:300px;
-	height:450px;
+    width: 300px;
+    height: 450px;
     border-radius: 25% 10%;
     border: 2px solid #eeeeee;
-    background:#FF5722;
+    background: #FF5722;
 }
 
 .fil_actu {
@@ -55,7 +68,6 @@ hr {
     height: 5px;
     margin-top: 7%;
 }
-
 
 hr:after {
     background: #FF5722;

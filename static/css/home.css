@@ -8,7 +8,8 @@ body {
     grid-gap: 5px;
 }
 
-.actus {
+
+/* .actus {
     grid-column: 5;
     grid-row: 3;
 }
@@ -17,5 +18,4 @@ body {
     grid-column: 2 / 3;
     grid-row: 3;
     font-size: 5px;
-}
-
+} */
