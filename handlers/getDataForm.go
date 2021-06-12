@@ -19,24 +19,6 @@ type Errors struct {
 	Mail   string
 }
 
-func GetLogin(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
-	if err != nil {
-		log.Fatal(err)
-	}
-	pseudo := r.FormValue("Pseudo")
-	password := r.FormValue("Password")
-
-	/* var allDataLogin = []string{pseudo, password}
-	verifyInput(allDataLogin) */
-
-	fmt.Println(pseudo, password)
-	var newPass = HashPassword(password)
-	fmt.Println(newPass)
-	http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
-}
-
 func HashPassword(password string) string {
 	var passByte = []byte(password)
 
@@ -66,10 +48,9 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 
 	var allDataRegister = []string{pseudo, email, password, confirmPwd}
 
-
 	var newPass = HashPassword(password)
 
-	if verifyInput(allDataRegister) && isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password) && sameMdp(password, confirmPwd){
+	if verifyInput(allDataRegister) && isValidEmail(email) && verifyBDD(email, "mail") && verifyBDD(pseudo, "pseudo") && verifMdp(password) && sameMdp(password, confirmPwd) {
 		db := BDD.OpenDataBase()
 		createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
 		if err != nil {
