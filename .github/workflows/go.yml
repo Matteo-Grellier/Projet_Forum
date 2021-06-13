@@ -8,14 +8,15 @@ on:
 
 # jobs to run
 jobs:
-  
-  # job 1: test go module
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
+name: Go
 
-      jobs:
+on:
+  push:
+    branches: [ DEV ]
+  pull_request:
+    branches: [ DEV ]
+
+jobs:
 
   build:
     name: Build
@@ -38,3 +39,4 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
+
