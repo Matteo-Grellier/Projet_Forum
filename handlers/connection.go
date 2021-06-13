@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func ConnexionPage(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +16,6 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Template execution: %s", err)
 		return
 	}
-
 	fmt.Println("Page Connexion ✅")
 	t.Execute(w, nil)
 }

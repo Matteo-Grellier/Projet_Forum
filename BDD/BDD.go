@@ -1,43 +1,43 @@
-package BDD 
+package BDD
 
 import (
-	"text/template"
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"fmt"
-	"net/http"
 	"log"
+	"net/http"
+	"text/template"
 )
 
-type User struct{
+type User struct {
 	Pseudo string
-	Mail string
+	Mail   string
 }
 type DataUsed struct {
-	Users []User
+	Users  []User
 	Topics []Topic
 }
 
 type Topic struct {
-	ID int
-	Title string
-	Content string
+	ID          int
+	Title       string
+	Content     string
 	User_pseudo string
 	Category_ID int
 }
-func Afficher(w http.ResponseWriter, req *http.Request){
+
+func Afficher(w http.ResponseWriter, req *http.Request) {
 	t, _ := template.ParseFiles("./templates/BDD.html")
 	DataUsedOK := DataUsed{
-		Users : SelectUsers(),
-		Topics : SelectTopics(),
+		Users:  SelectUsers(),
+		Topics: SelectTopics(),
 	}
 
-	if req.Method == "GET"{
-		if req.FormValue("delete") == "delete"{
+	if req.Method == "GET" {
+		if req.FormValue("delete") == "delete" {
 			delete()
 		} else if req.FormValue("create") == "create" {
 			create()
-		} else if req.FormValue("update") == "update"{
+		} else if req.FormValue("update") == "update" {
 			update()
 		}
 	}
@@ -48,7 +48,7 @@ func Afficher(w http.ResponseWriter, req *http.Request){
 func OpenDataBase() *sql.DB {
 	/*Ouverture de la base de données*/
 	db, err := sql.Open("sqlite3", "./BDD/BDDForum1.db")
-	if (err!=nil){
+	if err != nil {
 		fmt.Println("Could Not open Database")
 	}
 	return db
@@ -61,11 +61,11 @@ func SelectUsers() []User {
 	var tabUsers []User
 	entries, err := db.Query("SELECT pseudo, mail FROM user")
 
-	if (err!=nil){
+	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-	for entries.Next(){
+	for entries.Next() {
 		entries.Scan(&eachUser.Pseudo, &eachUser.Mail)
 		tabUsers = append(tabUsers, eachUser)
 	}
@@ -77,31 +77,30 @@ func SelectTopics() []Topic {
 	var eachTopic Topic
 	var tabTopics []Topic
 	topics, err := db.Query("SELECT * FROM topic")
-	if (err!=nil){
+	if err != nil {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-	for topics.Next(){
+	for topics.Next() {
 		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.Category_ID)
 		tabTopics = append(tabTopics, eachTopic)
 	}
-	fmt.Println(tabTopics)
 	return tabTopics
 }
 
-func update(){
+func update() {
 	db := OpenDataBase()
-	update, _ := db.Prepare("UPDATE user SET pseudo = ? WHERE pseudo = ?")
-	update.Exec("nouveaupseudo", "ancienpseudo")
+	update, _ := db.Prepare("UPDATE user SET user = ? WHERE pseudo = ?")
+	update.Exec("test", "test")
 }
 
-func create(){
+func create() {
 	db := OpenDataBase()
 	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
 	creation.Exec("pseudo", "mail@gmail.com", "password")
 }
 
-func delete(){
+func delete() {
 	db := OpenDataBase()
 	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
 	delete.Exec()
