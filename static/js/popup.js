@@ -7,3 +7,8 @@ function closes() {
         box.style.display = "none"
     }
 }
+
+function openPopup() {
+    var box = document.querySelector("#box")
+    box.style.display = "initial"
+}
