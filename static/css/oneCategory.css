@@ -1,5 +1,8 @@
 body {
     background: #303841;
+    margin: 0;
+    padding: 0;
+    font-family: 'Concert One', cursive;
 }
 
 .title {
@@ -22,6 +25,25 @@ body {
     height: 450px;
     width: 900px;
     border-radius: 8%;
+    overflow: scroll;
+}
+
+.button_ {
+    position: relative;
+    top: -300px;
+    left: 1170px;
+}
+
+.button_ .btn {
+    font-size: 21px;
+    color: white;
+    padding: 10px 30px;
+    cursor: pointer;
+    background: #FF5722;
+    display: inline-block;
+    margin-top: 15px;
+    margin-bottom: initial;
+    border-radius: 4px;
 }
 
 .bloc .topic {
