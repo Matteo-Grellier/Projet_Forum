@@ -1,0 +1,26 @@
+body {
+    background: #303841;
+}
+
+.Toutelescategories {
+    text-align: center;
+    color: #ffffff;
+}
+
+.lescategories {
+    width  : 1150px;
+    height : 550px;
+    background : #FF5722;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 30px;
+}   
+
+.categorie {
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    flex-flow: wrap;
+    align-content: space-between;
+    font-size: 180%;
+}
