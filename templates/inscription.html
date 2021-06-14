@@ -6,26 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/inscription.css">
+    <link rel="stylesheet" href="../static/css/popupError.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
     <title>Document</title>
 </head>
 
 <body>
     {{template "sidebar"}} {{template "header"}}
-    <form action="">
+    <form action="/register" method="POST" id="form">
         <div class="connexion">
             <div class="login-form">
                 <h1>Inscription</h1>
                 <div class="textb">
-                    <input type="text" required>
+                    {{ if .Error }}
+                    <input type="text" name="Pseudo" required value={{.Pseudo}}> {{ else }}
+                    <input type="text" name="Pseudo" required> {{end}}
+
                     <div class="placeholder">Pseudo</div>
                 </div>
                 <div class="textb">
-                    <input type="text" required>
+                    {{ if .Error }}
+                    <input type="text" name="Email" required value={{.Mail}}> {{ else }}
+                    <input type="text" name="Email" required> {{end}}
+
                     <div class="placeholder">Email</div>
                 </div>
                 <div class="textb">
-                    <input type="password" required id="myInput">
+                    <input type="password" required id="myInput" name="Password">
                     <div class="placeholder">Mot de passe</div>
                     <span onclick="showPassword()">
                         <div class="show-password fas fa-eye-slash" id="slash"></div>
@@ -33,16 +40,25 @@
                     </span>
                 </div>
                 <div class="textb">
-                    <input type="password" required id="myInput2">
+                    <input type="password" required id="myInput2" name="ConfirmPassword">
                     <div class="placeholder">Confirmation du mot de passe</div>
                     <span onclick="showPasswordConfirm()">
                         <div class="show-password fas fa-eye-slash" id="slash2"></div>
                         <div class="show-password fas fa-eye" id="eye2"></div>
                     </span>
                 </div>
-                <a href="">Déjà inscrit ? <br> Connecte-toi</a>
+                {{if .Error}}
+                <div id="box">
+                    <i class='bx bxs-info-circle' style='color:#f58900'></i>
+                    <h1 id="erreur">Erreur : {{.Error}}</h1>
+                    <a onclick="closes()" class="close">Fermer</a>
+                </div>
+                {{end}}
+
+
+                <a href="/connexion">Déjà inscrit ? <br> Connecte-toi</a>
                 <div class="button_login">
-                    <a class="" href="#">
+                    <a class="btn" onclick="formSubmit()">
                         <span></span>
                         <span></span>
                         <span></span>
@@ -50,11 +66,14 @@
                         <i class='bx bxs-user-account'></i>
                     </a>
                 </div>
+
             </div>
         </div>
     </form>
 
     <script src="../static/js/showPassword.js"></script>
+    <script src="../static/js/login&register.js"></script>
+    <script src="../static/js/popup.js"></script>
 </body>
 
 </html>

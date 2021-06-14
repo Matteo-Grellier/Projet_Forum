@@ -6,20 +6,29 @@ on:
   pull_request:
     branches: [ DEV ]
 
+# jobs to run
 jobs:
-
-  build:
+  
+  # job 1: test go module
+  test:
+    name: Test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
 
-    - name: Set up Go
-      uses: actions/setup-go@v2
-      with:
-        go-version: 1.15
+      # step 1: set up go
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.15
+      
+      # step 2: checkout repository code
+      - name: Checkout code into workspace directory
+        uses: actions/checkout@v2
 
-    - name: Build
-      run: go build -v ./...
-
-    - name: Test
-      run: go test -v ./...
+      # step 3: install dependencies
+      - name: Install all Go dependencies
+        run: go get
+      
+      # step 4: run test
+      - name: go test
+        run: go test
