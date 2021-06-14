@@ -1,0 +1,65 @@
+body {
+    background: #303841;
+}
+
+.title {
+    position: relative;
+    text-align: center;
+    left: 50px;
+    top: 200px;
+}
+
+.title h1 {
+    color: white;
+    text-transform: uppercase;
+}
+
+.bloc {
+    background-color: #FF5722;
+    position: relative;
+    top: 250px;
+    left: 300px;
+    height: 450px;
+    width: 900px;
+    border-radius: 8%;
+}
+
+.bloc .topic {
+    background-color: #00ADB5;
+    position: relative;
+    top: 45px;
+    left: 50px;
+    height: 110px;
+    width: 800px;
+    border-radius: 20%;
+}
+
+.bloc .topic .subject {
+    position: relative;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    top: -20px;
+    font-size: 30px;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.bloc .topic .author {
+    position: relative;
+    color: white;
+    text-align: right;
+    margin-right: 60px;
+    top: -30px;
+    font-size: 20px;
+}
+
+.bloc .topic .logo {
+    position: relative;
+    top: 30px;
+    left: 25px;
+    font-size: 50px;
+    color: white;
+}
