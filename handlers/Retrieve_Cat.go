@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"text/template"
 
+	BDD "../BDD"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -22,10 +23,7 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	t, _ := template.ParseFiles("./templates/all_categories.html")
 
 	/*fonction base de données*/
-	db, err := sql.Open("sqlite3", "./BDD/BDDForum1.db")
-	if err != nil {
-		fmt.Println("Could Not open Database")
-	}
+	db := BDD.OpenDataBase()
 
 	dataOk := Data{
 		Categories: bdd(db),
