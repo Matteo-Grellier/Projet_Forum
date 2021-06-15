@@ -37,7 +37,7 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 func bdd(db *sql.DB) []Category {
 
 	var eachCategory Category
-	var tabCategorys []Category
+	var tabCategories []Category
 	entries, err := db.Query("SELECT name FROM category")
 
 	if err != nil {
@@ -47,9 +47,9 @@ func bdd(db *sql.DB) []Category {
 	}
 	for entries.Next() {
 		entries.Scan(&eachCategory.Name)
-		tabCategorys = append(tabCategorys, eachCategory)
-		fmt.Println(tabCategorys)
+		tabCategories = append(tabCategories, eachCategory)
+		fmt.Println(tabCategories)
 	}
 
-	return tabCategorys
+	return tabCategories
 }
