@@ -6,6 +6,7 @@ import (
 	"net/http"
 	guuid "github.com/google/uuid"
 	BDD "../BDD"
+	"log"
 )
 
 var c http.Cookie
@@ -40,8 +41,30 @@ func GetDeconnected(w http.ResponseWriter, r *http.Request){
 }
 
 func VerifyCookie() bool{
+	var oneUUID string
+	db := BDD.OpenDataBase()
+	checkUUID, err := db.Prepare("SELECT UUID FROM session WHERE user_pseudo = ?")
+	if (err != nil){
+		log.Fatal(err)
+	}
+	UUIDPseudo, err := checkUUID.Query("Roberto04")
+	if (err != nil){
+		log.Fatal(err)
+	}
+
+	for UUIDPseudo.Next(){
+		UUIDPseudo.Scan(&oneUUID)
+		if (oneUUID==UUID){
+			fmt.Println(oneUUID)
+		}
+	}
+	checkUUID.Close()
+
 	if (c.Value == UUID){
 		fmt.Println("OK")
+		fmt.Println("Valeur du cookie", c.Value)
+		fmt.Println("Valeur de l'UUID", UUID)
+
 		return true
 	}
 	return false

@@ -69,7 +69,6 @@ func SelectUsers() []User {
 	}
 	return tabUsers
 }
-func Select()
 func SelectTopics() []Topic {
 	db := OpenDataBase()
 	var eachTopic Topic
