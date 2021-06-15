@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	BDD "./BDD"
 	handlers "./handlers"
 )
 
@@ -20,6 +21,7 @@ func main() {
 	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/all_categories", handlers.RetrieveCat)
+	http.HandleFunc("/BDD", BDD.Afficher)
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	fmt.Println("Listening on localhost:8080")
