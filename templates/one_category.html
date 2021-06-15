@@ -12,15 +12,13 @@
 
 <body>
     {{template "sidebar"}} {{template "header"}}
-    <script src="../static/js/popup.js"></script>
-    <script src="../static/js/login&register.js"></script>
     <div class="title">
         <h1>Catégorie :
             <!-- {{.}} -->
         </h1>
     </div>
     <div class="bloc">
-        {{if .Topics}} {{range .Topics}}
+        {{range .Topics}}
         <div class="topic">
             <a href="" class="link">
                 <div class="logo">
@@ -30,7 +28,7 @@
                 <p class="author">@{{.User_pseudo}}</p>
             </a>
         </div>
-        <br> {{end}} {{end}}
+        <br> {{end}}
     </div>
     <div id="box">
         <i class='bx bxs-message-rounded-edit'></i>
@@ -46,15 +44,6 @@
     <div class="button_">
         <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
-
-    {{if .Error}}
-    <div id="box">
-        <i class='bx bxs-info-circle' style='color:#f58900'></i>
-        <h1 id="erreur">Erreur : {{.Error}}</h1>
-        <a onclick="closes()" class="close">Fermer</a>
-    </div>
-    {{end}}
-
     <script src="../static/js/popup.js"></script>
     <script src="../static/js/login&register.js"></script>
 </body>
