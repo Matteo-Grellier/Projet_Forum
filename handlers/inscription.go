@@ -14,26 +14,7 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Template execution: %s", err)
 		return
 	}
-	DeleteCookie(w, r)
 	fmt.Println("Page Inscription ✅")
+	VerifyCookie()
 	t.Execute(w, nil)
-}
-
-/* func getPassword(w http.ResponseWriter, r *http.Request) {
-
-	err := r.ParseForm()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	var e string = r.PostFormValue("Password")
-	fmt.Println(string("\033[1;37m\033[0m"), e)
-}
-*/
-
-func DeleteCookie(w http.ResponseWriter, r *http.Request) {
-	c := http.Cookie{
-			Name:   "ithinkidroppedacookie",
-			MaxAge: -1}
-	http.SetCookie(w, &c)
 }

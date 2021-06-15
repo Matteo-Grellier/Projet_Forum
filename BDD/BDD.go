@@ -37,8 +37,6 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			delete()
 		} else if req.FormValue("create") == "create" {
 			create()
-		} else if req.FormValue("update") == "update" {
-			update()
 		}
 	}
 	fmt.Println(DataUsedOK)
@@ -71,7 +69,7 @@ func SelectUsers() []User {
 	}
 	return tabUsers
 }
-
+func Select()
 func SelectTopics() []Topic {
 	db := OpenDataBase()
 	var eachTopic Topic
@@ -86,12 +84,35 @@ func SelectTopics() []Topic {
 		tabTopics = append(tabTopics, eachTopic)
 	}
 	return tabTopics
+
 }
 
-func update() {
+func CreateUUID(username string, newUUID string, db *sql.DB) {
+	fmt.Println("Ouverture de la base de données")
+	update, err := db.Prepare("INSERT INTO session (UUID, user_pseudo) VALUES(?, ?)")
+	fmt.Println("Insertion UUID : ", newUUID,", username :", username )
+
+	if err!=nil{
+		log.Fatal(err)
+	}
+	_,err = update.Exec(newUUID, username)
+	if err!=nil{
+		log.Fatal(err)
+	}
+	fmt.Println("Élément ajouté ?")
+}
+
+func DeleteUUID(UUID string){
 	db := OpenDataBase()
-	update, _ := db.Prepare("UPDATE user SET user = ? WHERE pseudo = ?")
-	update.Exec("test", "test")
+	delete, err := db.Prepare("DELETE FROM session WHERE UUID = ?")
+	if err!=nil{
+		log.Fatal(err)
+	}
+	fmt.Println(UUID)
+	_,err = delete.Exec(UUID)
+	if err!=nil{
+		log.Fatal(err)
+	}
 }
 
 func create() {
