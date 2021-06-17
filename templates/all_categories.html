@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catégories</title>
 </head>
 <body>
-    {{range .Categories}}
-    <form name="foo" method="POST">
-        <button name="foo" type="submit" value="{{.Id}}">{{.Name}}</button>
+    <form action="" name="foo" id="redirect_categorie" method="POST">
+    
     </form>
+    {{range .Categories}}
+    <button onClick="displayCategory('{{ .Id }}')" name="foo" type="submit" value="{{.Id}}">{{.Name}}</button>
     {{end}}
     <!-- <button value="read">READ</button> -->
-
     </form>
-
+    <script src="../static/js/redirection.js"></script>
 </body>
+
 </html>

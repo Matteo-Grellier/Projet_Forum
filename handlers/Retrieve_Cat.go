@@ -21,7 +21,7 @@ type Data struct {
 }
 
 func RetrieveCat(w http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("./templates/one_category.html")
+	t, _ := template.ParseFiles("./templates/all_categories.html")
 
 	/*fonction base de données*/
 	db := BDD.OpenDataBase()
@@ -29,12 +29,21 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-	bar := req.FormValue("foo")
-	if bar != "" {
-		finalURL := "oneCategory=" + bar
-		http.Redirect(w, req, finalURL, http.StatusSeeOther)
+	// bar := req.FormValue("foo")
+	// if bar != "" {
+	// 	finalURL := "oneCategory=" + bar
+	// 	http.Redirect(w, req, finalURL, http.StatusSeeOther)
+	// }
+
+	if req.Method == "POST" {
+		fmt.Println("ON clique sur une catégorie")
+		categorie := req.FormValue("foo")
+		fmt.Println(categorie)
+		One_Category(w, req)
+	} else {
+		t.Execute(w, dataOk)
 	}
-	t.Execute(w, dataOk)
+
 }
 
 func bdd(db *sql.DB) []Category {

@@ -17,19 +17,19 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	}
 	fmt.Println(arr)
 
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html", "./templates/layouts/all_categories.html")
 	fmt.Println(req.URL.Path)
 	test := string(req.URL.Path)
 	if itemExists(arr, test) {
-		t, err := template.ParseFiles("./templates/one_category.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html", "./templates/layouts/all_categories.html")
-		if err != nil {
-			t, _ = template.ParseFiles("./templates/layouts/error500.html")
-			t.Execute(w, nil)
-			return
-		}
 		fmt.Println("Page Home ✅")
 		t.Execute(w, nil)
 	} else {
-		t, _ := template.ParseFiles("./templates/layouts/error404.html")
+		t, _ = template.ParseFiles("./templates/layouts/error404.html")
+		t.Execute(w, nil)
+		return
+	}
+	if err != nil {
+		t, _ = template.ParseFiles("./templates/layouts/error500.html")
 		t.Execute(w, nil)
 		return
 	}
