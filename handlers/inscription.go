@@ -15,6 +15,6 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println("Page Inscription ✅")
-	VerifyCookie()
+	VerifyCookie(w, r)
 	t.Execute(w, nil)
 }
