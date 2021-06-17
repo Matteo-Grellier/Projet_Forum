@@ -21,13 +21,18 @@ type Data struct {
 }
 
 func RetrieveCat(w http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("./templates/all_categories.html")
+	t, _ := template.ParseFiles("./templates/one_category.html")
 
 	/*fonction base de données*/
 	db := BDD.OpenDataBase()
 
 	dataOk := Data{
 		Categories: bdd(db),
+	}
+	bar := req.FormValue("foo")
+	if bar != "" {
+		finalURL := "oneCategory=" + bar
+		http.Redirect(w, req, finalURL, http.StatusSeeOther)
 	}
 	t.Execute(w, dataOk)
 }

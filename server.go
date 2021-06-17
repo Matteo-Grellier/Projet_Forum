@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/login", handlers.GetLogin)

@@ -8,7 +8,9 @@
 </head>
 <body>
     {{range .Categories}}
-    <a href="/oneCategory/{{.Id}}">{{.Name}}</a>
+    <form name="foo" method="POST">
+        <button name="foo" type="submit" value="{{.Id}}">{{.Name}}</button>
+    </form>
     {{end}}
     <!-- <button value="read">READ</button> -->
 
