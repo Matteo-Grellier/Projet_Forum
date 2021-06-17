@@ -10,30 +10,25 @@ body {
 }
 
 .Toutelescategories h2 {
-    color: white;
     text-transform: uppercase;
 }
 
 .lescategories {
     background-color: #FF5722;
     position: relative;
-    top: 250px;
-    left: 300px;
+    top: 295px;
+    left: 350px;
     height: 450px;
     width: 900px;
     border-radius: 8%;
-    overflow: scroll;
 }   
 
-.categorie {
-    color: #ffffff;
-    cursor: pointer;
-    flex-direction: row;
-    flex-flow: wrap;
-    /*align-content: space-between;*/
-    font-size: 180%;
+.one-categoris {
+    text-decoration: none;
+    text-align: center;
+    text-align-top: center;
 }
 
-.link {
-    text-decoration: none;
-}
+.lescategories {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
