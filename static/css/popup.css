@@ -4,7 +4,7 @@ body {
     font-family: 'Concert One', cursive;
 }
 
-#box {
+#box_ {
     width: 500px;
     overflow: hidden;
     background: #f1f1f1;
@@ -20,25 +20,25 @@ body {
     display: none;
 }
 
-#box i {
+#box_ i {
     font-size: 40px;
     display: block;
     margin: 10px 0;
 }
 
-#box .close {
+#box_ .close {
     text-align: center;
     display: initial;
 }
 
-#box h1 {
+#box_ h1 {
     color: #333;
     font-size: 30px;
     padding: 10px;
     text-transform: uppercase;
 }
 
-#box input {
+#box_ input {
     height: 50px;
     width: 400px;
     font-size: 15px;
@@ -54,7 +54,7 @@ body {
     border-radius: 10px;
 }
 
-#box .close {
+#box_ .close {
     font-size: 15px;
     color: white;
     padding: 10px 30px;
@@ -66,7 +66,7 @@ body {
     border-radius: 4px;
 }
 
-#box .post {
+#box_ .post {
     font-size: 15px;
     color: white;
     padding: 10px 30px;

@@ -10,7 +10,8 @@ import (
 )
 
 type DataUsed struct {
-	Topics []Topic
+	Topics       []Topic
+	ErrorMessage string
 }
 
 type Topic struct {
@@ -22,9 +23,16 @@ type Topic struct {
 func One_Category(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
 	t, err := template.ParseFiles("templates/one_category.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html")
-	DataUsedOK := DataUsed{
-		Topics: DisplayTopics(),
+
+	var DataUsedOK DataUsed
+
+	DataUsedOK.ErrorMessage = ""
+
+	if r.Method == "POST" {
+		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
 	}
+
+	DataUsedOK.Topics = DisplayTopics()
 
 	if err != nil {
 		log.Fatalf("Template execution: %s", err)
@@ -40,8 +48,7 @@ func DisplayTopics() []Topic {
 	var tabTopics []Topic
 	topics, err := db.Query("SELECT title, content, user_pseudo FROM topic")
 	if err != nil {
-		fmt.Println("Could not query database")
-		log.Fatal(err)
+		log.Fatalln("Could not query database", err)
 	}
 	for topics.Next() {
 		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
