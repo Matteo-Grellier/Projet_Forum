@@ -11,25 +11,11 @@
     <body>
         {{template "sidebar"}} {{template "header"}}
 
-       
-
         <h2 class="Toutelescategories">Toutes les catégories :</h2>
         <div class="lescategories">
             {{range .Categories}}
-                <a class="one-categoris">{{.Name}}</a>
+                <a href="" class="one-categorie">{{.Name}}</a>
             {{end}}
-            <!-- <a href="" class="one-categoris">Sport</a>
-            <a href="" class="one-categoris">Voyages</a>
-            <a href="" class="one-categoris">Soirées</a>
-            <a href="" class="one-categoris">Nourriture</a>
-            <a href="" class="one-categoris">Memes</a>
-            <a href="" class="one-categoris">Animaux</a>
-            <a href="" class="one-categoris">Ynov Campus</a>
-            <a href="" class="one-categoris">Santé</a>
-            <a href="" class="one-categoris">Windows</a>
-            <a href="" class="one-categoris">Nantes</a>
-            <a href="" class="one-categoris">MacOs</a>
-            <a href="" class="one-categoris">Jeux Vidéos</a> -->
         </div>
     </body>
 </html>
