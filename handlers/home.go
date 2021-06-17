@@ -7,9 +7,9 @@ import (
 )
 
 func Home(w http.ResponseWriter, req *http.Request) {
-	arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription"}
+	arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription", "/test"}
 
-	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html", "./templates/layouts/bouton_all_categories.html")
 	for i := 0; i < len(arr); i++ {
 		if req.URL.Path != arr[i] {
 			t, _ = template.ParseFiles("./templates/layouts/error404.html")

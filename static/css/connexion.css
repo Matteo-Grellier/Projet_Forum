@@ -100,6 +100,10 @@ body {
     transition: .2s linear;
 }
 
+.button_login .btn {
+    cursor: pointer;
+}
+
 .login-form a:hover {
     color: #111;
 }
