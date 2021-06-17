@@ -28,7 +28,8 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-	fmt.Println(dataOk)
+	colorGreen := "\033[32m"
+	fmt.Println(string(colorGreen), "[BDD_INFO] : 🔹", dataOk)
 	t.Execute(w, dataOk)
 }
 
@@ -39,8 +40,8 @@ func bdd(db *sql.DB) []Category {
 	entries, err := db.Query("SELECT name FROM category")
 
 	if err != nil {
-		fmt.Println("Could not query database")
-		log.Fatal(err)
+		colorYellow := "\033[33m"
+		log.Fatalf(string(colorYellow), "[BDD_INFO] : 🔻 Template execution: %s", err)
 		// return
 	}
 	for entries.Next() {

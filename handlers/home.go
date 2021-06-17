@@ -24,6 +24,7 @@ func Home(w http.ResponseWriter, req *http.Request) {
 		t.Execute(w, nil)
 		return
 	}
-	fmt.Println("Page Home ✅")
+	colorGreen := "\033[32m"
+	fmt.Println(string(colorGreen), "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
 	t.Execute(w, nil)
 }

@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -33,7 +32,8 @@ func HashPassword(password string) string {
 func GetRegister(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		colorYellow := "\033[33m"
+		log.Fatalf(string(colorYellow), "[SERVER_INFO_PAGE] : 🟠 Template execution: %s", err)
 		return
 	}
 	err2 := r.ParseForm()
@@ -86,8 +86,8 @@ func verifyBDD(element string, column string) bool {
 	var oneElement string
 	allElements, err := db.Query("SELECT " + column + " FROM user")
 	if err != nil {
-		fmt.Println("Could not query database")
-		log.Fatal(err)
+		colorYellow := "\033[33m"
+		log.Fatalf(string(colorYellow), "[BDD_INFO] : 🔻 Template execution: %s", err)
 	}
 	for allElements.Next() {
 		allElements.Scan(&oneElement)

@@ -10,6 +10,12 @@ import (
 
 func main() {
 
+	colorGreen := "\033[32m"
+	colorBlue := "\033[34m"
+	colorYellow := "\033[33m"
+
+	fmt.Println(string(colorBlue), "[SERVER_INFO] : Starting local Server...")
+
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/login", handlers.GetLogin)
@@ -24,6 +30,8 @@ func main() {
 	http.HandleFunc("/BDD", BDD.Afficher)
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	fmt.Println("Listening on localhost:8080")
+
+	fmt.Println(string(colorGreen), "[SERVER_READY] : on http://localhost:8080 ✅ ")
+	fmt.Println(string(colorYellow), "[SERVER_INFO] : To stop the program : Ctrl + c")
 	http.ListenAndServe(":8080", nil)
 }

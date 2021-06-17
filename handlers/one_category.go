@@ -35,10 +35,12 @@ func One_Category(w http.ResponseWriter, r *http.Request) {
 	DataUsedOK.Topics = DisplayTopics()
 
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		colorYellow := "\033[33m"
+		log.Fatalf(string(colorYellow), "[SERVER_INFO_PAGE] : 🟠 Template execution: %s", err)
 		return
 	}
-	fmt.Println("Page Connexion ✅")
+	colorGreen := "\033[32m"
+	fmt.Println(string(colorGreen), "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
 	t.Execute(w, DataUsedOK)
 }
 
@@ -48,7 +50,8 @@ func DisplayTopics() []Topic {
 	var tabTopics []Topic
 	topics, err := db.Query("SELECT title, content, user_pseudo FROM topic")
 	if err != nil {
-		log.Fatalln("Could not query database", err)
+		colorYellow := "\033[33m"
+		log.Fatalf(string(colorYellow), "[BDD_INFO] : 🔻 Template execution: %s", err)
 	}
 	for topics.Next() {
 		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
