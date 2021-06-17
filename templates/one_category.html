@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/oneCategory.css">
     <link rel="stylesheet" href="../static/css/popup.css">
+    <link rel="stylesheet" href="../static/css/popupError.css">
     <title>Document</title>
 </head>
 
@@ -30,20 +31,28 @@
         </div>
         <br> {{end}}
     </div>
-    <div id="box">
+
+    <div id="box_">
         <i class='bx bxs-message-rounded-edit'></i>
-        <form action="/oneCategory/post" method="post" id="form">
+        <form action="/oneCategory" method="post" id="form">
             <h1 id="erreur">Titre du topic : </h1>
             <input class="titre_topic" type="text" name="titre" required>
             <h1 id="erreur">Post : </h1>
             <input class="post_topic" type="text" name="post" required>
-            <a onclick="closes()" class="close">Fermer</a>
+            <a onclick="closesPopup()" class="close">Fermer</a>
             <a onclick="formSubmit()" class="post">Poster</a>
         </form>
     </div>
     <div class="button_">
         <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
+    {{if .ErrorMessage}}
+    <div id="box">
+        <i class='bx bxs-info-circle' style='color:#f58900'></i>
+        <h1 id="erreur">Erreur : {{.ErrorMessage}}</h1>
+        <a onclick="closes()" class="close">Fermer</a>
+    </div>
+    {{end}}
     <script src="../static/js/popup.js"></script>
     <script src="../static/js/login&register.js"></script>
 </body>

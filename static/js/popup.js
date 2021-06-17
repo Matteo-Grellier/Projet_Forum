@@ -8,7 +8,17 @@ function closes() {
     }
 }
 
+function closesPopup() {
+    var box2 = document.getElementById("box_")
+    box2.style.display = "none"
+    var h1 = document.getElementById("erreur")
+
+    if (h1 == null) {
+        box2.style.display = "none"
+    }
+}
+
 function openPopup() {
-    var box = document.querySelector("#box")
+    var box = document.querySelector("#box_")
     box.style.display = "initial"
 }
