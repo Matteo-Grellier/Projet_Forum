@@ -11,13 +11,14 @@
     <body>
         {{template "sidebar"}} {{template "header"}}
 
-       <!-- {{range .Categories}}
-    <a>{{.Name}}</a>
-    {{end}}-->
+       
 
         <h2 class="Toutelescategories">Toutes les catégories :</h2>
         <div class="lescategories">
-            <a href="" class="one-categoris">Sport</a>
+            {{range .Categories}}
+                <a class="one-categoris">{{.Name}}</a>
+            {{end}}
+            <!-- <a href="" class="one-categoris">Sport</a>
             <a href="" class="one-categoris">Voyages</a>
             <a href="" class="one-categoris">Soirées</a>
             <a href="" class="one-categoris">Nourriture</a>
@@ -28,7 +29,7 @@
             <a href="" class="one-categoris">Windows</a>
             <a href="" class="one-categoris">Nantes</a>
             <a href="" class="one-categoris">MacOs</a>
-            <a href="" class="one-categoris">Jeux Vidéos</a>
+            <a href="" class="one-categoris">Jeux Vidéos</a> -->
         </div>
     </body>
 </html>
