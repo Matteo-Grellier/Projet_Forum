@@ -103,7 +103,7 @@ func verifyInput(label []string) bool {
 
 	for index := 0; index < len(label); index++ {
 		if len(label[index]) == 0 {
-			ErrorMessage = "Veuillez renseigner tous les champs "
+			ErrorMessage = "Veuillez renseigner tous les champs"
 			return false
 		}
 	}
@@ -158,12 +158,7 @@ func sameMdp(firstpwd string, secondpwd string) bool {
 	return true
 }
 
-func GetTopic(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("templates/one_category.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
-	if err != nil {
-		log.Fatalf("Template execution: %s", err)
-		return
-	}
+func GetTopic(w http.ResponseWriter, r *http.Request) Errors {
 	err2 := r.ParseForm()
 	if err2 != nil {
 		log.Fatal(err2)
@@ -177,6 +172,8 @@ func GetTopic(w http.ResponseWriter, r *http.Request) {
 
 	var data = []string{titre, post}
 
+	var ErrorsPost Errors
+
 	if verifyInput(data) {
 		db := BDD.OpenDataBase()
 		createNew, err3 := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
@@ -184,10 +181,9 @@ func GetTopic(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err3)
 		}
 		createNew.Exec(titre, post, user, categId)
-		http.Redirect(w, r, "/oneCategory", http.StatusSeeOther)
 	} else {
+		ErrorsPost.Error = ErrorMessage
 		ErrorMessage = ""
-		t.Execute(w, nil)
 	}
-
+	return ErrorsPost
 }
