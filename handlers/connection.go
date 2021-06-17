@@ -19,5 +19,3 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Page Connexion ✅")
 	t.Execute(w, nil)
 }
-
-

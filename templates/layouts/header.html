@@ -13,35 +13,34 @@
             <h1>Forum</h1>
         </div>
         <div class="button">
+            {{if .Pseudo }}
             <!-- add "active" class to a for login or logout -->
-            <!-- <a class="" href="/connexion">
+            <a class="" href="/connexion">
                 <span></span>
                 <span></span>
                 <span></span>
-                <span></span> -->
+                <span></span>
                 <!-- Login -->
-                <!-- Login -->
-                <!-- <i class='bx bxs-log-in'></i> -->
+                Login
+                <i class='bx bxs-log-in'></i>
                 <!-- Logout -->
                 <!-- <i class='bx bxs-log-out'></i> -->
-            <!-- </a> -->
-
-
+            </a>
+            {{else}}
             <a class="" href="/deconnexion">
                 <span></span>
                 <span></span>
                 <span></span>
                 <span></span>
-                <!-- Login -->
-                <!-- Login
-                <i class='bx bxs-log-in'></i> -->
+                <!-- Logout -->
                 Logout
                 <i class='bx bxs-log-out'></i>
             </a>
+            {{end}}
         </div>
     </div>
-
-
-
+    
+    
+    
 </body>
 {{end}}

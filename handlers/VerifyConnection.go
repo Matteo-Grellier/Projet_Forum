@@ -80,13 +80,13 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if passwordFound && pseudoFound {
-		fmt.Println("VOUS ETES CONNECTÉ")
 		UUID = CreateCookie(w, r)
-		fmt.Println(UUID)
-		BDD.CreateUUID(pseudo, UUID, db)
+		CreateUUID(pseudo, UUID, db)
+
+		fmt.Println("VOUS ETES CONNECTÉ")
 		http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
 	} else {
-		fmt.Println("VOUS NETES PAS CONNECTER")
+		fmt.Println("VOUS N'ÊTES PAS CONNECTÉ")
 		ErrorsConnections := Errors{
 			Error:  ErrorMessage,
 			Pseudo: pseudo,
