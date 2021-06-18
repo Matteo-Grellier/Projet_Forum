@@ -37,8 +37,6 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			delete()
 		} else if req.FormValue("create") == "create" {
 			create()
-		} else if req.FormValue("update") == "update" {
-			update()
 		}
 	}
 	fmt.Println(DataUsedOK)
@@ -71,7 +69,6 @@ func SelectUsers() []User {
 	}
 	return tabUsers
 }
-
 func SelectTopics() []Topic {
 	db := OpenDataBase()
 	var eachTopic Topic
@@ -86,12 +83,7 @@ func SelectTopics() []Topic {
 		tabTopics = append(tabTopics, eachTopic)
 	}
 	return tabTopics
-}
 
-func update() {
-	db := OpenDataBase()
-	update, _ := db.Prepare("UPDATE user SET user = ? WHERE pseudo = ?")
-	update.Exec("test", "test")
 }
 
 func create() {

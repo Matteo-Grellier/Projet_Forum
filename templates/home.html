@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    {{template "sidebar"}} {{template "header"}}
+    {{template "sidebar"}} {{template "header" .Connected}}
     <div class="actus">{{template "actus"}}</div>
     <div class="buttonall1">{{template "boutton_all_categories"}}</div>
 </body>

@@ -59,7 +59,10 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 			log.Fatal(err)
 		}
-		createNew.Exec(pseudo, email, newPass)
+		_,err = createNew.Exec(pseudo, email, newPass)
+		if err != nil {
+			log.Fatal(err)
+		}
 		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 	} else {
 		ErrorsInscriptions := Errors{

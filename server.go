@@ -15,6 +15,7 @@ func main() {
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/register", handlers.GetRegister)
+	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 	http.HandleFunc("/oneCategory", handlers.One_Category)
 	/* 	http.HandleFunc("/oneCategory/post", handlers.GetTopic) */
