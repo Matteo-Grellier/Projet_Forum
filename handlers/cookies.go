@@ -11,6 +11,11 @@ import (
 	guuid "github.com/google/uuid"
 )
 
+type UserConnectedStruct struct {
+	PseudoConnected string
+	Connected       bool
+}
+
 // Création du cookie. Renvoie la valeur du cookie.
 // Fonction appelée lorsqu'un utilisateur se connecte.
 func CreateCookie(w http.ResponseWriter, r *http.Request) string {
@@ -78,9 +83,9 @@ func ReadCookie(w http.ResponseWriter, r *http.Request, name string) string {
 		if err == http.ErrNoCookie {
 			// w.WriteHeader(http.StatusUnauthorized)
 			println("Pas de cookies actifs")
-			return "nil"
+			return ""
 		}
-		return "nil"
+		return ""
 	}
 	println("Cookies actifs ! Sa valeur : ", c.Value)
 	return c.Value
@@ -89,11 +94,14 @@ func ReadCookie(w http.ResponseWriter, r *http.Request, name string) string {
 // Retourne le nom de l'utilisateur connecté. Utilise la fonction ReadCookie pour savoir sa valeur.
 // Parcourt la BDD pour savoir quel utilisateur est lié au cookie de session.
 // Utilisé à chaque chargement de page.
-func VerifyUserConnected(w http.ResponseWriter, r *http.Request) (string, bool) {
+func VerifyUserConnected(w http.ResponseWriter, r *http.Request) UserConnectedStruct {
+	var userConnected UserConnectedStruct
 	println("On vérifie l'utilisateur")
 	CookieValue := ReadCookie(w, r, "CookieSession")
-	if CookieValue == "nil" {
-		return "nil", false
+	if CookieValue == "" {
+		userConnected.PseudoConnected = ""
+		userConnected.Connected = false
+		return userConnected
 	}
 
 	var user_connected string
@@ -112,8 +120,9 @@ func VerifyUserConnected(w http.ResponseWriter, r *http.Request) (string, bool) 
 		fmt.Println(user_connected)
 	}
 	checkUUID.Close()
-	return user_connected, true
-
+	userConnected.PseudoConnected = user_connected
+	userConnected.Connected = true
+	return userConnected
 }
 
 // Supprime le cookie actif
