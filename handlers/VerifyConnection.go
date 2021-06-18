@@ -15,6 +15,9 @@ type User struct {
 	User_password string
 }
 
+var UUID string
+var PseudoConnected string
+
 func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 	db := BDD.OpenDataBase()
@@ -26,7 +29,8 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 	t, err := template.ParseFiles("templates/connection.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		log.Fatalf("%s", err)
 		return
 	}
 
@@ -39,9 +43,10 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Could not query database")
 		log.Fatal(err)
 	}
-	verifPassword, err := db.Query("SELECT password FROM user WHERE pseudo = '" + pseudo + "'")
+	selectPassword, err := db.Prepare("SELECT password FROM user WHERE pseudo = ?")
+	verifPassword, _ := selectPassword.Query(pseudo)
 	if err != nil {
-		fmt.Println("Could not query database")
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 	}
 	for verifPseudo.Next() {
@@ -51,6 +56,8 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	verifPseudo.Close()
+
 	message := false
 	if !pseudoFound {
 
@@ -68,17 +75,19 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 			passwordFound = true
 		}
 	}
+	verifPassword.Close()
 	if !passwordFound && message {
 		ErrorMessage = "Ce mot de passe n'existe pas"
 	}
 
 	if passwordFound && pseudoFound {
-		fmt.Println("VOUS ETES CONNECTÉ")
-		fmt.Println(pseudo, password)
+		UUID = CreateCookie(w, r)
+		CreateUUID(pseudo, UUID, db)
 
+		fmt.Println("VOUS ETES CONNECTÉ")
 		http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
 	} else {
-		fmt.Println("VOUS NETES PAS CONNECTER")
+		fmt.Println("VOUS N'ÊTES PAS CONNECTÉ")
 		ErrorsConnections := Errors{
 			Error:  ErrorMessage,
 			Pseudo: pseudo,
@@ -86,5 +95,6 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		ErrorMessage = ""
 		t.Execute(w, ErrorsConnections)
 	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 
 }

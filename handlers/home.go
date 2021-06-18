@@ -1,15 +1,18 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"text/template"
 )
 
 func Home(w http.ResponseWriter, req *http.Request) {
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
+
+	userConnected := VerifyUserConnected(w, req)
+	fmt.Println(userConnected)
+
 	arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription", "/test"}
 
-	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html", "./templates/layouts/bouton_all_categories.html")
 	for i := 0; i < len(arr); i++ {
 		if req.URL.Path != arr[i] {
 			t, _ = template.ParseFiles("./templates/layouts/error404.html")
@@ -24,6 +27,7 @@ func Home(w http.ResponseWriter, req *http.Request) {
 		t.Execute(w, nil)
 		return
 	}
-	fmt.Println("Page Home ✅")
-	t.Execute(w, nil)
+
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
+	t.Execute(w, userConnected)
 }

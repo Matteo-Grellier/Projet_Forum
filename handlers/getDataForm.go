@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"regexp"
@@ -24,6 +23,7 @@ func HashPassword(password string) string {
 
 	hash, err := bcrypt.GenerateFromPassword(passByte, bcrypt.MinCost)
 	if err != nil {
+		Color(4, "[HASH_INFO] : 🔻 Error function 'HashPassword' : ")
 		log.Fatal(err)
 	}
 
@@ -33,11 +33,13 @@ func HashPassword(password string) string {
 func GetRegister(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		log.Fatalf("%s", err)
 		return
 	}
 	err2 := r.ParseForm()
 	if err2 != nil {
+		Color(4, "[PARSE_FORM_INFO] : 🔻 Error function 'GetRegister' : ")
 		log.Fatal(err2)
 	}
 
@@ -54,9 +56,13 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 		db := BDD.OpenDataBase()
 		createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
 		if err != nil {
+			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 			log.Fatal(err)
 		}
-		createNew.Exec(pseudo, email, newPass)
+		_,err = createNew.Exec(pseudo, email, newPass)
+		if err != nil {
+			log.Fatal(err)
+		}
 		http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 	} else {
 		ErrorsInscriptions := Errors{
@@ -86,8 +92,8 @@ func verifyBDD(element string, column string) bool {
 	var oneElement string
 	allElements, err := db.Query("SELECT " + column + " FROM user")
 	if err != nil {
-		fmt.Println("Could not query database")
-		log.Fatal(err)
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatalf("%s", err)
 	}
 	for allElements.Next() {
 		allElements.Scan(&oneElement)
@@ -103,7 +109,7 @@ func verifyInput(label []string) bool {
 
 	for index := 0; index < len(label); index++ {
 		if len(label[index]) == 0 {
-			ErrorMessage = "Veuillez renseigner tous les champs "
+			ErrorMessage = "Veuillez renseigner tous les champs"
 			return false
 		}
 	}
@@ -158,14 +164,10 @@ func sameMdp(firstpwd string, secondpwd string) bool {
 	return true
 }
 
-func GetTopic(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("templates/one_category.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
-	if err != nil {
-		log.Fatalf("Template execution: %s", err)
-		return
-	}
+func GetTopic(w http.ResponseWriter, r *http.Request) Errors {
 	err2 := r.ParseForm()
 	if err2 != nil {
+		Color(4, "[PARSE_FORM_INFO] : 🔻 Error function 'GetTopic' : ")
 		log.Fatal(err2)
 	}
 
@@ -177,17 +179,19 @@ func GetTopic(w http.ResponseWriter, r *http.Request) {
 
 	var data = []string{titre, post}
 
+	var ErrorsPost Errors
+
 	if verifyInput(data) {
 		db := BDD.OpenDataBase()
 		createNew, err3 := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
 		if err3 != nil {
+			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 			log.Fatal(err3)
 		}
 		createNew.Exec(titre, post, user, categId)
-		http.Redirect(w, r, "/oneCategory", http.StatusSeeOther)
 	} else {
+		ErrorsPost.Error = ErrorMessage
 		ErrorMessage = ""
-		t.Execute(w, nil)
 	}
-
+	return ErrorsPost
 }

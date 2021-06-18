@@ -31,7 +31,6 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-	fmt.Println(dataOk)
 	t.Execute(w, dataOk)
 }
 
@@ -42,7 +41,7 @@ func bdd(db *sql.DB) []Category {
 	entries, err := db.Query("SELECT name FROM category")
 
 	if err != nil {
-		fmt.Println("Could not query database")
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 		// return
 	}
