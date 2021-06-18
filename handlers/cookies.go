@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -27,7 +26,6 @@ func CreateCookie(w http.ResponseWriter, r *http.Request) string {
 		Value:   id.String(),
 		Expires: start2}
 	http.SetCookie(w, &c)
-	fmt.Printf("%T", c)
 
 	return id.String()
 }
@@ -59,10 +57,8 @@ func CreateUUID(username string, newUUID string, db *sql.DB) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Println("Élément ajouté")
 	} else {
 		add, err := db.Prepare("INSERT INTO session (UUID, user_pseudo) VALUES(?, ?)")
-		fmt.Println("Insertion UUID : ", newUUID, ", username :", username)
 
 		if err != nil {
 			log.Fatal(err)
@@ -81,13 +77,10 @@ func ReadCookie(w http.ResponseWriter, r *http.Request, name string) string {
 	c, err := r.Cookie(name)
 	if err != nil {
 		if err == http.ErrNoCookie {
-			// w.WriteHeader(http.StatusUnauthorized)
-			println("Pas de cookies actifs")
 			return ""
 		}
 		return ""
 	}
-	println("Cookies actifs ! Sa valeur : ", c.Value)
 	return c.Value
 }
 
@@ -96,7 +89,6 @@ func ReadCookie(w http.ResponseWriter, r *http.Request, name string) string {
 // Utilisé à chaque chargement de page.
 func VerifyUserConnected(w http.ResponseWriter, r *http.Request) UserConnectedStruct {
 	var userConnected UserConnectedStruct
-	println("On vérifie l'utilisateur")
 	CookieValue := ReadCookie(w, r, "CookieSession")
 	if CookieValue == "" {
 		userConnected.PseudoConnected = ""
@@ -117,7 +109,6 @@ func VerifyUserConnected(w http.ResponseWriter, r *http.Request) UserConnectedSt
 
 	for check_user.Next() {
 		check_user.Scan(&user_connected)
-		fmt.Println(user_connected)
 	}
 	checkUUID.Close()
 	userConnected.PseudoConnected = user_connected
@@ -132,5 +123,6 @@ func GetDeconnected(w http.ResponseWriter, r *http.Request) {
 		Name:   "CookieSession",
 		MaxAge: -1}
 	http.SetCookie(w, &c)
+	Color(1, "[CONNEXION] : 🟢 Vous êtes bien déconnectés ")
 	http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 }
