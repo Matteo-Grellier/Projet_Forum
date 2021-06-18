@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html ldivng="en">
-    <hedivd>
-        <metdiv charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-        <link rel="stylesheet" href="../static/css/all_categories.css">
-        <title>All_categories</title>
-    </head>
-    <body>
-        {{template "sidebar"}} {{template "header"}}
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catégories</title>
+</head>
+<body>
+    <form action="" name="foo" id="redirect_categorie" method="POST">
+    
+    </form>
+    {{range .Categories}}
+    <button onClick="displayCategory('{{ .Id }}')" name="foo" type="submit" value="{{.Id}}">{{.Name}}</button>
+    {{end}}
+    <!-- <button value="read">READ</button> -->
+    </form>
+    <script src="../static/js/redirection.js"></script>
+</body>
 
-        <h2 class="Toutelescategories">Toutes les catégories :</h2>
-        <div class="lescategories">
-            {{range .Categories}}
-                <a href="" class="one-categorie">{{.Name}}</a>
-            {{end}}
-        </div>
-    </body>
 </html>

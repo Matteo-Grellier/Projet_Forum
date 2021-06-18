@@ -15,7 +15,7 @@
     {{template "sidebar"}} {{template "header"}}
     <div class="title">
         <h1>Catégorie :
-            <!-- {{.}} --> 
+            {{.Name}}
         </h1>
     </div>
     <div class="bloc">
@@ -53,7 +53,6 @@
         <a onclick="closes()" class="close">Fermer</a>
     </div>
     {{end}}
-    <script src="../static/js/redirection.js"></script>
     <script src="../static/js/popup.js"></script>
     <script src="../static/js/login&register.js"></script>
 </body>

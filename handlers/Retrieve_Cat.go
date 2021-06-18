@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -31,11 +32,9 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-
 	if req.Method == "POST" {
 		fmt.Println("ON clique sur une catégorie")
-		categorie := req.FormValue("foo")
-		fmt.Println(categorie)
+		req.FormValue("foo")
 		One_Category(w, req)
 	} else {
 		t.Execute(w, dataOk)
