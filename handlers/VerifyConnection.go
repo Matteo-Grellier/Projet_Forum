@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -40,7 +39,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	passwordFound := false
 	verifPseudo, err := db.Query("SELECT pseudo FROM user")
 	if err != nil {
-		fmt.Println("Could not query database")
+		Color(4, "[BDD_INFO] : 🔻  Could not query database")
 		log.Fatal(err)
 	}
 	selectPassword, err := db.Prepare("SELECT password FROM user WHERE pseudo = ?")
@@ -67,7 +66,6 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	}
 	for verifPassword.Next() {
 		verifPassword.Scan(&eachPseudo.User_password)
-		fmt.Println()
 		err := bcrypt.CompareHashAndPassword([]byte(eachPseudo.User_password), []byte(password))
 		if err != nil {
 			log.Println(err)
@@ -83,11 +81,12 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	if passwordFound && pseudoFound {
 		UUID = CreateCookie(w, r)
 		CreateUUID(pseudo, UUID, db)
+		Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
 
-		fmt.Println("VOUS ETES CONNECTÉ")
 		http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
 	} else {
-		fmt.Println("VOUS N'ÊTES PAS CONNECTÉ")
+		Color(4, "[CONNEXION] : 🔻 Vous n'êtes pas connecté ")
+
 		ErrorsConnections := Errors{
 			Error:  ErrorMessage,
 			Pseudo: pseudo,
