@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	BDD "./BDD"
@@ -9,6 +8,8 @@ import (
 )
 
 func main() {
+
+	handlers.Color(2, "[SERVER_INFO] : Starting local Server...")
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
@@ -24,6 +25,9 @@ func main() {
 	http.HandleFunc("/BDD", BDD.Afficher)
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-	fmt.Println("Listening on localhost:8080")
+
+	handlers.Color(1, "[SERVER_READY] : on http://localhost:8080 ✅ ")
+	handlers.Color(3, "[SERVER_INFO] : To stop the program : Ctrl + c")
+
 	http.ListenAndServe(":8080", nil)
 }
