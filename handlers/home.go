@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 	"text/template"
 )
@@ -24,7 +23,6 @@ func Home(w http.ResponseWriter, req *http.Request) {
 		t.Execute(w, nil)
 		return
 	}
-	colorGreen := "\033[32m"
-	fmt.Println(string(colorGreen), "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
 	t.Execute(w, nil)
 }
