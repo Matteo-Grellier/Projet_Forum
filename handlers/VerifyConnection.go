@@ -29,7 +29,8 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 	t, err := template.ParseFiles("templates/connection.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		log.Fatalf("%s", err)
 		return
 	}
 
@@ -45,7 +46,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	selectPassword, err := db.Prepare("SELECT password FROM user WHERE pseudo = ?")
 	verifPassword, _ := selectPassword.Query(pseudo)
 	if err != nil {
-		fmt.Println("Could not query database")
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 	}
 	for verifPseudo.Next() {
@@ -94,5 +95,6 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		ErrorMessage = ""
 		t.Execute(w, ErrorsConnections)
 	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 
 }

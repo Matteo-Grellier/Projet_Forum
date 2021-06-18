@@ -7,79 +7,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/oneCategory.css">
     <link rel="stylesheet" href="../static/css/popup.css">
+    <link rel="stylesheet" href="../static/css/popupError.css">
     <title>Document</title>
 </head>
 
 <body>
     {{template "sidebar"}} {{template "header"}}
-
     <div class="title">
         <h1>Catégorie :
             <!-- {{.}} -->
         </h1>
     </div>
     <div class="bloc">
+        {{range .Topics}}
         <div class="topic">
             <a href="" class="link">
                 <div class="logo">
                     <i class='bx bxs-message-detail'></i>
                 </div>
-                <p class="subject">J'aime les frites</p>
-                <p class="author">@Oliv</p>
+                <p class="subject">{{.Title}}</p>
+                <p class="author">@{{.User_pseudo}}</p>
             </a>
         </div>
-        <br>
-        <div class="topic">
-            <a href="" class="link">
-                <div class="logo">
-                    <i class='bx bxs-message-detail'></i>
-                </div>
-                <p class="subject">ZEBI j'ai faim</p>
-                <p class="author">@L1</p>
-            </a>
-        </div>
-        <br>
-        <div class="topic">
-            <a href="" class="link">
-                <div class="logo">
-                    <i class='bx bxs-message-detail'></i>
-                </div>
-                <p class="subject">BRUh</p>
-                <p class="author">@rgsfxfgfdf</p>
-            </a>
-        </div>
-        <br>
-        <div class="topic">
-            <a href="" class="link">
-                <div class="logo">
-                    <i class='bx bxs-message-detail'></i>
-                </div>
-                <p class="subject">BRUh</p>
-                <p class="author">@rgsfxfgfdf</p>
-            </a>
-        </div>
-
+        <br> {{end}}
     </div>
 
-    <div id="box">
+    <div id="box_">
         <i class='bx bxs-message-rounded-edit'></i>
-        <form action="/oneCategory/post" method="post" id="form">
+        <form action="/oneCategory" method="post" id="form">
             <h1 id="erreur">Titre du topic : </h1>
             <input class="titre_topic" type="text" name="titre" required>
             <h1 id="erreur">Post : </h1>
             <input class="post_topic" type="text" name="post" required>
-            <a onclick="closes()" class="close">Fermer</a>
+            <a onclick="closesPopup()" class="close">Fermer</a>
             <a onclick="formSubmit()" class="post">Poster</a>
         </form>
     </div>
     <div class="button_">
         <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
-
-    {{if .Error}}
+    {{if .ErrorMessage}}
     <div id="box">
         <i class='bx bxs-info-circle' style='color:#f58900'></i>
-        <h1 id="erreur">Erreur : {{.Error}}</h1>
+        <h1 id="erreur">Erreur : {{.ErrorMessage}}</h1>
         <a onclick="closes()" class="close">Fermer</a>
     </div>
     {{end}}
