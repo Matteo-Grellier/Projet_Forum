@@ -21,8 +21,11 @@ type Data struct {
 }
 
 func RetrieveCat(w http.ResponseWriter, req *http.Request) {
-	t, _ := template.ParseFiles("./templates/all_categories.html")
-
+	t, err := template.ParseFiles("templates/all_categories.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+	if err != nil {
+		log.Fatalf("Template execution: %s", err)
+		return
+	}
 	/*fonction base de données*/
 	db := BDD.OpenDataBase()
 
@@ -38,8 +41,7 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	} else {
 		t.Execute(w, dataOk)
 	}
-
-
+}
 
 func bdd(db *sql.DB) []Category {
 

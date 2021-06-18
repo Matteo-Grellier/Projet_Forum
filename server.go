@@ -8,16 +8,14 @@ import (
 )
 
 func main() {
-<<<<<<< HEAD
-=======
 
 	handlers.Color(2, "[SERVER_INFO] : Starting local Server...")
 
->>>>>>> 5f25b74fa4d4959cb5742afbcc115b32a25c5ca1
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/register", handlers.GetRegister)
+	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 	//http.HandleFunc("/oneCategory", handlers.One_Category)
 	/* 	http.HandleFunc("/oneCategory/post", handlers.GetTopic) */
