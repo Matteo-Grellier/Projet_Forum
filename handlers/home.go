@@ -33,7 +33,8 @@ func Home(w http.ResponseWriter, req *http.Request) {
 		t.Execute(w, nil)
 		return
 	}
-
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
+	t.Execute(w, nil)
 }
 func itemExists(arr []string, test string) bool {
 	isInArr := false

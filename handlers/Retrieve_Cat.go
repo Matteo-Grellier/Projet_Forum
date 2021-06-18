@@ -29,11 +29,6 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-	// bar := req.FormValue("foo")
-	// if bar != "" {
-	// 	finalURL := "oneCategory=" + bar
-	// 	http.Redirect(w, req, finalURL, http.StatusSeeOther)
-	// }
 
 	if req.Method == "POST" {
 		fmt.Println("ON clique sur une catégorie")
@@ -44,7 +39,7 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 		t.Execute(w, dataOk)
 	}
 
-}
+
 
 func bdd(db *sql.DB) []Category {
 
@@ -53,7 +48,7 @@ func bdd(db *sql.DB) []Category {
 	entries, err := db.Query("SELECT name,ID FROM category")
 
 	if err != nil {
-		fmt.Println("Could not query database")
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 		// return
 	}
