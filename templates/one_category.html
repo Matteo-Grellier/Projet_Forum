@@ -13,11 +13,13 @@
 
 <body>
     {{template "sidebar"}} {{template "header"}}
+   
     <div class="title">
         <h1>Catégorie :
             {{.Name}}
         </h1>
     </div>
+    
     <div class="bloc">
         {{range .Topics}}
         <div class="topic">
@@ -32,6 +34,10 @@
         <br> {{end}}
     </div>
 
+    
+    <div class="button_">
+        <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
+    </div>
     <div id="box_">
         <i class='bx bxs-message-rounded-edit'></i>
         <form action="/oneCategory={{.Id}}" method="post" id="form">
@@ -42,9 +48,6 @@
             <a onclick="closesPopup()" class="close">Fermer</a>
             <a onclick="formSubmit()" class="post">Poster</a>
         </form>
-    </div>
-    <div class="button_">
-        <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
     {{if .ErrorMessage}}
     <div id="box">

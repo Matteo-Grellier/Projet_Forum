@@ -27,12 +27,13 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	found := re.MatchString(URLinString)
 
 	if err != nil {
+		fmt.Println("ERREUR SUR LE REG")
 		log.Fatal(err)
 	}
 	if !found {
-		temp := "./templates/home.html"
+		t, _ := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html")
 		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
-		wichTemplate(w, req, arr, temp)
+		t.Execute(w, nil)
 	} else {
 		temp := "./templates/one_category.html"
 		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'One_category'")
@@ -58,7 +59,6 @@ func wichTemplate(w http.ResponseWriter, req *http.Request, arr []string, temp s
 	test := string(req.URL.Path)
 	// Si l'url existe alors continuer
 	if URLfound(arr, test) {
-		fmt.Println("Page Home ✅")
 		var nameElement catName
 		db := BDD.OpenDataBase()
 		pattern := regexp.MustCompile(`\d+`)
