@@ -7,7 +7,7 @@ import (
 )
 
 func Home(w http.ResponseWriter, req *http.Request) {
-	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/header.html", "./templates/layouts/sidebar.html")
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/all_categories.html", "./templates/layouts/actus.html")
 
 	userConnected := VerifyUserConnected(w, req)
 	fmt.Println(userConnected)

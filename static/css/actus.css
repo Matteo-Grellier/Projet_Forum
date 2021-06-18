@@ -1,33 +1,41 @@
 body {
-    height: 1920;
-    background: #303841;
+    font-size: 20px;
 }
 
 .rectangle {
-	min-width: 1400px;
-	min-height:200px;
+    min-width: 1400px;
+    min-height: 200px;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
-    background:#00ADB5;
+    background: #00ADB5;
 }
+
+
+/* .actus {
+    grid-column: 5;
+    grid-row: 3;
+} */
 
 .zoneactus {
+    position: relative;
+    left: 1135px;
+    top: 215px;
     float: right;
-    margin-top: 70px;
-	width:300px;
-	height:500px;
+    width: 300px;
+    height: 450px;
     border-radius: 25% 10%;
     border: 2px solid #eeeeee;
-    background:#FF5722;
+    background: #FF5722;
 }
 
-h2 {
+.fil_actu {
     text-align: center;
     color: #ffffff;
 }
 
 .zone {
     margin-right: 20%;
+    margin-top: 5px;
 }
 
 .titre {
@@ -60,7 +68,6 @@ hr {
     height: 5px;
     margin-top: 7%;
 }
-
 
 hr:after {
     background: #FF5722;

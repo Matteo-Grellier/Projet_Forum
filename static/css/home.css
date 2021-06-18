@@ -1,0 +1,21 @@
+body {
+    width: 1920px;
+    height: 1080px;
+    background-color: #303841;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-gap: 5px;
+}
+
+
+/* .actus {
+    grid-column: 5;
+    grid-row: 3;
+}
+
+.buttonall1 {
+    grid-column: 2 / 3;
+    grid-row: 3;
+    font-size: 5px;
+} */
