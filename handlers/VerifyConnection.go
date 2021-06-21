@@ -14,9 +14,6 @@ type User struct {
 	User_password string
 }
 
-var UUID string
-var PseudoConnected string
-
 func GetLogin(w http.ResponseWriter, r *http.Request) {
 
 	db := BDD.OpenDataBase()
@@ -79,7 +76,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if passwordFound && pseudoFound {
-		UUID = CreateCookie(w, r)
+		UUID := CreateCookie(w, r)
 		CreateUUID(pseudo, UUID, db)
 		Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
 

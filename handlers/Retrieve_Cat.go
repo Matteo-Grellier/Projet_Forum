@@ -31,6 +31,11 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
+	bar := req.FormValue("foo")
+	if bar != "" {
+		finalURL := "oneCategory=" + bar
+		http.Redirect(w, req, finalURL, http.StatusSeeOther)
+	}
 	t.Execute(w, dataOk)
 }
 

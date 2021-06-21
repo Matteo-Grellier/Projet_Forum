@@ -10,19 +10,17 @@ func Home(w http.ResponseWriter, req *http.Request) {
 
 	userConnected := VerifyUserConnected(w, req)
 
-	arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription", "/test"}
+	// arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription", "/test"}
 
-	for i := 0; i < len(arr); i++ {
-		if req.URL.Path != arr[i] {
-			t, _ = template.ParseFiles("./templates/layouts/error404.html")
-			t.Execute(w, nil)
-			return
-		} else if req.URL.Path == arr[i] {
-			break
-		}
+	if req.URL.Path != "/" {
+		t, _ = template.ParseFiles("./templates/layouts/error404.html")
+		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page404'")
+		t.Execute(w, nil)
+		return
 	}
 	if err != nil {
 		t, _ = template.ParseFiles("./templates/layouts/error500.html")
+		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page500'")
 		t.Execute(w, nil)
 		return
 	}
