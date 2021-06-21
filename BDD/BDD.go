@@ -39,6 +39,7 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			create()
 		}
 	}
+	AjoutCommentaires()
 	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
 }
@@ -97,4 +98,15 @@ func delete() {
 	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
 	delete.Exec()
 	// Modifier les ? en fonction de ce qu'on veut supprimer
+}
+func AjoutCommentaires() {
+	db := OpenDataBase()
+	creation, _ := db.Prepare("INSERT INTO comment (user_pseudo, content, post_id) VALUES(?, ?, ?)")
+	_, err := creation.Exec("Roberto04", "Mon premier commentaire", 227)
+	if err != nil {
+		log.Fatal(err)
+	}
+	creation.Exec("Allyson9", "Je réponds à mon post", 228)
+	creation.Exec("Carla8", "Je ne comprends pas...", 230)
+	creation.Exec("Elouan2001", "HELLLOOOO PARIIIS", 245)
 }
