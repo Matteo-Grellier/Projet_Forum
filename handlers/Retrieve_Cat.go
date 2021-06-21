@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -48,7 +47,6 @@ func bdd(db *sql.DB) []Category {
 	for entries.Next() {
 		entries.Scan(&eachCategory.Name)
 		tabCategories = append(tabCategories, eachCategory)
-		fmt.Println(tabCategories)
 	}
 
 	return tabCategories
