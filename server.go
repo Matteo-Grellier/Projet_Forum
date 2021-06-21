@@ -24,6 +24,12 @@ func main() {
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/all_categories", handlers.RetrieveCat)
 	http.HandleFunc("/BDD", BDD.Afficher)
+
+	// 2 HandleFunc for addPost
+	http.HandleFunc("/addtopic", handlers.Post)
+	// For form method post --> action "/addtopic/post"
+	http.HandleFunc("/addtopic/post", handlers.GetValue)
+
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 

@@ -32,7 +32,7 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 		Topics: SelectTopics(),
 	}
 
-	if req.Method == "GET" {
+	if req.Method == "POST" {
 		if req.FormValue("delete") == "delete" {
 			delete()
 		} else if req.FormValue("create") == "create" {
@@ -89,12 +89,18 @@ func SelectTopics() []Topic {
 func create() {
 	db := OpenDataBase()
 	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
-	creation.Exec("pseudo", "mail@gmail.com", "password")
+	_, err := creation.Exec("TEST", "mail@gmail.com", "password")
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func delete() {
 	db := OpenDataBase()
 	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
-	delete.Exec()
+	_, err := delete.Exec("TEST", "mail@gmail.com", "password")
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Modifier les ? en fonction de ce qu'on veut supprimer
 }
