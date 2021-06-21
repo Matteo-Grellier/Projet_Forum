@@ -32,7 +32,7 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 		Topics: SelectTopics(),
 	}
 
-	if req.Method == "GET" {
+	if req.Method == "POST" {
 		if req.FormValue("delete") == "delete" {
 			delete()
 		} else if req.FormValue("create") == "create" {
@@ -40,7 +40,6 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	AjoutCommentaires()
-	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
 }
 
@@ -68,6 +67,7 @@ func SelectUsers() []User {
 		entries.Scan(&eachUser.Pseudo, &eachUser.Mail)
 		tabUsers = append(tabUsers, eachUser)
 	}
+	entries.Close()
 	return tabUsers
 }
 func SelectTopics() []Topic {
@@ -83,6 +83,7 @@ func SelectTopics() []Topic {
 		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.Category_ID)
 		tabTopics = append(tabTopics, eachTopic)
 	}
+	topics.Close()
 	return tabTopics
 
 }
@@ -91,22 +92,24 @@ func create() {
 	db := OpenDataBase()
 	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
 	creation.Exec("pseudo", "mail@gmail.com", "password")
+	creation.Close()
 }
 
 func delete() {
 	db := OpenDataBase()
 	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
-	delete.Exec()
-	// Modifier les ? en fonction de ce qu'on veut supprimer
+	_, err := delete.Exec()
+	if err != nil {
+		log.Fatal(err)
+	}
+	delete.Close()
 }
 func AjoutCommentaires() {
 	db := OpenDataBase()
 	creation, _ := db.Prepare("INSERT INTO comment (user_pseudo, content, post_id) VALUES(?, ?, ?)")
-	_, err := creation.Exec("Roberto04", "Mon premier commentaire", 227)
-	if err != nil {
-		log.Fatal(err)
-	}
-	creation.Exec("Allyson9", "Je réponds à mon post", 228)
-	creation.Exec("Carla8", "Je ne comprends pas...", 230)
-	creation.Exec("Elouan2001", "HELLLOOOO PARIIIS", 245)
+	// _, err := creation.Exec()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	creation.Close()
 }
