@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"text/template"
@@ -35,10 +34,11 @@ func One_Category(w http.ResponseWriter, r *http.Request) {
 	DataUsedOK.Topics = DisplayTopics()
 
 	if err != nil {
-		log.Fatalf("Template execution: %s", err)
+		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		log.Fatalf("%s", err)
 		return
 	}
-	fmt.Println("Page Connexion ✅")
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
 	t.Execute(w, DataUsedOK)
 }
 
@@ -48,7 +48,8 @@ func DisplayTopics() []Topic {
 	var tabTopics []Topic
 	topics, err := db.Query("SELECT title, content, user_pseudo FROM topic")
 	if err != nil {
-		log.Fatalln("Could not query database", err)
+		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
 	}
 	for topics.Next() {
 		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)

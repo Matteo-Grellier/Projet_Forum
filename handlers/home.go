@@ -55,7 +55,6 @@ func URLfound(arr []string, test string) bool {
 // Fonction qui permet de charger le template home.html soit one_category.html
 func wichTemplate(w http.ResponseWriter, req *http.Request, arr []string, temp string) {
 	t, err := template.ParseFiles(temp, "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/actus.html")
-	fmt.Println("je passe par la")
 	test := string(req.URL.Path)
 	// Si l'url existe alors continuer
 	if URLfound(arr, test) {
