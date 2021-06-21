@@ -16,7 +16,7 @@ type catName struct {
 
 func Home(w http.ResponseWriter, req *http.Request) {
 	//Tableau regroupant les URLS du site
-	arr := []string{"/", "/connexion", "/likedPosts", "/postsActivity", "/topic", "/inscription", "/test"}
+	arr := []string{"/"}
 	// Ajout de l'url pour chaque catégorie dans le tableau
 	pattern := regexp.MustCompile(`\d+`)
 	findString := pattern.FindString(req.URL.Path)
