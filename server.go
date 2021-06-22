@@ -25,6 +25,9 @@ func main() {
 	http.HandleFunc("/all_categories", handlers.RetrieveCat)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
+	//TEST
+	http.HandleFunc("/addpost", handlers.Post)
+
 	// 2 HandleFunc for addPost
 	http.HandleFunc("/addtopic", handlers.Post)
 	// For form method post --> action "/addtopic/post"
