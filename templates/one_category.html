@@ -15,7 +15,7 @@
     {{template "sidebar"}} {{template "header"}}
     <div class="title">
         <h1>Catégorie :
-            <!-- {{.}} -->
+            {{.Category}}
         </h1>
     </div>
     <div class="bloc">
@@ -34,7 +34,7 @@
 
     <div id="box_">
         <i class='bx bxs-message-rounded-edit'></i>
-        <form action="/oneCategory" method="post" id="form">
+        <form action="/oneCategory?cat={{.CategoryID}}" method="post" id="form">
             <h1 id="erreur">Titre du topic : </h1>
             <input class="titre_topic" type="text" name="titre" required>
             <h1 id="erreur">Post : </h1>

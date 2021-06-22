@@ -12,6 +12,7 @@ import (
 
 type Category struct {
 	Name string
+	Id   string
 }
 
 type Data struct {
@@ -30,6 +31,8 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
+
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'all_catégories'")
 	t.Execute(w, dataOk)
 }
 
@@ -37,7 +40,7 @@ func bdd(db *sql.DB) []Category {
 
 	var eachCategory Category
 	var tabCategories []Category
-	entries, err := db.Query("SELECT name FROM category")
+	entries, err := db.Query("SELECT name,ID FROM category")
 
 	if err != nil {
 		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
@@ -45,9 +48,8 @@ func bdd(db *sql.DB) []Category {
 		// return
 	}
 	for entries.Next() {
-		entries.Scan(&eachCategory.Name)
+		entries.Scan(&eachCategory.Name, &eachCategory.Id)
 		tabCategories = append(tabCategories, eachCategory)
 	}
-
 	return tabCategories
 }

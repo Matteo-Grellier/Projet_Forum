@@ -15,14 +15,18 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	for i := 0; i < len(arr); i++ {
 		if req.URL.Path != arr[i] {
 			t, _ = template.ParseFiles("./templates/layouts/error404.html")
+			Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page404'")
 			t.Execute(w, nil)
 			return
+
 		} else if req.URL.Path == arr[i] {
 			break
 		}
 	}
+
 	if err != nil {
 		t, _ = template.ParseFiles("./templates/layouts/error500.html")
+		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page500'")
 		t.Execute(w, nil)
 		return
 	}
