@@ -9,7 +9,7 @@ import (
 )
 
 func Post(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("templates/boxPost.html")
+	t, err := template.ParseFiles("")
 	if err != nil {
 		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
 		log.Fatalf("%s", err)
