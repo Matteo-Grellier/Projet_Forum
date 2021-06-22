@@ -1,0 +1,97 @@
+body {
+    background: #303841;
+    margin: 0;
+    padding: 0;
+    font-family: 'Concert One', cursive;
+}
+
+.topic{
+    display:flex;
+    flex-direction:column;
+    width: 850px;
+    height: auto;;
+    margin-left: 30%;
+    margin-top: 150px;
+    justify-content: center;
+    background-color: orangered;
+}
+.borderTitle{
+    border-radius: 25px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: white;
+}
+
+.borderComment{
+    border-radius: 25px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: white;
+}
+.photo_profile {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+    height: 55px;
+    padding-right: 30px;
+    background-color: #555;
+}
+
+.pseudo {
+    margin-top: 15px;
+    float: right;
+}
+
+.id {
+    font-size: 20px;
+    display: flex;
+    flex-direction:row;
+    margin-top: 20px;
+    text-align: center;
+    margin-right: 500px;
+}
+
+.description_topic{
+    text-align: center;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    margin-top: 5%;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 50px;
+}
+
+.commentaire_topic{
+    margin-top: 50px;
+    margin-left: 520px;
+    margin-right: 50px;
+    margin-bottom: 25px;
+}
+
+.like{
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+.textComment{
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.ligne{
+    margin-left: 35%;
+    margin-top: 20px;
+    color: white;
+    width: 200px;
+}
+.sujet{
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: -120px;
+}
+
+ 
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
