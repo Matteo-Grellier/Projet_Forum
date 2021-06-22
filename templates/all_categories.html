@@ -10,11 +10,10 @@
     </head>
     <body>
         {{template "sidebar"}} {{template "header"}}
-
         <h2 class="Toutelescategories">Toutes les catégories :</h2>
         <div class="lescategories">
             {{range .Categories}}
-                <a href="" class="one-categorie">{{.Name}}</a>
+                <a href="/oneCategory?cat={{.Id}}" class="one-categorie">{{.Name}}</a>
             {{end}}
         </div>
     </body>

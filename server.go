@@ -18,12 +18,17 @@ func main() {
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 	http.HandleFunc("/oneCategory", handlers.One_Category)
-	/* 	http.HandleFunc("/oneCategory/post", handlers.GetTopic) */
 	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/all_categories", handlers.RetrieveCat)
 	http.HandleFunc("/BDD", BDD.Afficher)
+
+	// 2 HandleFunc for addPost
+	http.HandleFunc("/addtopic", handlers.Post)
+	// For form method post --> action "/addtopic/post"
+	http.HandleFunc("/addtopic/post", handlers.GetValue)
+
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
