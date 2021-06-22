@@ -31,11 +31,8 @@ func RetrieveCat(w http.ResponseWriter, req *http.Request) {
 	dataOk := Data{
 		Categories: bdd(db),
 	}
-	bar := req.FormValue("foo")
-	if bar != "" {
-		finalURL := "oneCategory=" + bar
-		http.Redirect(w, req, finalURL, http.StatusSeeOther)
-	}
+
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'all_catégories'")
 	t.Execute(w, dataOk)
 }
 

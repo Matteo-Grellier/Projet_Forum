@@ -39,7 +39,6 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			create()
 		}
 	}
-	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
 }
 
