@@ -17,7 +17,7 @@ func main() {
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
 
-	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
+	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
