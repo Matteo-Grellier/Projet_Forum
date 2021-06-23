@@ -52,21 +52,25 @@ body {
 }
 
 .description_topic{
+    background-color: white;
     text-align: center;
     font-size: 30px;
     padding-left: 10px;
-    padding-bottom: 10px;
+    padding-right: 10px;
+    padding-bottom: 25px;
     margin-top: 5%;
     margin-left: 20px;
     margin-right: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .commentaire_topic{
-    margin-top: 50px;
-    margin-left: 520px;
-    margin-right: 50px;
-    margin-bottom: 25px;
+    margin-top: 20px;
+    padding-right: 55px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+    background-color: #00adb5;
 }
 
 .like{
@@ -78,7 +82,7 @@ body {
     margin-left: 20px;
 }
 .ligne{
-    margin-left: 35%;
+    margin-left: 38%;
     margin-top: 20px;
     color: white;
     width: 200px;
@@ -94,4 +98,44 @@ body {
     overflow-y: scroll;
     scrollbar-color: rebeccapurple green;
     scrollbar-width: thin;
+}
+ 
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
+
+.boutons {
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between ;
+}
+.reponse{
+    width: auto;
+    height: 20px;
+    margin-top: 10px;
+    margin-left: px;
+}
+
+.commentaryZone{
+    border-radius: 25px;
+    width: 800px;
+    margin-left: 40px;
+    background-color: white;
+    border: orangered;
+    padding-bottom: 80px;
+    padding-left: 20px;    
+    margin-bottom: 20px;
+}
+
+.vl {
+    border-left: 6px solid #ff4500;
+    height: 220px;
+    margin-left: 30px;
+  }
+
+.commentaire{
+    display: flex;
+    flex-direction: row;
 }

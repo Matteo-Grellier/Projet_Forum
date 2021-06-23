@@ -33,20 +33,26 @@
                     <div class="pseudo">@pseudo</div>
                 </div>
                 <p class="textComment">@Olive Moi aussi j’aime bien !</p>
-                <button class="like">Like</button>
-            </div>
+                <div class="boutons">
+                    <button class="like"><img src="static\images\like-regular-24.png" alt="like vide"></button>
 
-            <hr class="ligne">
-            <div class="commentaire_topic borderComment">
-                <div class="id">
-                    <div class="photo_profile">pp</div>
-                    <div class="pseudo">@pseudo</div>
+
+                    <button class="reponse" onclick="createDiv()">réponses</button>
+
+                    
                 </div>
-                <p class="textComment">@Olive Moi aussi j’aime bien !</p>
-                <button class="like">Like</button>
+                <div class="commentaire" id="visible" style="display:null">
+                    <div class="vl"></div>
+                    <div class="commentaryZone">
+                        <div class="id">
+                            <div class="photo_profile">pp</div>
+                            <div class="pseudo">@pseudo</div>
+                        </div>Je trouve ce post vraiment hyper intéressent </div>
+                </div>
             </div>
         </div>
     </div>
+    <script src="../static/js/Comments.js"></script>
 </body>
 
 </html>
