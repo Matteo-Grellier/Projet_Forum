@@ -3,10 +3,7 @@ package handlers
 import (
 	"database/sql"
 	"log"
-	"net/http"
-	"text/template"
 
-	BDD "../BDD"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -17,23 +14,6 @@ type Category struct {
 
 type Data struct {
 	Categories []Category
-}
-
-func RetrieveCat(w http.ResponseWriter, req *http.Request) {
-	t, err := template.ParseFiles("templates/all_categories.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
-	if err != nil {
-		log.Fatalf("Template execution: %s", err)
-		return
-	}
-	/*fonction base de données*/
-	db := BDD.OpenDataBase()
-
-	dataOk := Data{
-		Categories: bdd(db),
-	}
-
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'all_catégories'")
-	t.Execute(w, dataOk)
 }
 
 func bdd(db *sql.DB) []Category {
