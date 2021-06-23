@@ -13,17 +13,26 @@ func main() {
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
+	http.HandleFunc("/inscription", handlers.InscriptionPage)
+	http.HandleFunc("/categories", handlers.CategoriesPage)
+	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+
+	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
+	http.HandleFunc("/topic", handlers.TopicPage)
+	http.HandleFunc("/BDD", BDD.Afficher)
+
+	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
+
+	// Fonctions exécutées après une requête
 	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/register", handlers.GetRegister)
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
-	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
-	http.HandleFunc("/oneCategory", handlers.One_Category)
-	/* 	http.HandleFunc("/oneCategory/post", handlers.GetTopic) */
-	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
-	http.HandleFunc("/inscription", handlers.InscriptionPage)
-	http.HandleFunc("/all_categories", handlers.RetrieveCat)
-	http.HandleFunc("/BDD", BDD.Afficher)
+
+	// 2 HandleFunc for addPost
+	http.HandleFunc("/addtopic", handlers.Post)
+	// For form method post --> action "/addtopic/post"
+	http.HandleFunc("/addtopic/post", handlers.GetValue)
+
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 

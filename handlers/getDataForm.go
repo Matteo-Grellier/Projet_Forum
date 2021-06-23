@@ -59,7 +59,7 @@ func GetRegister(w http.ResponseWriter, r *http.Request) {
 			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 			log.Fatal(err)
 		}
-		_,err = createNew.Exec(pseudo, email, newPass)
+		_, err = createNew.Exec(pseudo, email, newPass)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -162,36 +162,4 @@ func sameMdp(firstpwd string, secondpwd string) bool {
 		return false
 	}
 	return true
-}
-
-func GetTopic(w http.ResponseWriter, r *http.Request) Errors {
-	err2 := r.ParseForm()
-	if err2 != nil {
-		Color(4, "[PARSE_FORM_INFO] : 🔻 Error function 'GetTopic' : ")
-		log.Fatal(err2)
-	}
-
-	titre := r.FormValue("titre")
-	post := r.FormValue("post")
-	//TEST BRUT
-	user := "L1"
-	categId := "168"
-
-	var data = []string{titre, post}
-
-	var ErrorsPost Errors
-
-	if verifyInput(data) {
-		db := BDD.OpenDataBase()
-		createNew, err3 := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
-		if err3 != nil {
-			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
-			log.Fatal(err3)
-		}
-		createNew.Exec(titre, post, user, categId)
-	} else {
-		ErrorsPost.Error = ErrorMessage
-		ErrorMessage = ""
-	}
-	return ErrorsPost
 }
