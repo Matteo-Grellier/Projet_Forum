@@ -80,7 +80,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request) {
 		CreateUUID(pseudo, UUID, db)
 		Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
 
-		http.Redirect(w, r, "/all_categories", http.StatusSeeOther)
+		http.Redirect(w, r, "/categories", http.StatusSeeOther)
 	} else {
 		Color(4, "[CONNEXION] : 🔻 Vous n'êtes pas connecté ")
 

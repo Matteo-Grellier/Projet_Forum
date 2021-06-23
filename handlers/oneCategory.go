@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"text/template"
 
 	BDD "../BDD"
 )
@@ -20,32 +19,6 @@ type Topic struct {
 	Title       string
 	Content     string
 	User_pseudo string
-}
-
-func One_Category(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
-	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
-	t, err := template.ParseFiles("templates/one_category.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html")
-
-	var DataUsedOK DataUsed
-
-	DataUsedOK.ErrorMessage = ""
-
-	if r.Method == "POST" {
-		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
-	}
-
-	DataUsedOK.Category = DisplayCategory(w, r, categoryID)
-	DataUsedOK.Topics = DisplayTopics(categoryID)
-	DataUsedOK.CategoryID = categoryID
-
-	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
-		return
-	}
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
-	t.Execute(w, DataUsedOK)
 }
 
 func DisplayTopics(idCat int) []Topic {
@@ -87,8 +60,7 @@ func DisplayCategory(w http.ResponseWriter, r *http.Request, idCat int) string {
 		categoryFound.Scan(&nameElement)
 	}
 	if nameElement == "" {
-		// Ajouter la fonction d'erreur si l'ID n'est pas valide
-		http.Redirect(w, r, "/oneCategory?cat=0", http.StatusSeeOther)
+		return "nil"
 	}
 
 	return nameElement
