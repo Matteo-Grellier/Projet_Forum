@@ -21,7 +21,11 @@
                 <h1>Connexion</h1>
 
                 <div class="textb">
+                    {{if .Error}}
+                    <input type="username" name="Pseudo" required value={{.Pseudo}}>
+                    {{else}}
                     <input type="username" name="Pseudo" required>
+                    {{end}}
                     <div class="placeholder">Pseudo</div>
                 </div>
                 <div class="textb">
