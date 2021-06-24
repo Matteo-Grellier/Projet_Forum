@@ -22,3 +22,13 @@ function openPopup() {
     var box = document.querySelector("#box_")
     box.style.display = "initial"
 }
+
+function openAndClose() {
+    var popup = document.getElementById("wrapper")
+
+    if (popup.style.display == "initial") {
+        popup.style.display = "none"
+    } else {
+        popup.style.display = "initial"
+    }
+}
