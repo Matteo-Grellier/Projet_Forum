@@ -29,7 +29,6 @@ func main() {
 	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 
 	// Fonctions exécutées après une requête
-	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
 
