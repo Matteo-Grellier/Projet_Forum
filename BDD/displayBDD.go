@@ -17,7 +17,6 @@ func DisplayCategories() []Category {
 		entries.Scan(&eachCategory.Name, &eachCategory.Id)
 		tabCategories = append(tabCategories, eachCategory)
 	}
-
 	db.Close()
 	return tabCategories
 }

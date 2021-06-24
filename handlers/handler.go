@@ -106,12 +106,11 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		Error500(w, req, err)
 	}
-
-	type Data struct {
+	type TabCategories struct {
 		Categories []BDD.Category
 	}
 
-	dataOk := Data{
+	dataOk := TabCategories{
 		Categories: BDD.DisplayCategories(),
 	}
 
