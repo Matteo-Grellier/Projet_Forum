@@ -9,7 +9,7 @@ import (
 )
 
 func Post(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("templates/addtopic.html")
+	t, err := template.ParseFiles("")
 	if err != nil {
 		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
 		log.Fatalf("%s", err)
@@ -27,7 +27,7 @@ func GetValue(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	pseudo := r.FormValue("User")
+	pseudo := "Eloulou2001"
 	post := r.FormValue("Post")
 	// L'id et le pseudo a supp car cela deviendra automatique par la suite.
 	id := 128
