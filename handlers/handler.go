@@ -60,6 +60,16 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method == "POST" {
+		pseudo := r.FormValue("Pseudo")
+		email := r.FormValue("Email")
+		password := r.FormValue("Password")
+		confirmPwd := r.FormValue("ConfirmPassword")
+		statusRegister := GetRegister(pseudo, email, password, confirmPwd)
+		if statusRegister.Error == "" {
+			http.Redirect(w, r, "/connexion", http.StatusSeeOther)
+		} else {
+			t.Execute(w, statusRegister)
+		}
 		fmt.Println("ON S'ENREGISTRE")
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'inscription'")
@@ -95,6 +105,7 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	DataUsedOK.ErrorMessage = ""
 
 	if r.Method == "POST" {
+
 		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
 	}
 	DataUsedOK = DataUsed{
