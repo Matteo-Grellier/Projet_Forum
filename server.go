@@ -1,10 +1,11 @@
 package main
 
 import (
+	handlers "./handlers"
+
 	"net/http"
 
 	BDD "./BDD"
-	handlers "./handlers"
 )
 
 func main() {
@@ -25,7 +26,6 @@ func main() {
 
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/login", handlers.GetLogin)
-	http.HandleFunc("/register", handlers.GetRegister)
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
 	// 2 HandleFunc for addPost
