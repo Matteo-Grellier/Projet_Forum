@@ -3,22 +3,9 @@ package handlers
 import (
 	"log"
 	"net/http"
-	"text/template"
 
 	BDD "../BDD"
 )
-
-func Post(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("")
-	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
-		return
-	}
-
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'addTopic'")
-	t.Execute(w, nil)
-}
 
 func GetValue(w http.ResponseWriter, r *http.Request) {
 	err := r.ParseForm()

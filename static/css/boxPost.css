@@ -5,22 +5,30 @@
 }
 
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative;
     min-height: 100vh;
     font-family: 'Concert One', cursive;
 }
 
 .wrapper {
+    position: fixed;
     border-radius: 15px;
     max-width: 475px;
+    left: 942px;
+    top: 460px;
     padding: 15px 25px 15px 25px;
     width: 100%;
     background: #00ADB5;
+    border-bottom: black;
+    border-top: black;
+    border-left: black;
+    border-right: black;
+    border-style: solid;
+    display: none;
 }
 
 .wrapper h1 {
+    position: relative;
     color: white;
     text-align: center;
     padding: 10px;
