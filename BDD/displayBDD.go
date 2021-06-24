@@ -1,29 +1,15 @@
-package handlers
+package BDD
 
-import (
-	"database/sql"
-	"log"
+import "log"
 
-	_ "github.com/mattn/go-sqlite3"
-)
-
-type Category struct {
-	Name string
-	Id   string
-}
-
-type Data struct {
-	Categories []Category
-}
-
-func bdd(db *sql.DB) []Category {
-
+func DisplayCategories() []Category {
+	db := OpenDataBase()
 	var eachCategory Category
 	var tabCategories []Category
 	entries, err := db.Query("SELECT name,ID FROM category")
 
 	if err != nil {
-		Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 		// return
 	}
@@ -31,5 +17,7 @@ func bdd(db *sql.DB) []Category {
 		entries.Scan(&eachCategory.Name, &eachCategory.Id)
 		tabCategories = append(tabCategories, eachCategory)
 	}
+
+	db.Close()
 	return tabCategories
 }

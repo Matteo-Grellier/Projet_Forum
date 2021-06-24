@@ -17,3 +17,8 @@ type Topic struct {
 	User_pseudo string
 	Category_ID int
 }
+
+type Category struct {
+	Name string
+	Id   string
+}

@@ -8,6 +8,7 @@ import (
 	"text/template"
 
 	BDD "../BDD"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Errors struct {
@@ -106,11 +107,12 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 		Error500(w, req, err)
 	}
 
-	/*fonction base de données*/
-	db := BDD.OpenDataBase()
+	type Data struct {
+		Categories []BDD.Category
+	}
 
 	dataOk := Data{
-		Categories: bdd(db),
+		Categories: BDD.DisplayCategories(),
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Catégories'")
