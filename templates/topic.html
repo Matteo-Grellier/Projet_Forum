@@ -13,7 +13,9 @@
 <body>
     {{template "sidebar"}} {{template "header"}}
     <h1>category</h1>
-    <h1 class="sujet">NOM DU SUJET</h1>
+    {{range .Topics}}
+    <h1 class="sujet">{{.Title}}</h1>
+    
     <div class="topic">
 
         <div class="one_topic">
@@ -21,16 +23,17 @@
             <div class="description_topic borderTitle">
                 <div class="id">
                     <div class="photo_profile">pp</div>
-                    <div class="pseudo">@pseudo</div>
+                    <div class="pseudo">{{.User_pseudo}}</div>
                 </div>
-                J’aime beaucoup le tennis car cela musle un bras et j’aime ne pas etre symetrique, de plus je veux etre
-                mastoc a un seul endroit mdr.
+               
+                {{.Content}}
+                
             </div>
             <hr class="ligne">
             <div class="commentaire_topic borderComment">
                 <div class="id">
                     <div class="photo_profile">pp</div>
-                    <div class="pseudo">@pseudo</div>
+                    <div class="pseudo">{{.User_pseudo}}</div>
                 </div>
                 <p class="textComment">@Olive Moi aussi j’aime bien !</p>
                 <div class="boutons">
@@ -46,12 +49,13 @@
                     <div class="commentaryZone">
                         <div class="id">
                             <div class="photo_profile">pp</div>
-                            <div class="pseudo">@pseudo</div>
+                            <div class="pseudo">{{.User_pseudo}}</div>
                         </div>Je trouve ce post vraiment hyper intéressent </div>
                 </div>
             </div>
         </div>
     </div>
+    {{end}}
     <script src="../static/js/Comments.js"></script>
 </body>
 

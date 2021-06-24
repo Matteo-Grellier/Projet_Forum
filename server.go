@@ -19,9 +19,8 @@ func main() {
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
+	http.HandleFunc("/Topic", handlers.OneTopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
-
 
 	//TEST
 	http.HandleFunc("/addpost", handlers.Post)
@@ -31,7 +30,6 @@ func main() {
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
-
 
 	// 2 HandleFunc for addPost
 	http.HandleFunc("/addtopic", handlers.Post)
