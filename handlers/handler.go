@@ -10,6 +10,14 @@ import (
 	BDD "../BDD"
 )
 
+type Errors struct {
+	Error  string
+	Pseudo string
+	Mail   string
+}
+
+var ErrorMessage string
+
 // Exécution de la page Home
 func Home(w http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
@@ -40,6 +48,21 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 	}
 	if !Error404(w, r) {
 		return
+	}
+
+	if r.Method == "POST" {
+		pseudo := r.FormValue("Pseudo")
+		password := r.FormValue("Password")
+		statusConnexion := GetLogin(w, r, pseudo, password)
+		if statusConnexion.Error == "" {
+			CreateCookie(w, r, pseudo)
+			// CreateUUID(pseudo, UUID)
+			Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
+			http.Redirect(w, r, "/categories", http.StatusSeeOther)
+		} else {
+			Color(4, "[CONNEXION] : 🔻 Vous n'êtes pas connecté ")
+			t.Execute(w, statusConnexion)
+		}
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'connexion'")
 	t.Execute(w, nil)

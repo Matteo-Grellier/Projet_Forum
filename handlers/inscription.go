@@ -8,14 +8,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var ErrorMessage string
-
-type Errors struct {
-	Error  string
-	Pseudo string
-	Mail   string
-}
-
 func HashPassword(password string) string {
 	var passByte = []byte(password)
 
