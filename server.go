@@ -1,10 +1,11 @@
 package main
 
 import (
+	handlers "./handlers"
+
 	"net/http"
 
 	BDD "./BDD"
-	handlers "./handlers"
 )
 
 func main() {
@@ -13,20 +14,24 @@ func main() {
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
-	http.HandleFunc("/login", handlers.GetLogin)
-	http.HandleFunc("/register", handlers.GetRegister)
-	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
-	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
-	http.HandleFunc("/oneCategory", handlers.One_Category)
-	/* 	http.HandleFunc("/oneCategory/post", handlers.GetTopic) */
-	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
-	http.HandleFunc("/all_categories", handlers.RetrieveCat)
+	http.HandleFunc("/categories", handlers.CategoriesPage)
+	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+
+	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
+	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
+
 
 	//TEST
 	http.HandleFunc("/addpost", handlers.Post)
+
+	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
+
+	// Fonctions exécutées après une requête
+	http.HandleFunc("/login", handlers.GetLogin)
+	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
+
 
 	// 2 HandleFunc for addPost
 	http.HandleFunc("/addtopic", handlers.Post)

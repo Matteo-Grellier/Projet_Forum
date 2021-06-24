@@ -25,6 +25,56 @@ type Topic struct {
 	Category_ID int
 }
 
+func AddUser(pseudo string, mail string, password string) {
+	db := OpenDataBase()
+	createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
+	if err != nil {
+		log.Fatal(err)
+	}
+	_, err = createNew.Exec(pseudo, mail, password)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+// Vérifie si le mail ou le pseudo est déjà dans la base de données
+func VerifyBDD(element string, column string) (bool, string) {
+	db := OpenDataBase()
+	var oneElement string
+	// prepareElements, _ := db.Prepare("SELECT pseudo FROM user")
+	// testElements, _ := prepareElements.Query()
+	// for testElements.Next() {
+	// 	testElements.Scan(&oneElement)
+	// 	fmt.Println("Premier test prepare :", oneElement)
+	// }
+	var prepareElements *sql.Stmt
+	var errorPrepare error
+	if column == "pseudo" {
+		prepareElements, errorPrepare = db.Prepare("SELECT pseudo FROM user")
+	} else if column == "mail" {
+		prepareElements, errorPrepare = db.Prepare("SELECT mail FROM user")
+	}
+
+	if errorPrepare != nil {
+		log.Fatal(errorPrepare)
+	}
+
+	allElements, err := prepareElements.Query()
+	if err != nil {
+		log.Fatalf("%s", err)
+	}
+	for allElements.Next() {
+		allElements.Scan(&oneElement)
+		fmt.Println("Pseudo ou mail = ", oneElement)
+		if oneElement == element {
+			ErrorMessage := column + " déjà dans la base de données."
+			return true, ErrorMessage
+		}
+	}
+	allElements.Close()
+	return false, ""
+}
+
 func Afficher(w http.ResponseWriter, req *http.Request) {
 	t, _ := template.ParseFiles("./templates/BDD.html")
 	DataUsedOK := DataUsed{
@@ -39,7 +89,6 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			create()
 		}
 	}
-	fmt.Println(DataUsedOK)
 	t.Execute(w, DataUsedOK)
 }
 
