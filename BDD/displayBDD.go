@@ -75,8 +75,33 @@ func DisplayCategory(idCat int) string {
 		categoryFound.Scan(&nameElement)
 	}
 	if nameElement == "" {
+		categoryFound.Close()
 		return "nil"
 	}
+	categoryFound.Close()
 
 	return nameElement
+}
+
+func DisplayOneTopic(idCat int) []Topic {
+	db := OpenDataBase()
+	var eachTopic Topic
+	var tabTopics []Topic
+	searchTopics, err := db.Prepare("SELECT title, content, user_pseudo, ID FROM topic WHERE ID = ?")
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+
+	topics, err := searchTopics.Query(idCat)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	for topics.Next() {
+		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.ID)
+		tabTopics = append(tabTopics, eachTopic)
+	}
+	topics.Close()
+	return tabTopics
 }

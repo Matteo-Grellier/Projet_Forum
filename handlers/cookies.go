@@ -9,11 +9,6 @@ import (
 	guuid "github.com/google/uuid"
 )
 
-type UserConnectedStruct struct {
-	PseudoConnected string
-	Connected       bool
-}
-
 // Création du cookie. Renvoie la valeur du cookie.
 // Fonction appelée lorsqu'un utilisateur se connecte.
 func CreateCookie(w http.ResponseWriter, r *http.Request, username string) {
