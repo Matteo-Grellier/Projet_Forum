@@ -117,6 +117,36 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	t.Execute(w, dataOk)
 }
 
+func OneTopicPage(w http.ResponseWriter, r *http.Request) {
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
+	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
+	var DataUsedOK TopicDataUsed
+	DataUsedOK.ErrorMessage = ""
+
+	if r.Method == "POST" {
+
+		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
+	}
+	DataUsedOK = TopicDataUsed{
+		ErrorMessage: "",
+		Topics:       DisplayOneTopic(TopicID),
+	}
+
+	if err != nil {
+		Error500(w, r, err)
+		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		// log.Fatalf("%s", err)
+		return
+	}
+
+	if !Error404(w, r) {
+		return
+	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
+	fmt.Println(DataUsedOK)
+	t.Execute(w, DataUsedOK)
+}
+
 //Exécution de la page oneCategory
 func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
@@ -158,14 +188,32 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 //Exécution de la page Topic
 func TopicPage(w http.ResponseWriter, r *http.Request) {
 	// Déclaration des fichiers à parser
-	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
+	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "templates/layouts/boxPost.html")
 	if err != nil {
 		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
 		log.Fatalf("%s", err)
 		return
 	}
+	categoryID, _ := strconv.Atoi(r.URL.Query().Get("top"))
+
+	var DataUsedOK DataUsed
+
+	DataUsedOK.ErrorMessage = ""
+
+	if r.Method == "POST" {
+
+		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
+	}
+	DataUsedOK = DataUsed{
+		ErrorMessage: "",
+		Category:     DisplayCategory(w, r, categoryID),
+		Topics:       DisplayTopics(categoryID),
+		CategoryID:   categoryID,
+	}
+	fmt.Println("test")
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, nil)
+	fmt.Println("test")
+	t.Execute(w, DataUsedOK)
 }
 
 func LikedPage(w http.ResponseWriter, r *http.Request) {

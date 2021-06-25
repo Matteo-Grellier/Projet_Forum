@@ -20,7 +20,7 @@ func main() {
 	http.HandleFunc("/commentaires", handlers.Commentaires)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
+	http.HandleFunc("/Topic", handlers.OneTopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
 	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
