@@ -139,6 +139,7 @@ func Afficher(w http.ResponseWriter, req *http.Request) {
 			create()
 		}
 	}
+	AjoutCommentaires()
 	t.Execute(w, DataUsedOK)
 }
 
@@ -166,6 +167,7 @@ func SelectUsers() []User {
 		entries.Scan(&eachUser.Pseudo, &eachUser.Mail)
 		tabUsers = append(tabUsers, eachUser)
 	}
+	entries.Close()
 	return tabUsers
 }
 func SelectTopics() []Topic {
@@ -181,6 +183,7 @@ func SelectTopics() []Topic {
 		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.Category_ID)
 		tabTopics = append(tabTopics, eachTopic)
 	}
+	topics.Close()
 	return tabTopics
 
 }
@@ -188,18 +191,26 @@ func SelectTopics() []Topic {
 func create() {
 	db := OpenDataBase()
 	creation, _ := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES(?, ?, ?)")
-	_, err := creation.Exec("TEST", "mail@gmail.com", "password")
-	if err != nil {
-		log.Fatal(err)
-	}
+	creation.Exec("pseudo", "mail@gmail.com", "password")
+	creation.Close()
 }
 
 func delete() {
 	db := OpenDataBase()
 	delete, _ := db.Prepare("DELETE FROM ? WHERE ? = ?")
-	_, err := delete.Exec("TEST", "mail@gmail.com", "password")
+	_, err := delete.Exec()
 	if err != nil {
 		log.Fatal(err)
 	}
+	delete.Close()
+}
+func AjoutCommentaires() {
+	db := OpenDataBase()
+	creation, _ := db.Prepare("INSERT INTO comment (user_pseudo, content, post_id) VALUES(?, ?, ?)")
+	// _, err := creation.Exec()
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+	creation.Close()
 	// Modifier les ? en fonction de ce qu'on veut supprimer
 }

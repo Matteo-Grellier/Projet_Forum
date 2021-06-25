@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+	http.HandleFunc("/commentaires", handlers.Commentaires)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/topic", handlers.TopicPage)
