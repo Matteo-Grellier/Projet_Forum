@@ -118,32 +118,6 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	t.Execute(w, dataOk)
 }
 
-func OneTopicPage(w http.ResponseWriter, r *http.Request) {
-	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
-	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
-	var DataUsedOK TopicDataUsed
-	DataUsedOK.ErrorMessage = ""
-
-	DataUsedOK = TopicDataUsed{
-		ErrorMessage: "",
-		Topics:       DisplayOneTopic(TopicID),
-	}
-
-	if err != nil {
-		Error500(w, r, err)
-		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		// log.Fatalf("%s", err)
-		return
-	}
-
-	if !Error404(w, r) {
-		return
-	}
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	fmt.Println(DataUsedOK)
-	t.Execute(w, DataUsedOK)
-}
-
 //Exécution de la page oneCategory
 func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/oneCategory.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html")
@@ -187,7 +161,7 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 				t.Execute(w, DataPageCategoryOK)
 				return
 			} else {
-				http.Redirect(w, r, "/topic?top="+strconv.Itoa(topicID), http.StatusSeeOther)
+				http.Redirect(w, r, "/Topic?top="+strconv.Itoa(topicID), http.StatusSeeOther)
 			}
 		} else {
 			DataPageCategoryOK.Error = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un topic."
@@ -196,6 +170,31 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
 	t.Execute(w, DataPageCategoryOK)
+}
+func OneTopicPage(w http.ResponseWriter, r *http.Request) {
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
+	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
+	var DataUsedOK TopicDataUsed
+	DataUsedOK.ErrorMessage = ""
+
+	DataUsedOK = TopicDataUsed{
+		ErrorMessage: "",
+		Topics:       DisplayOneTopic(TopicID),
+	}
+	fmt.Println(DataUsedOK)
+	if err != nil {
+		Error500(w, r, err)
+		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		// log.Fatalf("%s", err)
+		return
+	}
+
+	if !Error404(w, r) {
+		return
+	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
+	fmt.Println(DataUsedOK)
+	t.Execute(w, DataUsedOK)
 }
 
 func LikedPage(w http.ResponseWriter, r *http.Request) {

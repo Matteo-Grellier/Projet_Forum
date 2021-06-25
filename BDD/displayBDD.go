@@ -27,7 +27,7 @@ func DisplayTopics(idCat int) []Topic {
 	db := OpenDataBase()
 	var eachTopic Topic
 	var tabTopics []Topic
-	searchTopics, err := db.Prepare("SELECT title, content, user_pseudo FROM topic WHERE category_id = ?")
+	searchTopics, err := db.Prepare("SELECT ID, title, content, user_pseudo FROM topic WHERE category_id = ?")
 	if err != nil {
 		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
@@ -39,7 +39,7 @@ func DisplayTopics(idCat int) []Topic {
 		log.Fatal(err)
 	}
 	for topics.Next() {
-		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
+		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
 		tabTopics = append(tabTopics, eachTopic)
 	}
 	return tabTopics
