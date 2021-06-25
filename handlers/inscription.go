@@ -63,7 +63,7 @@ func GetRegister(pseudo string, email string, password string, confirmPwd string
 
 // Vérifie si l'email entré est valide
 func isValidEmail(email string) bool {
-	var re = regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
+	re := regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
 	if re.MatchString(email) {
 		return true
 	}

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../static/css/popupError.css">
     <link rel="stylesheet" href="../static/css/connexion.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
-    <title>Document</title>
+    <title>Connexion</title>
 </head>
 
 <body>
@@ -21,7 +21,11 @@
                 <h1>Connexion</h1>
 
                 <div class="textb">
+                    {{if .Error}}
+                    <input type="username" name="Pseudo" required value={{.Pseudo}}>
+                    {{else}}
                     <input type="username" name="Pseudo" required>
+                    {{end}}
                     <div class="placeholder">Pseudo</div>
                 </div>
                 <div class="textb">

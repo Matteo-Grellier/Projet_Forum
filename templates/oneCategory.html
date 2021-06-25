@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../static/css/oneCategory.css">
     <link rel="stylesheet" href="../static/css/popup.css">
     <link rel="stylesheet" href="../static/css/popupError.css">
-    <title>Document</title>
+    <title>Catégorie {{.Category}}</title>
 </head>
 
 <body>
@@ -46,10 +46,10 @@
     <div class="button_">
         <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
-    {{if .ErrorMessage}}
+    {{if .Error}}
     <div id="box">
         <i class='bx bxs-info-circle' style='color:#f58900'></i>
-        <h1 id="erreur">Erreur : {{.ErrorMessage}}</h1>
+        <h1 id="erreur">Erreur : {{.Error}}</h1>
         <a onclick="closes()" class="close">Fermer</a>
     </div>
     {{end}}
