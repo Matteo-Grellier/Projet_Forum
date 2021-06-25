@@ -27,9 +27,7 @@ func Commentaires(w http.ResponseWriter, r *http.Request) {
 	DataCommentOK.ErrorMessage = ""
 
 	if r.Method == "POST" {
-		Comment := r.FormValue("comment")
-		pseudo := "Roberto04"
-		addComment(Comment, pseudo)
+		addComment(w, r)
 	}
 
 	DataCommentOK.Comments = DisplayComments()
@@ -59,6 +57,27 @@ func DisplayComments() []Comment {
 	return tabComments
 }
 
-func addComment() {
+func addComment(w http.ResponseWriter, r *http.Request) Errors {
+	comment := r.FormValue("comment")
+	//TEST BRUT
+	user := "Roberto04"
+	postId := "227"
 
+	var data = []string{comment}
+
+	var ErrorsPost Errors
+
+	if verifyInput(data) {
+		db := BDD.OpenDataBase()
+		createNew, err3 := db.Prepare("INSERT INTO Comment (content, user_pseudo, post_id) VALUES (?, ?, ?)")
+		if err3 != nil {
+			Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+			log.Fatal(err3)
+		}
+		createNew.Exec(comment, user, postId)
+	} else {
+		ErrorsPost.Error = ErrorMessage
+		ErrorMessage = ""
+	}
+	return ErrorsPost
 }
