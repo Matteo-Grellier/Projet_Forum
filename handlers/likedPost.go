@@ -16,4 +16,8 @@ func Liked_Posts(w http.ResponseWriter, r *http.Request) {
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'liked_post'")
 	t.Execute(w, nil)
+
+	// SQL SELECTE ... ... COUNT *
+	// SUM
+	// jointure si on veut ajouter les données
 }

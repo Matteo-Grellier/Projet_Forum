@@ -41,3 +41,15 @@ func AddUUID(pseudo string, UUID string) {
 	}
 	db.Close()
 }
+
+func AddTopic(title string, content string, user_pseudo string, categoryID int) {
+	db := OpenDataBase()
+	createNew, err3 := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
+	if err3 != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err3)
+	}
+	createNew.Exec(title, content, user_pseudo, categoryID)
+	db.Exec("commit")
+	db.Close()
+}

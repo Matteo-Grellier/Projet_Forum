@@ -19,7 +19,7 @@ type UserConnectedStruct struct {
 func CreateCookie(w http.ResponseWriter, r *http.Request, username string) {
 	id := guuid.New()
 	start := time.Now()
-	start2 := start.Add(time.Minute * 1)
+	start2 := start.Add(time.Minute * 15)
 	c := http.Cookie{
 		Name:    "CookieSession",
 		Value:   id.String(),
