@@ -17,10 +17,10 @@ func main() {
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+	http.HandleFunc("/topic", handlers.OneTopicPage)
 	http.HandleFunc("/commentaires", handlers.Commentaires)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/Topic", handlers.OneTopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
 	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
