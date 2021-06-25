@@ -7,8 +7,7 @@ import (
 )
 
 type TopicDataUsed struct {
-	Topics []TopicStruct
-
+	Topics       []TopicStruct
 	ErrorMessage string
 }
 
@@ -17,6 +16,7 @@ type TopicStruct struct {
 	Title       string
 	Content     string
 	User_pseudo string
+	Category    string
 }
 
 func DisplayOneTopic(idCat int) []TopicStruct {

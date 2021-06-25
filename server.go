@@ -22,17 +22,11 @@ func main() {
 	http.HandleFunc("/Topic", handlers.OneTopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
-	//TEST
-	http.HandleFunc("/addpost", handlers.Post)
-
 	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 
 	// Fonctions exécutées après une requête
-	http.HandleFunc("/login", handlers.GetLogin)
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
-	// 2 HandleFunc for addPost
-	http.HandleFunc("/addtopic", handlers.Post)
 	// For form method post --> action "/addtopic/post"
 	http.HandleFunc("/addtopic/post", handlers.GetValue)
 

@@ -11,11 +11,14 @@
 </head>
 
 <body>
-    {{template "sidebar"}} {{template "header"}}
-    <h1>category</h1>
+    {{template "sidebar"}} {{template "header"}} 
+
     {{range .Topics}}
-    <h1 class="sujet">{{.Title}}</h1>
-    
+    <h1 class="categorie">CATÉGORIE : {{.Category}}</h1>
+    <h1 class="sujet">NOM DU SUJET : {{.Title}}</h1>
+    <div class="btn">
+        <button onclick="openAndClose()">Répondre</button>
+    </div>
     <div class="topic">
 
         <div class="one_topic">
@@ -25,9 +28,7 @@
                     <div class="photo_profile">pp</div>
                     <div class="pseudo">{{.User_pseudo}}</div>
                 </div>
-               
                 {{.Content}}
-                
             </div>
             <hr class="ligne">
             <div class="commentaire_topic borderComment">
@@ -42,9 +43,9 @@
 
                     <button class="reponse" onclick="createDiv()">réponses</button>
 
-                    
+
                 </div>
-                <div class="commentaire" id="visible" style="display:null">
+                <div class="commentaire" id="visible" style="display:none">
                     <div class="vl"></div>
                     <div class="commentaryZone">
                         <div class="id">
@@ -57,6 +58,6 @@
     </div>
     {{end}}
     <script src="../static/js/Comments.js"></script>
+    <script src="../static/js/popup.js"></script>
 </body>
-
 </html>
