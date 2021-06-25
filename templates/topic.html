@@ -10,8 +10,8 @@
     <title>Topic</title>
 </head>
 
-<body>
-    {{template "sidebar"}} {{template "header"}} {{template "boxpost"}}
+<body id="body">
+    {{template "sidebar"}} {{template "header"}} {{template "boxpost"}} {{template "boxComm"}}
     <h1 class="categorie">CATÉGORIE : </h1>
     <h1 class="sujet">NOM DU SUJET :</h1>
     <div class="btn">
@@ -19,7 +19,7 @@
     </div>
     <div class="topic">
 
-        <div class="one_topic">
+        <div class="one_topic" id="topic">
 
             <div class="description_topic borderTitle">
                 <div class="id">
@@ -39,9 +39,12 @@
                     <button class="like"><img src="static\images\like_vide.png" alt="like vide"></button>
 
 
-                    <button class="reponse" onclick="createDiv()">réponses</button>
+                    <button class="reponse" onclick="createDiv()">Voir les réponses</button>
 
 
+                </div>
+                <div class="btn_comm">
+                    <button onclick="openAndClose_()">Répondre</button>
                 </div>
                 <div class="commentaire" id="visible" style="display:none">
                     <div class="vl"></div>

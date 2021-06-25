@@ -32,3 +32,28 @@ function openAndClose() {
         popup.style.display = "initial"
     }
 }
+
+function openAndClose_() {
+    var popup = document.getElementById("wrapper_")
+
+    if (popup.style.display == "initial") {
+        popup.style.display = "none"
+    } else {
+        popup.style.display = "initial"
+    }
+
+}
+
+var popup = document.getElementById("wrapper")
+var popup2 = document.getElementById("wrapper_")
+var body = document.getElementById("body")
+var topic = document.getElementById("topic")
+
+window.onclick = function(event) {
+    if (event.target == body || event.target == topic) {
+        popup.setAttribute("style", "display:none;")
+    }
+    if (event.target == body || event.target == topic) {
+        popup2.setAttribute("style", "display:none;")
+    }
+}

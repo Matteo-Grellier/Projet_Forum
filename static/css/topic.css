@@ -132,9 +132,18 @@ body {
 
 .reponse {
     width: auto;
-    height: 20px;
+    margin-bottom: 10px;
     margin-top: 10px;
-    margin-left: px;
+    padding: 9px 18px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: white;
+    color: black;
+    cursor: pointer;
+    z-index: 500;
 }
 
 .commentaryZone {
@@ -168,6 +177,25 @@ body {
 }
 
 .btn button {
+    padding: 9px 18px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: #FF5722;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn_comm {
+    position: relative;
+    align-items: center;
+    top: -45px;
+    left: 410px;
+}
+
+.btn_comm button {
     padding: 9px 18px;
     border: none;
     outline: none;
