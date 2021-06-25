@@ -10,7 +10,7 @@ body {
     font-family: 'Concert One', cursive;
 }
 
-.wrapper {
+.wrapper_ {
     position: fixed;
     border-radius: 15px;
     max-width: 475px;
@@ -18,7 +18,7 @@ body {
     top: 460px;
     padding: 15px 25px 15px 25px;
     width: 100%;
-    background: #00ADB5;
+    background: white;
     border-bottom: black;
     border-top: black;
     border-left: black;
@@ -28,67 +28,67 @@ body {
     z-index: 501;
 }
 
-.wrapper h1 {
+.wrapper_ h1 {
     position: relative;
-    color: white;
+    color: black;
     text-align: center;
     padding: 10px;
     text-transform: uppercase;
 }
 
-.input-box {
-    border-bottom: 1px solid #e6e6e6;
+.input-box_ {
+    border-bottom: 1px solid #FF5722;
     padding-top: 10px;
 }
 
-.input-box .tweet-area {
+.input-box_ .tweet-area_ {
     position: relative;
     min-height: 50px;
     color: white;
 }
 
-.tweet-area .placeholder {
+.tweet-area_ .placeholder {
     position: absolute;
     margin-top: -3px;
     font-size: 22px;
-    color: #98a5b1;
+    color: #FF5722;
     pointer-events: none;
 }
 
-.tweet-area .input {
+.tweet-area_ .input {
     outline: none;
     font-size: 17px;
     word-wrap: break-word;
 }
 
-textarea {
+.textarea {
     outline: none;
     border-top-style: hidden;
     border-bottom-style: hidden;
     border-left-style: hidden;
     border-right-style: hidden;
-    background: white;
+    background: black;
     min-height: 100px;
     max-height: 200px;
     resize: auto;
     min-width: 425px;
     max-width: 425px;
     padding: 20px;
-    color: black;
+    color: white;
     font-size: 20px;
     border-radius: 30px;
     text-align: center;
     font-family: 'Concert One', cursive;
 }
 
-.tweet-area .readonly {
+.tweet-area_ .readonly {
     position: absolute;
     top: 0;
     left: 0;
     z-index: -1;
 }
 
-.input-box .privacy {
+.input-box_ .privacy {
     color: #1da1f2;
     margin: 15px 0;
     display: inline-flex;
@@ -142,14 +142,14 @@ textarea {
     align-items: center;
 }
 
-.content button {
+.content_ button {
     padding: 9px 18px;
     border: none;
     outline: none;
     border-radius: 50px;
     font-size: 16px;
     font-weight: 700;
-    background: #FF5722;
+    background: #1da1f2;
     color: #fff;
     cursor: pointer;
 }

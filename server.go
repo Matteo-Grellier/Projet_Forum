@@ -17,23 +17,17 @@ func main() {
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+	http.HandleFunc("/commentaires", handlers.Commentaires)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
+	http.HandleFunc("/Topic", handlers.OneTopicPage)
 	http.HandleFunc("/BDD", BDD.Afficher)
-
-
-	//TEST
-	http.HandleFunc("/addpost", handlers.Post)
 
 	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
 
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
-
-	// 2 HandleFunc for addPost
-	http.HandleFunc("/addtopic", handlers.Post)
 	// For form method post --> action "/addtopic/post"
 	http.HandleFunc("/addtopic/post", handlers.GetValue)
 
