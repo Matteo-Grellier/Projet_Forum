@@ -13,9 +13,9 @@
 <body id="body">
 
     {{template "sidebar"}} {{template "header"}} {{template "boxpost"}} {{template "boxComment"}}
-    {{range .Topics}}
-    <h1 class="categorie">CATÉGORIE : </h1>
-    <h1 class="sujet">NOM DU SUJET : {{.Title}}</h1>
+
+    <h1 class="categorie">CATÉGORIE : {{.Topic.Category_name}}</h1>
+    <h1 class="sujet">NOM DU SUJET : {{.Topic.Title}}</h1>
 
     <div class="btn">
         <button onclick="openAndClose()">Répondre</button>
@@ -27,40 +27,45 @@
             <div class="description_topic borderTitle">
                 <div class="id">
                     <div class="photo_profile">pp</div>
-                    <div class="pseudo">{{.User_pseudo}}</div>
+                    <div class="pseudo">{{.Topic.User_pseudo}}</div>
                 </div>
-                {{.Content}}
+                {{.Topic.Content}}
             </div>
             <hr class="ligne">
+
+
+            {{range .Posts}}
             <div class="commentaire_topic borderComment">
                 <div class="id">
                     <div class="photo_profile">pp</div>
                     <div class="pseudo">{{.User_pseudo}}</div>
                 </div>
-                <p class="textComment">@Olive Moi aussi j’aime bien !</p>
+                <p class="textComment">{{.Content}}</p>
                 <div class="boutons">
                     <button class="like"><img src="static\images\like_vide.png" alt="like vide"></button>
-
-
-                    <button class="reponse" onclick="createDiv()">Voir les réponses</button>
-
+                    <button class="reponse" onclick="createDiv()">Voir les réponses ({{.NumberComments}})</button>
 
                 </div>
                 <div class="btn_comm">
                     <button onclick="openAndClose_()">Répondre</button>
                 </div>
+                
+
                 <div class="commentaire" id="visible" style="display:none">
-                    <div class="vl"></div>
+                    {{range .Comments}}
                     <div class="commentaryZone">
                         <div class="id">
                             <div class="photo_profile">pp</div>
                             <div class="pseudo">{{.User_pseudo}}</div>
-                        </div>Je trouve ce post vraiment hyper intéressent </div>
+                        </div>
+                            {{.Content}}
+                    </div>
+                    {{end}}
                 </div>
             </div>
+            {{end}}
         </div>
     </div>
-    {{end}}
     <script src="../static/js/Comments.js"></script>
     <script src="../static/js/popup.js"></script>
 </body>

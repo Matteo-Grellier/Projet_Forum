@@ -178,7 +178,8 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
 	DataPageTopicOK = TopicDataUsed{
 		ErrorMessage: "",
-		Topics:       BDD.DisplayOneTopic(TopicID),
+		Topic:        BDD.DisplayOneTopic(TopicID),
+		Posts:        BDD.DisplayPosts(TopicID),
 	}
 	if err != nil {
 		Error500(w, r, err)

@@ -3,7 +3,8 @@ package handlers
 import BDD "../BDD"
 
 type TopicDataUsed struct {
-	Topics       []BDD.Topic
+	Topic        BDD.Topic
+	Posts        []BDD.Post
 	ErrorMessage string
 }
 type DataPageCategory struct {

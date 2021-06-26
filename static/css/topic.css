@@ -148,11 +148,11 @@ body {
 
 .commentaryZone {
     border-radius: 25px;
-    width: 800px;
+    width: 700px;
     margin-left: 40px;
     background-color: white;
     border: orangered;
-    padding-bottom: 70px;
+    /* padding-bottom: 70px; */
     padding-left: 10px;
     margin-bottom: 30px;
     font-size: 20px;
@@ -166,7 +166,7 @@ body {
 
 .commentaire {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 .btn {
