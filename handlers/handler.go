@@ -1,13 +1,13 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 	"text/template"
 
 	BDD "../BDD"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 type Errors struct {
@@ -93,7 +93,6 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		} else {
 			t.Execute(w, statusRegister)
 		}
-		fmt.Println("ON S'ENREGISTRE")
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'inscription'")
 	t.Execute(w, nil)
@@ -105,12 +104,12 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		Error500(w, req, err)
 	}
+	type TabCategories struct {
+		Categories []BDD.Category
+	}
 
-	/*fonction base de données*/
-	db := BDD.OpenDataBase()
-
-	dataOk := Data{
-		Categories: bdd(db),
+	dataOk := TabCategories{
+		Categories: BDD.DisplayCategories(),
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Catégories'")
@@ -119,24 +118,7 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 
 //Exécution de la page oneCategory
 func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
-	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
 	t, err := template.ParseFiles("templates/oneCategory.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html")
-
-	var DataUsedOK DataUsed
-
-	DataUsedOK.ErrorMessage = ""
-
-	if r.Method == "POST" {
-
-		DataUsedOK.ErrorMessage = GetTopic(w, r).Error
-	}
-	DataUsedOK = DataUsed{
-		ErrorMessage: "",
-		Category:     DisplayCategory(w, r, categoryID),
-		Topics:       DisplayTopics(categoryID),
-		CategoryID:   categoryID,
-	}
 
 	if err != nil {
 		Error500(w, r, err)
@@ -144,28 +126,72 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 		// log.Fatalf("%s", err)
 		return
 	}
-	if DataUsedOK.Category == "nil" {
-		NoItemsError(w)
-		return
-	}
+
 	if !Error404(w, r) {
 		return
 	}
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
-	t.Execute(w, DataUsedOK)
-}
+	// Récupération de l'ID de la catégorie
+	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
 
-//Exécution de la page Topic
-func TopicPage(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
+	DataPageCategoryOK := DataPageCategory{
+		Category:   BDD.DisplayCategory(categoryID),
+		Topics:     BDD.DisplayTopics(categoryID),
+		CategoryID: categoryID,
+	}
+	if DataPageCategoryOK.Category == "nil" {
+		NoItemsError(w)
+		return
+	}
+
+	if r.Method == "POST" {
+
+		// Vérification du cookie du navigateur
+		if VerifyUserConnected(w, r).Connected {
+			pseudo := VerifyUserConnected(w, r).PseudoConnected
+			var topicID int
+			titre := r.FormValue("titre")
+			content := r.FormValue("post")
+
+			// Ajout du topic OU affichage de l'erreur
+			DataPageCategoryOK.Error, topicID = AddTopic(titre, content, categoryID, pseudo)
+			DataPageCategoryOK.Topics = BDD.DisplayTopics(categoryID)
+			if DataPageCategoryOK.Error != "" {
+				t.Execute(w, DataPageCategoryOK)
+				return
+			} else {
+				http.Redirect(w, r, "/topic?top="+strconv.Itoa(topicID), http.StatusSeeOther)
+			}
+		} else {
+			DataPageCategoryOK.Error = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un topic."
+		}
+	}
+
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
+	t.Execute(w, DataPageCategoryOK)
+}
+func OneTopicPage(w http.ResponseWriter, r *http.Request) {
+
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
+	var DataPageTopicOK TopicDataUsed
+	DataPageTopicOK.ErrorMessage = ""
+
+	DataPageTopicOK = TopicDataUsed{
+		ErrorMessage: "",
+		Topics:       BDD.DisplayOneTopic(TopicID),
+	}
 	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
+		Error500(w, r, err)
+		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		// log.Fatalf("%s", err)
+		return
+	}
+
+	if !Error404(w, r) {
 		return
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, nil)
+	t.Execute(w, DataPageTopicOK)
 }
 
 func LikedPage(w http.ResponseWriter, r *http.Request) {
