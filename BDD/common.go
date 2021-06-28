@@ -10,15 +10,32 @@ type DataUsed struct {
 	Topics []Topic
 }
 
-type Topic struct {
-	ID          int
-	Title       string
-	Content     string
-	User_pseudo string
-	Category_ID int
-}
-
 type Category struct {
 	Name string
 	Id   string
+}
+
+type Topic struct {
+	ID            int
+	Title         string
+	Content       string
+	User_pseudo   string
+	Category_ID   int
+	Category_name string
+}
+
+type Post struct {
+	ID             int
+	Content        string
+	User_pseudo    string
+	Topic_ID       string
+	Comments       []Comment
+	NumberComments int
+}
+
+type Comment struct {
+	ID          int
+	User_pseudo string
+	Content     string
+	Post_ID     int
 }

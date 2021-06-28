@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -94,7 +93,6 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		} else {
 			t.Execute(w, statusRegister)
 		}
-		fmt.Println("ON S'ENREGISTRE")
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'inscription'")
 	t.Execute(w, nil)
@@ -171,18 +169,30 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
 	t.Execute(w, DataPageCategoryOK)
 }
+func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
-//Exécution de la page Topic
-func TopicPage(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
+	var DataPageTopicOK TopicDataUsed
+	DataPageTopicOK.ErrorMessage = ""
+
+	DataPageTopicOK = TopicDataUsed{
+		ErrorMessage: "",
+		Topic:        BDD.DisplayOneTopic(TopicID),
+		Posts:        BDD.DisplayPosts(TopicID),
+	}
 	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
+		Error500(w, r, err)
+		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
+		// log.Fatalf("%s", err)
+		return
+	}
+
+	if !Error404(w, r) {
 		return
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, nil)
+	t.Execute(w, DataPageTopicOK)
 }
 
 func LikedPage(w http.ResponseWriter, r *http.Request) {

@@ -27,7 +27,7 @@ func DisplayTopics(idCat int) []Topic {
 	db := OpenDataBase()
 	var eachTopic Topic
 	var tabTopics []Topic
-	searchTopics, err := db.Prepare("SELECT title, content, user_pseudo FROM topic WHERE category_id = ?")
+	searchTopics, err := db.Prepare("SELECT ID, title, content, user_pseudo FROM topic WHERE category_id = ?")
 	if err != nil {
 		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
@@ -39,7 +39,7 @@ func DisplayTopics(idCat int) []Topic {
 		log.Fatal(err)
 	}
 	for topics.Next() {
-		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
+		topics.Scan(&eachTopic.ID, &eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo)
 		tabTopics = append(tabTopics, eachTopic)
 	}
 	return tabTopics
@@ -75,8 +75,79 @@ func DisplayCategory(idCat int) string {
 		categoryFound.Scan(&nameElement)
 	}
 	if nameElement == "" {
+		categoryFound.Close()
 		return "nil"
 	}
+	categoryFound.Close()
 
 	return nameElement
+}
+
+func DisplayOneTopic(idTopic int) Topic {
+	db := OpenDataBase()
+	var eachTopic Topic
+	searchTopics, err := db.Prepare("SELECT title, content, user_pseudo, ID, category_id FROM topic WHERE ID = ?")
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+
+	topics, err := searchTopics.Query(idTopic)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	for topics.Next() {
+		topics.Scan(&eachTopic.Title, &eachTopic.Content, &eachTopic.User_pseudo, &eachTopic.ID, &eachTopic.Category_ID)
+	}
+	eachTopic.Category_name = DisplayCategory(eachTopic.Category_ID)
+	topics.Close()
+	return eachTopic
+}
+
+func DisplayPosts(idTopic int) []Post {
+	db := OpenDataBase()
+	var eachPost Post
+	var tabPosts []Post
+	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo FROM post WHERE topic_id = ?")
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+
+	Posts, err := searchPosts.Query(idTopic)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	for Posts.Next() {
+		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo)
+		eachPost.Comments, eachPost.NumberComments = DisplayComments(eachPost.ID)
+		tabPosts = append(tabPosts, eachPost)
+	}
+	return tabPosts
+}
+
+func DisplayComments(postId int) ([]Comment, int) {
+	db := OpenDataBase()
+	var eachComment Comment
+	var counter int
+	var tabComments []Comment
+	searchComments, err := db.Prepare("SELECT ID, content, user_pseudo FROM comment WHERE post_id = ?")
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	comments, err := searchComments.Query(postId)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	for comments.Next() {
+		comments.Scan(&eachComment.ID, &eachComment.Content, &eachComment.User_pseudo)
+		counter++
+		tabComments = append(tabComments, eachComment)
+	}
+	comments.Close()
+	return tabComments, counter
 }

@@ -50,6 +50,6 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 		log.Fatal(err3)
 	}
 	createNew.Exec(title, content, user_pseudo, categoryID)
-	db.Exec("commit")
+	createNew.Exec("commit")
 	db.Close()
 }
