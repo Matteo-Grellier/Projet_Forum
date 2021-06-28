@@ -12,7 +12,7 @@
 
 <body id="body">
 
-    {{template "sidebar"}} {{template "header"}} {{template "boxpost"}} {{template "boxComment"}}
+    {{template "sidebar"}} {{template "header" .UserConnected.Connected}} {{template "boxpost"}} {{template "boxComment"}}
 
     <h1 class="categorie">CATÉGORIE : {{.Topic.Category_name}}</h1>
     <h1 class="sujet">NOM DU SUJET : {{.Topic.Title}}</h1>
@@ -31,10 +31,7 @@
                 </div>
                 {{.Topic.Content}}
             </div>
-            <hr class="ligne">
-
-
-            {{range .Posts}}
+            <hr class="ligne"> {{range .Posts}}
             <div class="commentaire_topic borderComment">
                 <div class="id">
                     <div class="photo_profile">pp</div>
@@ -49,7 +46,7 @@
                 <div class="btn_comm">
                     <button onclick="openAndClose_()">Répondre</button>
                 </div>
-                
+
 
                 <div class="commentaire" id="visible" style="display:none">
                     {{range .Comments}}
@@ -58,7 +55,7 @@
                             <div class="photo_profile">pp</div>
                             <div class="pseudo">{{.User_pseudo}}</div>
                         </div>
-                            {{.Content}}
+                        {{.Content}}
                     </div>
                     {{end}}
                 </div>
@@ -69,4 +66,5 @@
     <script src="../static/js/Comments.js"></script>
     <script src="../static/js/popup.js"></script>
 </body>
+
 </html>
