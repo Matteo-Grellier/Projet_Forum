@@ -39,7 +39,3 @@ func Error500(w http.ResponseWriter, req *http.Request, err error) {
 	t, _ := template.ParseFiles("./templates/layouts/error500.html")
 	t.Execute(w, nil)
 }
-
-
-		ASCIIText:   template.HTML(``),
-	}
