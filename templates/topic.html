@@ -31,17 +31,21 @@
                 {{.Topic.Content}}
             </div>
             <hr class="ligne">
-
+            {{range .Posts}}
             <div class="commentaire_topic borderComment">
                 <div class="id">
                     <div class="photo_profile">pp</div>
-                    <div class="pseudo">{{.Topic.User_pseudo}}</div>
+                    <div class="pseudo">{{.User_pseudo}}</div>
                 </div>
-                <p class="textComment">{{.Topic.Content}}</p>
+                <p class="textComment">{{.Content}}</p>
                 <div class="boutons">
-                    <button class="like"><img src="static\images\like_vide.png" alt="like vide">{{.Like.liked}}</button>
+                    <form action="/like" method="POST">
+                        <input hidden name="post" value="{{.ID}}">
+                        <input hidden name="pseudo" value="{{.User_pseudo}}">
+                        <input hidden name="topic" value={{.Topic_ID}}>
+                    <button type="submit" class="like"><img src="static\images\like_vide.png" alt="like vide">{{.NumberLikes}}</button>
+                    </form>
                     <button class="reponse" onclick="createDiv()">Voir les réponses ({{.NumberComments}})</button>
-
                 </div>
                 <div class="btn_comm">
                     <button onclick="openAndClose_()">Répondre</button>
@@ -53,15 +57,15 @@
                     <div class="commentaryZone">
                         <div class="id">
                             <div class="photo_profile">pp</div>
-                            {{range .Topics}}
                             <div class="pseudo">{{.User_pseudo}}</div>
                         </div>
                             {{.Content}}
-                            {{end}}
+
                     </div>
                     {{end}}
                 </div>
             </div>
+            {{end}}
         </div>
     </div>
     <script src="../static/js/Comments.js"></script>

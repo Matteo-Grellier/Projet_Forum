@@ -53,3 +53,24 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 	createNew.Exec("commit")
 	db.Close()
 }
+func AddLike(user_pseudo string, post_ID int, statusLike int) {
+	db := OpenDataBase()
+	var actionBDD *sql.Stmt
+	var errAction error
+	correctPseudo, _ := VerifyBDD(user_pseudo, "like")
+	if correctPseudo {
+		actionBDD, errAction = db.Prepare("UPDATE like SET liked = ? WHERE user_pseudo = ? AND post_id = ?")
+	} else {
+		actionBDD, errAction = db.Prepare("INSERT INTO like (liked, user_pseudo, post_id) VALUES(?, ?, ?)")
+	}
+	if errAction != nil {
+		log.Fatal(errAction)
+	}
+
+	//Ajout ou update de l'UUID à l'utilisateur connecté
+	_, err := actionBDD.Exec(statusLike, user_pseudo, post_ID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	db.Close()
+}

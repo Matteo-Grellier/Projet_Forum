@@ -32,6 +32,7 @@ type Post struct {
 	Topic_ID       string
 	Comments       []Comment
 	NumberComments int
+	NumberLikes    int
 }
 
 type Comment struct {
@@ -42,5 +43,7 @@ type Comment struct {
 }
 
 type Likes struct {
-	liked int
+	Status      int
+	User_Pseudo string
+	ID          int
 }

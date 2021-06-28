@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -181,7 +179,6 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		ErrorMessage: "",
 		Topic:        BDD.DisplayOneTopic(TopicID),
 		Posts:        BDD.DisplayPosts(TopicID),
-		Like:         BDD.DisplayLikes(),
 	}
 	if err != nil {
 		Error500(w, r, err)
@@ -194,18 +191,13 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	fmt.Println(DataPageTopicOK)
 	t.Execute(w, DataPageTopicOK)
 }
 
-func LikedPage(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
-	t, err := template.ParseFiles("templates/LikedPage.html", "templates/layouts/sidebar.html")
-	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
-		return
-	}
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, nil)
+func Like(w http.ResponseWriter, r *http.Request) {
+	pseudo := r.FormValue("pseudo")
+	topic_id := r.FormValue("topic")
+	post_id, _ := strconv.Atoi(r.FormValue("post"))
+	BDD.AddLike(pseudo, post_id, 1)
+	http.Redirect(w, r, "/topic?top="+topic_id, http.StatusSeeOther)
 }

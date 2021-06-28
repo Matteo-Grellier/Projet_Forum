@@ -19,6 +19,8 @@ func VerifyBDD(element string, column string) (bool, string) {
 		prepareElements, errorPrepare = db.Prepare("SELECT mail FROM user")
 	} else if column == "session" {
 		prepareElements, errorPrepare = db.Prepare("SELECT user_pseudo FROM session")
+	} else if column == "like" {
+		prepareElements, errorPrepare = db.Prepare("SELECT user_pseudo FROM like")
 	}
 
 	if errorPrepare != nil {

@@ -1,7 +1,6 @@
 package BDD
 
 import (
-	"fmt"
 	"log"
 )
 
@@ -110,7 +109,8 @@ func DisplayPosts(idTopic int) []Post {
 	db := OpenDataBase()
 	var eachPost Post
 	var tabPosts []Post
-	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo FROM post WHERE topic_id = ?")
+	var userConnected string
+	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo, topic_id FROM post WHERE topic_id = ?")
 	if err != nil {
 		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
@@ -122,12 +122,12 @@ func DisplayPosts(idTopic int) []Post {
 		log.Fatal(err)
 	}
 	for Posts.Next() {
-		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo)
+		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo, &eachPost.Topic_ID)
 		eachPost.Comments, eachPost.NumberComments = DisplayComments(eachPost.ID)
+		eachPost.NumberLikes, _ = DisplayLikes(eachPost.ID, userConnected)
 		tabPosts = append(tabPosts, eachPost)
 	}
-	fmt.Println("--------------------")
-	fmt.Println(tabPosts)
+
 	return tabPosts
 }
 
@@ -155,23 +155,29 @@ func DisplayComments(postId int) ([]Comment, int) {
 	return tabComments, counter
 }
 
-func DisplayLikes() Likes {
+func DisplayLikes(postID int, user_pseudo string) (int, int) {
+	// postID := 227
+	var counter int
+
 	db := OpenDataBase()
-	var like Likes
-	searchLikes, err := db.Query("SELECT liked FROM Like WHERE ID = 100")
+	var eachLike Likes
+	var statusLike int
+	// var like Likes
+	searchLikes, err := db.Prepare("SELECT liked, user_pseudo, ID FROM like WHERE post_id = ?")
 	if err != nil {
-		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 	}
+	foundLikes, err := searchLikes.Query(postID)
 	if err != nil {
-		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
 	}
-	for searchLikes.Next() {
-		searchLikes.Scan(&like.liked)
+	for foundLikes.Next() {
+		foundLikes.Scan(&eachLike.Status, &eachLike.User_Pseudo, &eachLike.ID)
+		if eachLike.User_Pseudo == user_pseudo {
+			statusLike = eachLike.Status
+		}
+		counter++
 	}
-	searchLikes.Close()
-	fmt.Println("like !!!!!!!!!!")
-	fmt.Println()
-	return like
+	foundLikes.Close()
+	return counter, statusLike
 }

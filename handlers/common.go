@@ -5,7 +5,7 @@ import BDD "../BDD"
 type TopicDataUsed struct {
 	Topic BDD.Topic
 	Posts []BDD.Post
-	Like  BDD.Likes
+	// Like  BDD.Likes
 	/* Likes        []BDD.Like */
 	ErrorMessage string
 }
