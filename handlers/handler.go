@@ -187,6 +187,19 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		Posts:         BDD.DisplayPosts(TopicID),
 		UserConnected: VerifyUserConnected(w, r),
 	}
+	if r.Method == "POST" {
+		if r.FormValue("Post") != "" {
+			userPseudo := "Carla8"
+			postContent := r.FormValue("Post")
+			BDD.AddPost(userPseudo, postContent, TopicID)
+		} else if r.FormValue("Comment") != "" {
+			comment := r.FormValue("Comment")
+			postID, _ := strconv.Atoi(r.FormValue("postID"))
+			userPseudo := "Olivia49"
+			BDD.AddComment(comment, userPseudo, postID)
+		}
+		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID)
+	}
 	if err != nil {
 		Error500(w, r, err)
 		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
