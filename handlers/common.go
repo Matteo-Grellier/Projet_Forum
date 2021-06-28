@@ -3,14 +3,17 @@ package handlers
 import BDD "../BDD"
 
 type TopicDataUsed struct {
-	Topics       []BDD.Topic
-	ErrorMessage string
+	Topic         BDD.Topic
+	Posts         []BDD.Post
+	ErrorMessage  string
+	UserConnected UserConnectedStruct
 }
 type DataPageCategory struct {
-	Topics     []BDD.Topic
-	Category   string
-	CategoryID int
-	Error      string
+	Topics        []BDD.Topic
+	Category      string
+	CategoryID    int
+	Error         string
+	UserConnected UserConnectedStruct
 }
 type UserConnectedStruct struct {
 	PseudoConnected string
