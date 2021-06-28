@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 	"time"
@@ -10,65 +9,20 @@ import (
 	guuid "github.com/google/uuid"
 )
 
-type UserConnectedStruct struct {
-	PseudoConnected string
-	Connected       bool
-}
-
 // Création du cookie. Renvoie la valeur du cookie.
 // Fonction appelée lorsqu'un utilisateur se connecte.
-func CreateCookie(w http.ResponseWriter, r *http.Request) string {
+func CreateCookie(w http.ResponseWriter, r *http.Request, username string) {
 	id := guuid.New()
 	start := time.Now()
-	start2 := start.Add(time.Minute * 1)
+	start2 := start.Add(time.Minute * 15)
 	c := http.Cookie{
 		Name:    "CookieSession",
 		Value:   id.String(),
 		Expires: start2}
 	http.SetCookie(w, &c)
 
-	return id.String()
-}
-
-// Ajout de l'UUID dans la table session
-//Fonction appelée lors de la connexion d'un utilisateur
-func CreateUUID(username string, newUUID string, db *sql.DB) {
-	var usernameFound string
-	var user_registered bool
-	verifyUser, err := db.Query("SELECT user_pseudo FROM session")
-	if err != nil {
-		log.Fatal(err)
-	}
-	for verifyUser.Next() {
-		verifyUser.Scan(&usernameFound)
-		if usernameFound == username {
-			user_registered = true
-			break
-		}
-	}
-	verifyUser.Close()
-
-	if user_registered {
-		update, err := db.Prepare("UPDATE session SET UUID = ? WHERE user_pseudo = ?")
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = update.Exec(newUUID, username)
-		if err != nil {
-			log.Fatal(err)
-		}
-	} else {
-		add, err := db.Prepare("INSERT INTO session (UUID, user_pseudo) VALUES(?, ?)")
-
-		if err != nil {
-			log.Fatal(err)
-		}
-		_, err = add.Exec(newUUID, username)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
-
+	// Ajout de l'UUID dans la base de données.
+	BDD.AddUUID(username, id.String())
 }
 
 // Renvoie la valeur du cookie actif. Renvoie une erreur lorsqu'il n'y a plus de cookie.
