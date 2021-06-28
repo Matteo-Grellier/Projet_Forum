@@ -28,9 +28,6 @@ func main() {
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
-	// For form method post --> action "/addtopic/post"
-	http.HandleFunc("/addtopic/post", handlers.GetValue)
-
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
