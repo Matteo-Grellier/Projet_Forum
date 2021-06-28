@@ -12,10 +12,9 @@
 </head>
 
 <body>
-    {{template "sidebar"}} {{template "header"}}
+    {{template "sidebar"}} {{template "header" .UserConnected.Connected}}
     <div class="title">
-        <h1>Catégorie :
-            {{.Category}}
+        <h1>Catégorie : {{.Category}}
         </h1>
     </div>
     <div class="bloc">

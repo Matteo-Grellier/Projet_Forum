@@ -101,15 +101,19 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 //Exécution de la page Categories
 func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("templates/categories.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+
+	userConnected := VerifyUserConnected(w, req)
 	if err != nil {
 		Error500(w, req, err)
 	}
 	type TabCategories struct {
 		Categories []BDD.Category
+		User       UserConnectedStruct
 	}
 
 	dataOk := TabCategories{
 		Categories: BDD.DisplayCategories(),
+		User:       userConnected,
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Catégories'")
@@ -134,9 +138,10 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
 
 	DataPageCategoryOK := DataPageCategory{
-		Category:   BDD.DisplayCategory(categoryID),
-		Topics:     BDD.DisplayTopics(categoryID),
-		CategoryID: categoryID,
+		Category:      BDD.DisplayCategory(categoryID),
+		Topics:        BDD.DisplayTopics(categoryID),
+		CategoryID:    categoryID,
+		UserConnected: VerifyUserConnected(w, r),
 	}
 	if DataPageCategoryOK.Category == "nil" {
 		NoItemsError(w)
@@ -177,8 +182,10 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	DataPageTopicOK.ErrorMessage = ""
 
 	DataPageTopicOK = TopicDataUsed{
-		ErrorMessage: "",
-		Topics:       BDD.DisplayOneTopic(TopicID),
+		ErrorMessage:  "",
+		Topic:         BDD.DisplayOneTopic(TopicID),
+		Posts:         BDD.DisplayPosts(TopicID),
+		UserConnected: VerifyUserConnected(w, r),
 	}
 	if err != nil {
 		Error500(w, r, err)
@@ -190,6 +197,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	if !Error404(w, r) {
 		return
 	}
+
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 	t.Execute(w, DataPageTopicOK)
 }
