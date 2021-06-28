@@ -189,14 +189,22 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	}
 	if r.Method == "POST" {
 		if r.FormValue("Post") != "" {
-			userPseudo := "Carla8"
-			postContent := r.FormValue("Post")
-			BDD.AddPost(userPseudo, postContent, TopicID)
+			if VerifyUserConnected(w, r).Connected {
+				userPseudo := VerifyUserConnected(w, r).PseudoConnected
+				postContent := r.FormValue("Post")
+				BDD.AddPost(userPseudo, postContent, TopicID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un post."
+			}
 		} else if r.FormValue("Comment") != "" {
-			comment := r.FormValue("Comment")
-			postID, _ := strconv.Atoi(r.FormValue("postID"))
-			userPseudo := "Olivia49"
-			BDD.AddComment(comment, userPseudo, postID)
+			if VerifyUserConnected(w, r).Connected {
+				userPseudo := VerifyUserConnected(w, r).PseudoConnected
+				comment := r.FormValue("Comment")
+				postID, _ := strconv.Atoi(r.FormValue("postID"))
+				BDD.AddComment(comment, userPseudo, postID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un commentaire."
+			}
 		}
 		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID)
 	}

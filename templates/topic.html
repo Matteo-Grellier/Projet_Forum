@@ -8,6 +8,7 @@
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="../static/css/topic.css">
     <link rel="stylesheet" href="../static/css/boxComm.css">
+    <link rel="stylesheet" href="../static/css/popupError.css">
     <title>Topic</title>
 </head>
 
@@ -17,7 +18,13 @@
 
     <h1 class="categorie">CATÉGORIE : {{.Topic.Category_name}}</h1>
     <h1 class="sujet">NOM DU SUJET : {{.Topic.Title}}</h1>
-
+    {{if .ErrorMessage}}
+    <div id="box">
+        <i class='bx bxs-info-circle' style='color:#f58900'></i>
+        <h1 id="erreur">Erreur : {{.ErrorMessage}}</h1>
+        <a onclick="closes()" class="close">Fermer</a>
+    </div>
+    {{end}}
     <div class="btn">
         <button onclick="openAndClose()">Répondre</button>
     </div>
@@ -66,7 +73,6 @@
                     </div>
                 </form>
 
-
                 <div class="commentaire" id="visible_{{.ID}}" style="display:none">
                     {{range .Comments}}
                     <div class="commentaryZone">
@@ -82,6 +88,7 @@
             {{end}}
         </div>
     </div>
+
     <script src="../static/js/Comments.js"></script>
     <script src="../static/js/popup.js"></script>
 </body>
