@@ -31,6 +31,14 @@ function openAndClose() {
     } else {
         popup.style.display = "initial"
     }
+    window.onclick = function(event) {
+        if (event.target == body || event.target == topic) {
+            popup.setAttribute("style", "display:none;")
+        }
+        if (event.target == body || event.target == topic) {
+            popup2.setAttribute("style", "display:none;")
+        }
+    }
 }
 
 function openAndClose_(id) {
