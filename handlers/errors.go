@@ -40,32 +40,6 @@ func Error500(w http.ResponseWriter, req *http.Request, err error) {
 	t.Execute(w, nil)
 }
 
-/*// indexHandler - Serve INDEX.HTML page for 'HTTP GET /' request
-//
-func indexHandler(w http.ResponseWriter, r *http.Request) {
 
-	// HTTP/404 - Not Found management
-	if r.URL.Path != "/" {
-		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
-		logger.Printf("[HTTP/404] - Page not found URL='%s'\n", r.URL.Path)
-		return
-	}
-
-	// Load banner list from COMMON declaration
-	tmpBannerList := make([]string, len(bannerSupported))
-	indexBanner := 0
-	for key := range bannerSupported {
-		tmpBannerList[indexBanner] = key
-		indexBanner++
-	}
-
-	// Initialize dynamic content of the page
-	htmlData := HTMLData{
-		Title:       "YTrack - Ascii-art-web",
-		Description: "Simple Golang webserver with built in logging, tracing and health check",
-		Keywords:    "golang web server ascii art",
-		Author:      "Cedric OBEJERO, <cedric.obejero@tanooki.fr>",
-		BannerFiles: tmpBannerList,
 		ASCIIText:   template.HTML(``),
 	}
-}*/
