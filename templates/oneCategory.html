@@ -8,20 +8,19 @@
     <link rel="stylesheet" href="../static/css/oneCategory.css">
     <link rel="stylesheet" href="../static/css/popup.css">
     <link rel="stylesheet" href="../static/css/popupError.css">
-    <title>Document</title>
+    <title>Catégorie {{.Category}}</title>
 </head>
 
 <body>
-    {{template "sidebar"}} {{template "header"}}
+    {{template "sidebar"}} {{template "header" .UserConnected.Connected}}
     <div class="title">
-        <h1>Catégorie :
-            <!-- {{.}} -->
+        <h1>Catégorie : {{.Category}}
         </h1>
     </div>
     <div class="bloc">
         {{range .Topics}}
         <div class="topic">
-            <a href="" class="link">
+            <a href="/topic?top={{.ID}}" class="link">
                 <div class="logo">
                     <i class='bx bxs-message-detail'></i>
                 </div>
@@ -34,7 +33,7 @@
 
     <div id="box_">
         <i class='bx bxs-message-rounded-edit'></i>
-        <form action="/oneCategory" method="post" id="form">
+        <form action="/oneCategory?cat={{.CategoryID}}" method="post" id="form">
             <h1 id="erreur">Titre du topic : </h1>
             <input class="titre_topic" type="text" name="titre" required>
             <h1 id="erreur">Post : </h1>
@@ -46,10 +45,10 @@
     <div class="button_">
         <a class="btn" onclick="openPopup()"><i class='bx bxs-message-rounded-edit'></i> Nouveau Topic</a>
     </div>
-    {{if .ErrorMessage}}
+    {{if .Error}}
     <div id="box">
         <i class='bx bxs-info-circle' style='color:#f58900'></i>
-        <h1 id="erreur">Erreur : {{.ErrorMessage}}</h1>
+        <h1 id="erreur">Erreur : {{.Error}}</h1>
         <a onclick="closes()" class="close">Fermer</a>
     </div>
     {{end}}
