@@ -1,6 +1,7 @@
 package BDD
 
 import (
+	"fmt"
 	"log"
 )
 
@@ -125,6 +126,8 @@ func DisplayPosts(idTopic int) []Post {
 		eachPost.Comments, eachPost.NumberComments = DisplayComments(eachPost.ID)
 		tabPosts = append(tabPosts, eachPost)
 	}
+	fmt.Println("--------------------")
+	fmt.Println(tabPosts)
 	return tabPosts
 }
 
@@ -150,4 +153,25 @@ func DisplayComments(postId int) ([]Comment, int) {
 	}
 	comments.Close()
 	return tabComments, counter
+}
+
+func DisplayLikes() Likes {
+	db := OpenDataBase()
+	var like Likes
+	searchLikes, err := db.Query("SELECT liked FROM Like WHERE ID = 100")
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err)
+	}
+	for searchLikes.Next() {
+		searchLikes.Scan(&like.liked)
+	}
+	searchLikes.Close()
+	fmt.Println("like !!!!!!!!!!")
+	fmt.Println()
+	return like
 }

@@ -19,6 +19,7 @@ type Topic struct {
 	ID            int
 	Title         string
 	Content       string
+	Like          int
 	User_pseudo   string
 	Category_ID   int
 	Category_name string
@@ -38,4 +39,8 @@ type Comment struct {
 	User_pseudo string
 	Content     string
 	Post_ID     int
+}
+
+type Likes struct {
+	liked int
 }

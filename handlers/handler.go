@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
@@ -180,6 +181,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		ErrorMessage: "",
 		Topic:        BDD.DisplayOneTopic(TopicID),
 		Posts:        BDD.DisplayPosts(TopicID),
+		Like:         BDD.DisplayLikes(),
 	}
 	if err != nil {
 		Error500(w, r, err)
@@ -192,6 +194,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
+	fmt.Println(DataPageTopicOK)
 	t.Execute(w, DataPageTopicOK)
 }
 
