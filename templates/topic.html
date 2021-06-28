@@ -32,10 +32,7 @@
                 </div>
                 {{.Topic.Content}}
             </div>
-            <hr class="ligne">
-
-
-            {{range .Posts}}
+            <hr class="ligne"> {{range .Posts}}
             <div class="commentaire_topic borderComment">
                 <div class="id">
                     <div class="photo_profile">pp</div>
@@ -77,7 +74,7 @@
                             <div class="photo_profile">pp</div>
                             <div class="pseudo">{{.User_pseudo}}</div>
                         </div>
-                            {{.Content}}
+                        {{.Content}}
                     </div>
                     {{end}}
                 </div>
@@ -88,4 +85,5 @@
     <script src="../static/js/Comments.js"></script>
     <script src="../static/js/popup.js"></script>
 </body>
+
 </html>
