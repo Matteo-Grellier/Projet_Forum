@@ -41,6 +41,26 @@ func VerifyBDD(element string, column string) (bool, string) {
 	return false, ""
 }
 
+func VerifyLike(post_id int, user_pseudo string) (bool, int) {
+	var oneUser string
+	var statusLike int
+	db := OpenDataBase()
+	prepareLike, errorPrepare := db.Prepare("SELECT user_pseudo, liked FROM like WHERE post_id = ?")
+	allLikes, err := prepareLike.Query(post_id)
+	if errorPrepare != nil {
+		log.Fatalf("%s", err)
+	}
+	for allLikes.Next() {
+		allLikes.Scan(&oneUser, &statusLike)
+		if oneUser == user_pseudo {
+			allLikes.Close()
+			return true, statusLike
+		}
+	}
+	allLikes.Close()
+	return false, 0
+}
+
 // vérification de la correspondance entre le mdp de l'utilisateur et le mdp entré
 func VerifyPassword(password string, pseudo string) bool {
 	db := OpenDataBase()

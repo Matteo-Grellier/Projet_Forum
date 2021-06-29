@@ -22,7 +22,7 @@ func main() {
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
-	// http.HandleFunc("/likedPosts", handlers.Liked_Posts)
+	// http.HandleFunc("/like", handlers.Like)
 
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)

@@ -47,7 +47,21 @@
                 </div>
                 <p class="textComment">{{.Content}}</p>
                 <div class="boutons">
-                    <button class="like"><img src="static\images\like_vide.png" alt="like vide"></button>
+                    <form action="" method="POST">
+                        <input hidden name="post_id" value="{{.ID}}">
+                        <input hidden name="like" value=0>
+                        {{if .UserLiked}}
+                    <button type="submit" name="status" value="1" class="like"><img src="static\images\like_plein.png" alt="like plein">{{.NumberLikes}}</button>
+                        {{else}}
+                    <button type="submit" name="status" value="1" class="like"><img src="static\images\like_vide.png" alt="like vide">{{.NumberLikes}}</button>
+                        {{end}}
+
+                        {{if .UserDisliked}}
+                    <button type="submit" name="status" value="-1" class="dislike"><img src="static\images\dislike_plein.png" alt="like plein">{{.NumberDislikes}}</button>
+                        {{else}}
+                    <button type="submit" name="status" value="-1" class="dislike"><img src="static\images\dislike_vide.png" alt="like vide">{{.NumberDislikes}}</button>
+                        {{end}}
+                </form>
                     <button class="reponse" onclick="createDiv('{{.ID}}')">Voir les réponses ({{.NumberComments}})</button>
 
                 </div>
@@ -80,7 +94,8 @@
                             <div class="photo_profile">pp</div>
                             <div class="pseudo">{{.User_pseudo}}</div>
                         </div>
-                        {{.Content}}
+                            {{.Content}}
+
                     </div>
                     {{end}}
                 </div>

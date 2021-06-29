@@ -2,6 +2,7 @@ package BDD
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -51,6 +52,35 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 	}
 	createNew.Exec(title, content, user_pseudo, categoryID)
 	createNew.Exec("commit")
+	db.Close()
+}
+func AddLike(user_pseudo string, post_ID int, Liked int) {
+	db := OpenDataBase()
+	var actionBDD *sql.Stmt
+	var errAction error
+	correctPseudo, statusLike := VerifyLike(post_ID, user_pseudo)
+	fmt.Println(statusLike, Liked)
+	if correctPseudo {
+		actionBDD, errAction = db.Prepare("UPDATE like SET liked = ? WHERE user_pseudo = ? AND post_id = ?")
+		if statusLike == 1 && Liked != -1 || statusLike == -1 && Liked != 1 {
+			_, err := actionBDD.Exec(0, user_pseudo, post_ID)
+			if err != nil {
+				log.Fatal(err)
+			}
+			db.Close()
+			return
+		}
+	} else {
+		actionBDD, errAction = db.Prepare("INSERT INTO like (liked, user_pseudo, post_id) VALUES(?, ?, ?)")
+	}
+	if errAction != nil {
+		log.Fatal(errAction)
+	}
+
+	_, err := actionBDD.Exec(Liked, user_pseudo, post_ID)
+	if err != nil {
+		log.Fatal(err)
+	}
 	db.Close()
 }
 

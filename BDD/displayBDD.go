@@ -105,11 +105,12 @@ func DisplayOneTopic(idTopic int) Topic {
 	return eachTopic
 }
 
-func DisplayPosts(idTopic int) []Post {
+func DisplayPosts(idTopic int, userConnected string) []Post {
 	db := OpenDataBase()
 	var eachPost Post
 	var tabPosts []Post
-	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo FROM post WHERE topic_id = ?")
+	var userLiked int
+	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo, topic_id FROM post WHERE topic_id = ?")
 	if err != nil {
 		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
 		log.Fatal(err)
@@ -121,10 +122,25 @@ func DisplayPosts(idTopic int) []Post {
 		log.Fatal(err)
 	}
 	for Posts.Next() {
-		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo)
+		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo, &eachPost.Topic_ID)
 		eachPost.Comments, eachPost.NumberComments = DisplayComments(eachPost.ID)
+		eachPost.NumberLikes, eachPost.NumberDislikes, userLiked = DisplayLikes(eachPost.ID, userConnected)
+
+		if userLiked == 1 {
+			eachPost.UserLiked = true
+			eachPost.UserDisliked = false
+		} else if userLiked == -1 {
+			eachPost.UserDisliked = true
+			eachPost.UserLiked = false
+		} else if userLiked == 0 {
+			eachPost.UserDisliked = false
+			eachPost.UserLiked = false
+
+		}
+
 		tabPosts = append(tabPosts, eachPost)
 	}
+
 	return tabPosts
 }
 
@@ -150,4 +166,35 @@ func DisplayComments(postId int) ([]Comment, int) {
 	}
 	comments.Close()
 	return tabComments, counter
+}
+
+func DisplayLikes(postID int, user_pseudo string) (int, int, int) {
+	// postID := 227
+	var counterLikes int
+	var counterDislikes int
+
+	db := OpenDataBase()
+	var eachLike Likes
+	var statusLike int
+	searchLikes, err := db.Prepare("SELECT liked, user_pseudo, ID FROM like WHERE post_id = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	foundLikes, err := searchLikes.Query(postID)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for foundLikes.Next() {
+		foundLikes.Scan(&eachLike.Status, &eachLike.User_Pseudo, &eachLike.ID)
+		if eachLike.User_Pseudo == user_pseudo {
+			statusLike = eachLike.Status
+		}
+		if eachLike.Status == 1 {
+			counterLikes++
+		} else if eachLike.Status == -1 {
+			counterDislikes++
+		}
+	}
+	foundLikes.Close()
+	return counterLikes, counterDislikes, statusLike
 }
