@@ -1,4 +1,4 @@
-# Projet_Forum
+# 📑 Projet_Forum
 
 
 Ce projet consiste à créer un site internet
@@ -44,15 +44,46 @@ Téléchargeons le projet :
 
 Une fois le projet téléchargé, lançons ``Visual Studio Code``. 
 
-Le dossier ``Projet_Forum`` se découpe en plusieurs sous dossier : **(arborescence à faire)**.
-
 Pour le lancement du serveur, mettons-nous à la racine du projet pour pouvoir exécuter le fichier suivant ``server.go``.
 
 Dans le terminal :
 
 🔹 ``go run server.go``
 
-(suite à voir suivant nos changement)
+Le bon lancement du serveur se traduira par le message suivant : 
+
+![img](https://raw.githubusercontent.com/Matteo-Grellier/Projet_Forum/README/static/images/Start.png)
+
+Ouvrez votre navigateur et rendez-vous sur :
+
+🔸 ``http://localhost:8080`` ou directement [ici](http://localhost:8080)
+
+---
+
+👉 ⚠️ *Les exécutions de pages ou les erreurs sont répertoriées dans notre 💻 terminal.*
+
+![img](https://raw.githubusercontent.com/Matteo-Grellier/Projet_Forum/README/static/images/Error.png)
+
+# 🔍 Architecture 
+
+Le dossier ``Projet_Forum`` se découpe en plusieurs sous dossiers : 
+
+![img](https://raw.githubusercontent.com/Matteo-Grellier/Projet_Forum/README/static/images/Architecture.png)
+
+* BDD : Dossier qui regroupe l'ensemble des fonctions pour l'exécution des différentes tâches.
+
+* Handlers : Dossier qui regroupe l'ensemble des fonctions pour le fonctionnement du site.
+
+* Templates : Dossier qui regroupe les pages HTML (Hypertext Markup Language).
+    * Layouts : Dossier qui regroupe des templates utilisées dans les pages HTML.
+
+* Static : 
+    * CSS : Feuilles de style en cascade.
+    * JavaScript : Dossier qui regroupe les scripts.
+    * Images : Dossier qui regroupe les images.
+
+
+# 🎥 Démonstration
 
 # 🖥 Réalisation
 
@@ -89,7 +120,7 @@ Liste des versions :
 - 👉 [v1.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v1.0)
 
 
-# 👥 Auteurs
+# 👥 Équipe
 
 Réalisé en B1 Informatique chez Ynov par :
 
