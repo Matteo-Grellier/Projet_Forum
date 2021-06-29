@@ -19,12 +19,12 @@ var ErrorMessage string
 
 // Exécution de la page Home
 func Home(w http.ResponseWriter, req *http.Request) {
-	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
-
-	userConnected := VerifyUserConnected(w, req)
 	if !Error404(w, req) {
 		return
 	}
+	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
+	userConnected := VerifyUserConnected(w, req)
+
 	if err != nil {
 		t, _ = template.ParseFiles("./templates/layouts/error500.html")
 		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page500'")
@@ -41,11 +41,6 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/connection.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
 		Error500(w, r, err)
-		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		// log.Fatalf("%s", err)
-		return
-	}
-	if !Error404(w, r) {
 		return
 	}
 
@@ -55,7 +50,6 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 		statusConnexion := GetLogin(w, r, pseudo, password)
 		if statusConnexion.Error == "" {
 			CreateCookie(w, r, pseudo)
-			// CreateUUID(pseudo, UUID)
 			Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
 			http.Redirect(w, r, "/categories", http.StatusSeeOther)
 		} else {
@@ -74,13 +68,9 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
 		Error500(w, r, err)
-		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		// log.Fatalf("%s", err)
 		return
 	}
-	if !Error404(w, r) {
-		return
-	}
+
 	if r.Method == "POST" {
 		pseudo := r.FormValue("Pseudo")
 		email := r.FormValue("Email")
@@ -125,14 +115,9 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		Error500(w, r, err)
-		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		// log.Fatalf("%s", err)
 		return
 	}
 
-	if !Error404(w, r) {
-		return
-	}
 	// Récupération de l'ID de la catégorie
 	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
 
@@ -143,7 +128,7 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 		UserConnected: VerifyUserConnected(w, r),
 	}
 	if DataPageCategoryOK.Category == "nil" {
-		NoItemsError(w)
+		NoItemsError(w, r)
 		return
 	}
 
@@ -178,12 +163,6 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
 	if err != nil {
 		Error500(w, r, err)
-		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		// log.Fatalf("%s", err)
-		return
-	}
-
-	if !Error404(w, r) {
 		return
 	}
 
@@ -198,7 +177,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
 
 	if DataPageTopicOK.Topic.Category_name == "nil" {
-		NoItemsError(w)
+		NoItemsError(w, r)
 		return
 	}
 
