@@ -86,16 +86,17 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		password := r.FormValue("Password")
 		confirmPwd := r.FormValue("ConfirmPassword")
 		statusRegister, BDDerror = GetRegister(pseudo, email, password, confirmPwd)
+		if BDDerror != nil {
+			Error500(w, r, BDDerror)
+			return
+		}
 		if statusRegister.Error == "" {
 			http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 		} else {
 			t.Execute(w, statusRegister)
 		}
 	}
-	if BDDerror != nil {
-		Error500(w, r, BDDerror)
-		return
-	}
+
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'inscription'")
 	t.Execute(w, nil)
 }
