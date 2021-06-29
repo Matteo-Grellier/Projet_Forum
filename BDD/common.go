@@ -19,6 +19,7 @@ type Topic struct {
 	ID            int
 	Title         string
 	Content       string
+	Like          int
 	User_pseudo   string
 	Category_ID   int
 	Category_name string
@@ -31,6 +32,10 @@ type Post struct {
 	Topic_ID       string
 	Comments       []Comment
 	NumberComments int
+	NumberLikes    int
+	NumberDislikes int
+	UserLiked      bool
+	UserDisliked   bool
 }
 
 type Comment struct {
@@ -38,4 +43,10 @@ type Comment struct {
 	User_pseudo string
 	Content     string
 	Post_ID     int
+}
+
+type Likes struct {
+	Status      int
+	User_Pseudo string
+	ID          int
 }

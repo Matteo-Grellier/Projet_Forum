@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"text/template"
@@ -176,38 +175,7 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
-	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
-	var DataPageTopicOK TopicDataUsed
-	DataPageTopicOK.ErrorMessage = ""
-
-	DataPageTopicOK = TopicDataUsed{
-		ErrorMessage:  "",
-		Topic:         BDD.DisplayOneTopic(TopicID),
-		Posts:         BDD.DisplayPosts(TopicID),
-		UserConnected: VerifyUserConnected(w, r),
-	}
-	if r.Method == "POST" {
-		if r.FormValue("Post") != "" {
-			if VerifyUserConnected(w, r).Connected {
-				userPseudo := VerifyUserConnected(w, r).PseudoConnected
-				postContent := r.FormValue("Post")
-				BDD.AddPost(userPseudo, postContent, TopicID)
-			} else {
-				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un post."
-			}
-		} else if r.FormValue("Comment") != "" {
-			if VerifyUserConnected(w, r).Connected {
-				userPseudo := VerifyUserConnected(w, r).PseudoConnected
-				comment := r.FormValue("Comment")
-				postID, _ := strconv.Atoi(r.FormValue("postID"))
-				BDD.AddComment(comment, userPseudo, postID)
-			} else {
-				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un commentaire."
-			}
-		}
-		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID)
-	}
 	if err != nil {
 		Error500(w, r, err)
 		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
@@ -219,18 +187,52 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, DataPageTopicOK)
-}
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
 
-func LikedPage(w http.ResponseWriter, r *http.Request) {
-	// Déclaration des fichiers à parser
-	t, err := template.ParseFiles("templates/LikedPage.html", "templates/layouts/sidebar.html")
-	if err != nil {
-		Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
-		log.Fatalf("%s", err)
+	DataPageTopicOK := TopicDataUsed{
+		ErrorMessage:  "",
+		Topic:         BDD.DisplayOneTopic(TopicID),
+		UserConnected: VerifyUserConnected(w, r),
+	}
+	userPseudo := DataPageTopicOK.UserConnected.PseudoConnected
+	DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+
+	if DataPageTopicOK.Topic.Category_name == "nil" {
+		NoItemsError(w)
 		return
 	}
+
+	if r.Method == "POST" {
+
+		if r.FormValue("Post") != "" {
+			if DataPageTopicOK.UserConnected.Connected {
+				postContent := r.FormValue("Post")
+				BDD.AddPost(userPseudo, postContent, TopicID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un post."
+			}
+
+		} else if r.FormValue("Comment") != "" {
+			if DataPageTopicOK.UserConnected.Connected {
+				comment := r.FormValue("Comment")
+				postID, _ := strconv.Atoi(r.FormValue("postID"))
+				BDD.AddComment(comment, userPseudo, postID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un commentaire."
+			}
+
+		} else if r.FormValue("like") == "0" {
+			if DataPageTopicOK.UserConnected.Connected {
+				post_id, _ := strconv.Atoi(r.FormValue("post_id"))
+				likeOrDislike, _ := strconv.Atoi(r.FormValue("status"))
+				BDD.AddLike(userPseudo, post_id, likeOrDislike)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour liker un post."
+			}
+		}
+		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+	}
+
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
-	t.Execute(w, nil)
+	t.Execute(w, DataPageTopicOK)
 }
