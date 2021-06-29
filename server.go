@@ -1,10 +1,11 @@
 package main
 
 import (
+	handlers "./handlers"
+
 	"net/http"
 
 	BDD "./BDD"
-	handlers "./handlers"
 )
 
 func main() {
@@ -13,21 +14,18 @@ func main() {
 
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
-	http.HandleFunc("/login", handlers.GetLogin)
-	http.HandleFunc("/register", handlers.GetRegister)
-	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
-	http.HandleFunc("/likedPosts", handlers.Liked_Posts)
-	http.HandleFunc("/oneCategory", handlers.One_Category)
-	http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/topic", handlers.TopicPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
-	http.HandleFunc("/all_categories", handlers.RetrieveCat)
+	http.HandleFunc("/categories", handlers.CategoriesPage)
+	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
+	http.HandleFunc("/topic", handlers.OneTopicPage)
+
+	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/BDD", BDD.Afficher)
 
-	// 2 HandleFunc for addPost
-	http.HandleFunc("/addtopic", handlers.Post)
-	// For form method post --> action "/addtopic/post"
-	http.HandleFunc("/addtopic/post", handlers.GetValue)
+	// http.HandleFunc("/like", handlers.Like)
+
+	// Fonctions exécutées après une requête
+	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
