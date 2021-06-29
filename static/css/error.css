@@ -1,0 +1,240 @@
+/* https://codepen.io/kucerajacob/pen/aLYqjX */
+
+html {
+  background-color: #303841;
+  overflow: hidden;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body {
+  
+}
+
+#bubbles {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: url(https://cdn.discordapp.com/attachments/270762881014824960/367107752616525824/wave-ac-404-background.png)
+  no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  overflow-x: hidden;
+  opacity: 0.01;
+}
+
+#app-mount {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  height: 264px;
+  width: 318px;
+}
+
+#app-mount {
+  cursor: default;
+}
+
+#text-section {
+  text-align: center;
+  position: relative;
+  top: 62px;
+}
+
+#logo-wrap {
+  position: absolute;
+  bottom: -74px;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+}
+
+#logo, #dot {
+  font-family: "Quicksand";
+  font-weight: bold;
+  font-size: 30px;
+  color: rgba(255, 255, 255, 0.04);
+}
+
+#info {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 28px;
+  font-style: italic;
+  color: #fff;
+  width: 600px;
+  height: 60px;
+  opacity: 0.55;
+  line-height: 60px;
+  margin: auto;
+  position: relative;
+  top: 96px;
+  bottom: 0;
+  animation: noise-3 1s linear infinite;
+  background: -webkit-linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.8));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#error {
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-size: 190px;
+  font-style: italic;
+  width: 500px;
+  height: 200px;
+  margin: auto;
+  position: absolute;
+  top: -29px;
+  bottom: 0;
+  left: -63px;
+  right: 0;
+  color: #FF5722;
+  opacity: 0.7;
+  animation: noise 2s linear infinite;
+  overflow: default;
+  letter-spacing: -12px;
+  background: -webkit-linear-gradient(#FF5722, #FF5722);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+#error:after {
+  content: '404';
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 190px;
+  width: 150px;
+  height: 60px;
+  line-height: 60px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  color: #FF5722;
+  opacity: 0.7;
+  animation: noise-1 .2s linear infinite;
+  letter-spacing: -12px;
+}
+
+#error:before {
+  content: '404';
+  font-family: 'Quicksand', sans-serif;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 190px;
+  width: 100px;
+  height: 60px;
+  line-height: 60px;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  color: #FF5722;
+  opacity: 0.7;
+  animation: noise-2 .2s linear infinite;
+  letter-spacing: -12px;
+}
+
+#links {
+  position: absolute;
+  top: 198px;
+  left: 50%;
+  margin-left: 0px;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  width: 450px;
+}
+
+#rand-quote {
+  font-family: 'Quicksand', sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.25);
+  position: relative;
+  top: 44px;
+}
+
+#home-ico {
+  position: relative;
+  top: 3px;
+  left: -3px;
+  height: 16px;
+}
+
+#back-to-safety {
+  font-family: "Mukta", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(to right, #FF5722, #FF5722);
+  padding: 8px 16px;
+  border-radius: 3px;
+  box-shadow: 0 3px 2px #303841(0, 0, 0, 0.1);
+  transition: box-shadow 0.1s ease-in-out;
+  position: relative;
+  top: 234px;
+  left: 97px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#back-to-safety:hover {
+  text-decoration: none;
+  box-shadow: 0 5px 15px #303841(0, 0, 0, 0.21);
+}
+
+@keyframes noise-1 {
+ 0%, 20%, 40%, 60%, 70%, 90% {opacity: 0;}
+ 10% {opacity: .1;}
+ 50% {opacity: .5; left: -6px;}
+ 80% {opacity: .3;}
+ 100% {opacity: .6; left: 2px;}
+}
+
+@keyframes noise-2 {
+ 0%, 20%, 40%, 60%, 70%, 90% {opacity: 0;}
+ 10% {opacity: .1;}
+ 50% {opacity: .5; left: 6px;}
+ 80% {opacity: .3;}
+ 100% {opacity: .6; left: -2px;}
+}
+
+@keyframes noise {
+ 0%, 3%, 5%, 42%, 44%, 100% {opacity: 1; transform: scaleY(1);}  
+ 4.3% {opacity: 1; transform: scaleY(1.7);}
+ 43% {opacity: 1; transform: scaleX(1.5);}
+}
+
+@keyframes noise-3 {
+ 0%,3%,5%,42%,44%,100% {opacity: 1; transform: scaleY(1);}
+ 4.3% {opacity: 1; transform: scaleY(4);}
+ 43% {opacity: .3; transform: scaleX(1.03);}
+}

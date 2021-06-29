@@ -197,6 +197,11 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	userPseudo := DataPageTopicOK.UserConnected.PseudoConnected
 	DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
 
+	if DataPageTopicOK.Topic.Category_name == "nil" {
+		NoItemsError(w)
+		return
+	}
+
 	if r.Method == "POST" {
 
 		if r.FormValue("Post") != "" {
