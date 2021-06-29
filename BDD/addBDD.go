@@ -53,3 +53,23 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 	createNew.Exec("commit")
 	db.Close()
 }
+
+func AddPost(pseudo string, post string, id int) {
+	db := OpenDataBase()
+	add, _ := db.Prepare("INSERT INTO post (user_pseudo, content, topic_id) VALUES (?, ?, ?)")
+	_, err := add.Exec(pseudo, post, id)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatalf("%s", err)
+	}
+}
+
+func AddComment(comment string, user string, postId int) {
+	db := OpenDataBase()
+	createNew, err3 := db.Prepare("INSERT INTO Comment (content, user_pseudo, post_id) VALUES (?, ?, ?)")
+	if err3 != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err3)
+	}
+	createNew.Exec(comment, user, postId)
+}

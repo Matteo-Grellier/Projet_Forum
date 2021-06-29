@@ -18,7 +18,6 @@ func main() {
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
 	http.HandleFunc("/topic", handlers.OneTopicPage)
-	http.HandleFunc("/commentaires", handlers.Commentaires)
 
 	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
 	http.HandleFunc("/BDD", BDD.Afficher)
@@ -27,9 +26,6 @@ func main() {
 
 	// Fonctions exécutées après une requête
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
-
-	// For form method post --> action "/addtopic/post"
-	http.HandleFunc("/addtopic/post", handlers.GetValue)
 
 	// Récupération des fichiers static pour l'affichage des pages
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
