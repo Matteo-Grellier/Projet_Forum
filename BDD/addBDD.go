@@ -2,6 +2,7 @@ package BDD
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -53,13 +54,22 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 	createNew.Exec("commit")
 	db.Close()
 }
-func AddLike(user_pseudo string, post_ID int, statusLike int) {
+func AddLike(user_pseudo string, post_ID int, Liked int) {
 	db := OpenDataBase()
 	var actionBDD *sql.Stmt
 	var errAction error
-	correctPseudo, _ := VerifyBDD(user_pseudo, "like")
+	correctPseudo, statusLike := VerifyLike(post_ID, user_pseudo)
+	fmt.Println(statusLike, Liked)
 	if correctPseudo {
 		actionBDD, errAction = db.Prepare("UPDATE like SET liked = ? WHERE user_pseudo = ? AND post_id = ?")
+		if statusLike == 1 && Liked != -1 || statusLike == -1 && Liked != 1 {
+			_, err := actionBDD.Exec(0, user_pseudo, post_ID)
+			if err != nil {
+				log.Fatal(err)
+			}
+			db.Close()
+			return
+		}
 	} else {
 		actionBDD, errAction = db.Prepare("INSERT INTO like (liked, user_pseudo, post_id) VALUES(?, ?, ?)")
 	}
@@ -67,10 +77,29 @@ func AddLike(user_pseudo string, post_ID int, statusLike int) {
 		log.Fatal(errAction)
 	}
 
-	//Ajout ou update de l'UUID à l'utilisateur connecté
-	_, err := actionBDD.Exec(statusLike, user_pseudo, post_ID)
+	_, err := actionBDD.Exec(Liked, user_pseudo, post_ID)
 	if err != nil {
 		log.Fatal(err)
 	}
 	db.Close()
+}
+
+func AddPost(pseudo string, post string, id int) {
+	db := OpenDataBase()
+	add, _ := db.Prepare("INSERT INTO post (user_pseudo, content, topic_id) VALUES (?, ?, ?)")
+	_, err := add.Exec(pseudo, post, id)
+	if err != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatalf("%s", err)
+	}
+}
+
+func AddComment(comment string, user string, postId int) {
+	db := OpenDataBase()
+	createNew, err3 := db.Prepare("INSERT INTO Comment (content, user_pseudo, post_id) VALUES (?, ?, ?)")
+	if err3 != nil {
+		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
+		log.Fatal(err3)
+	}
+	createNew.Exec(comment, user, postId)
 }

@@ -100,15 +100,19 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 //Exécution de la page Categories
 func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("templates/categories.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
+
+	userConnected := VerifyUserConnected(w, req)
 	if err != nil {
 		Error500(w, req, err)
 	}
 	type TabCategories struct {
 		Categories []BDD.Category
+		User       UserConnectedStruct
 	}
 
 	dataOk := TabCategories{
 		Categories: BDD.DisplayCategories(),
+		User:       userConnected,
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Catégories'")
@@ -133,9 +137,10 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
 
 	DataPageCategoryOK := DataPageCategory{
-		Category:   BDD.DisplayCategory(categoryID),
-		Topics:     BDD.DisplayTopics(categoryID),
-		CategoryID: categoryID,
+		Category:      BDD.DisplayCategory(categoryID),
+		Topics:        BDD.DisplayTopics(categoryID),
+		CategoryID:    categoryID,
+		UserConnected: VerifyUserConnected(w, r),
 	}
 	if DataPageCategoryOK.Category == "nil" {
 		NoItemsError(w)
@@ -170,16 +175,7 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 }
 func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
-	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
-	var DataPageTopicOK TopicDataUsed
-	DataPageTopicOK.ErrorMessage = ""
-
-	DataPageTopicOK = TopicDataUsed{
-		ErrorMessage: "",
-		Topic:        BDD.DisplayOneTopic(TopicID),
-		Posts:        BDD.DisplayPosts(TopicID),
-	}
 	if err != nil {
 		Error500(w, r, err)
 		// Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
@@ -190,14 +186,48 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	if !Error404(w, r) {
 		return
 	}
+
+	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
+
+	DataPageTopicOK := TopicDataUsed{
+		ErrorMessage:  "",
+		Topic:         BDD.DisplayOneTopic(TopicID),
+		UserConnected: VerifyUserConnected(w, r),
+	}
+	userPseudo := DataPageTopicOK.UserConnected.PseudoConnected
+	DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+
+	if r.Method == "POST" {
+
+		if r.FormValue("Post") != "" {
+			if DataPageTopicOK.UserConnected.Connected {
+				postContent := r.FormValue("Post")
+				BDD.AddPost(userPseudo, postContent, TopicID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un post."
+			}
+
+		} else if r.FormValue("Comment") != "" {
+			if DataPageTopicOK.UserConnected.Connected {
+				comment := r.FormValue("Comment")
+				postID, _ := strconv.Atoi(r.FormValue("postID"))
+				BDD.AddComment(comment, userPseudo, postID)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un commentaire."
+			}
+
+		} else if r.FormValue("like") == "0" {
+			if DataPageTopicOK.UserConnected.Connected {
+				post_id, _ := strconv.Atoi(r.FormValue("post_id"))
+				likeOrDislike, _ := strconv.Atoi(r.FormValue("status"))
+				BDD.AddLike(userPseudo, post_id, likeOrDislike)
+			} else {
+				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour liker un post."
+			}
+		}
+		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+	}
+
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 	t.Execute(w, DataPageTopicOK)
-}
-
-func Like(w http.ResponseWriter, r *http.Request) {
-	pseudo := r.FormValue("pseudo")
-	topic_id := r.FormValue("topic")
-	post_id, _ := strconv.Atoi(r.FormValue("post"))
-	BDD.AddLike(pseudo, post_id, 1)
-	http.Redirect(w, r, "/topic?top="+topic_id, http.StatusSeeOther)
 }

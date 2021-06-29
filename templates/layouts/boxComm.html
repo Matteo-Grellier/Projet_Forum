@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="../static/css/boxComm.css">
 </head>
 
-    <form action="" method="post">
+    <form action="/topic?top={{ .ID}}" method="post">
         <div class="wrapper_" id="wrapper_">
             <h1>Commentaire :</h1>
             <div class="input-box_">
-                <div class="tweet-area_">
-                    <textarea class="textarea" name="Post" id="" cols="20" rows="1"></textarea>
+                <div class="tweet-area_">>
+                    <textarea class="textarea" name="Comment" id="" cols="20" rows="1"></textarea>
                 </div>
                 <div class="privacy"></div>
             </div>

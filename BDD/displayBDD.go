@@ -105,11 +105,11 @@ func DisplayOneTopic(idTopic int) Topic {
 	return eachTopic
 }
 
-func DisplayPosts(idTopic int) []Post {
+func DisplayPosts(idTopic int, userConnected string) []Post {
 	db := OpenDataBase()
 	var eachPost Post
 	var tabPosts []Post
-	var userConnected string
+	var userLiked int
 	searchPosts, err := db.Prepare("SELECT ID, content, user_pseudo, topic_id FROM post WHERE topic_id = ?")
 	if err != nil {
 		// Color(4, "[BDD_INFO] : 🔻 Error BDD : ")
@@ -124,7 +124,20 @@ func DisplayPosts(idTopic int) []Post {
 	for Posts.Next() {
 		Posts.Scan(&eachPost.ID, &eachPost.Content, &eachPost.User_pseudo, &eachPost.Topic_ID)
 		eachPost.Comments, eachPost.NumberComments = DisplayComments(eachPost.ID)
-		eachPost.NumberLikes, _ = DisplayLikes(eachPost.ID, userConnected)
+		eachPost.NumberLikes, eachPost.NumberDislikes, userLiked = DisplayLikes(eachPost.ID, userConnected)
+
+		if userLiked == 1 {
+			eachPost.UserLiked = true
+			eachPost.UserDisliked = false
+		} else if userLiked == -1 {
+			eachPost.UserDisliked = true
+			eachPost.UserLiked = false
+		} else if userLiked == 0 {
+			eachPost.UserDisliked = false
+			eachPost.UserLiked = false
+
+		}
+
 		tabPosts = append(tabPosts, eachPost)
 	}
 
@@ -155,14 +168,14 @@ func DisplayComments(postId int) ([]Comment, int) {
 	return tabComments, counter
 }
 
-func DisplayLikes(postID int, user_pseudo string) (int, int) {
+func DisplayLikes(postID int, user_pseudo string) (int, int, int) {
 	// postID := 227
-	var counter int
+	var counterLikes int
+	var counterDislikes int
 
 	db := OpenDataBase()
 	var eachLike Likes
 	var statusLike int
-	// var like Likes
 	searchLikes, err := db.Prepare("SELECT liked, user_pseudo, ID FROM like WHERE post_id = ?")
 	if err != nil {
 		log.Fatal(err)
@@ -176,8 +189,12 @@ func DisplayLikes(postID int, user_pseudo string) (int, int) {
 		if eachLike.User_Pseudo == user_pseudo {
 			statusLike = eachLike.Status
 		}
-		counter++
+		if eachLike.Status == 1 {
+			counterLikes++
+		} else if eachLike.Status == -1 {
+			counterDislikes++
+		}
 	}
 	foundLikes.Close()
-	return counter, statusLike
+	return counterLikes, counterDislikes, statusLike
 }

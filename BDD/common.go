@@ -33,6 +33,9 @@ type Post struct {
 	Comments       []Comment
 	NumberComments int
 	NumberLikes    int
+	NumberDislikes int
+	UserLiked      bool
+	UserDisliked   bool
 }
 
 type Comment struct {
