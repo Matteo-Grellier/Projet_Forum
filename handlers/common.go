@@ -19,3 +19,5 @@ type UserConnectedStruct struct {
 	PseudoConnected string
 	Connected       bool
 }
+
+var BDDerror error

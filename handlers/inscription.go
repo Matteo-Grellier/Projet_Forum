@@ -21,53 +21,56 @@ func HashPassword(password string) string {
 }
 
 // Enregistre l'utilisateur qui s'inscrit
-func GetRegister(pseudo string, email string, password string, confirmPwd string) Errors {
+func GetRegister(pseudo string, email string, password string, confirmPwd string) (Errors, error) {
 	var allDataRegister = []string{pseudo, email, password, confirmPwd}
 	var newPass = HashPassword(password)
 	var DataPageInscription Errors
 	DataPageInscription.Mail = email
 	DataPageInscription.Pseudo = pseudo
 
-	correctEmail, errMail := BDD.VerifyBDD(email, "mail")
-	correctPseudo, errPseudo := BDD.VerifyBDD(pseudo, "pseudo")
+	correctEmail, errMail, err := BDD.VerifyBDD(email, "mail")
+	if err != nil {
+		return DataPageInscription, err
+	}
+	correctPseudo, errPseudo, err := BDD.VerifyBDD(pseudo, "pseudo")
+	if err != nil {
+		return DataPageInscription, err
+	}
 	correctPassword, errPassword := verifMdp(password)
 
 	if !verifyInput(allDataRegister) {
 		DataPageInscription.Error = "Veuillez rentrer tous les champs."
-		return DataPageInscription
+		return DataPageInscription, nil
 
 	} else if correctPseudo {
 		DataPageInscription.Error = errPseudo
-		return DataPageInscription
+		return DataPageInscription, nil
 
 	} else if !isValidEmail(email) {
 		DataPageInscription.Error = "Mail non valide."
-		return DataPageInscription
+		return DataPageInscription, nil
 
 	} else if correctEmail {
 		DataPageInscription.Error = errMail
-		return DataPageInscription
+		return DataPageInscription, nil
 
 	} else if !sameMdp(password, confirmPwd) {
 		DataPageInscription.Error = "Les mots de passe ne correspondent pas."
-		return DataPageInscription
+		return DataPageInscription, nil
 
 	} else if !correctPassword {
 		DataPageInscription.Error = errPassword
-		return DataPageInscription
+		return DataPageInscription, nil
 	}
 
-	BDD.AddUser(pseudo, email, newPass)
-	return DataPageInscription
+	BDDerror = BDD.AddUser(pseudo, email, newPass)
+	return DataPageInscription, BDDerror
 }
 
 // Vérifie si l'email entré est valide
 func isValidEmail(email string) bool {
 	re := regexp.MustCompile(`(?mi)[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}`)
-	if re.MatchString(email) {
-		return true
-	}
-	return false
+	return re.MatchString(email)
 }
 
 // Vérifie que tous les inputs sont bien remplis
