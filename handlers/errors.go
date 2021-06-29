@@ -7,7 +7,6 @@ import (
 )
 
 func Error404(w http.ResponseWriter, req *http.Request) bool {
-	fmt.Println(req.URL.Path)
 
 	arr := []string{"/", "/connexion", "/likedPosts", "/oneCategory", "/postsActivity", "/topic", "/inscription", "/test", "/categories"}
 	compteurURL := 0
