@@ -6,27 +6,18 @@
 
     <div class="zoneactus">
         <h2 class="fil_actu">Fil d'actu</h2>
-        <div class="zone">
-            <i class="utilisateur"> @Olivia</i>
-            <p class="titre">J'aime la pizza</p>
-        </div>
-        <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
+      {{range .Posts}}  
+        <a href="/topic?top={{.Topic_ID}}">
+            <div class="zone">
+                <i class="utilisateur"> @{{.User_pseudo}}</i>
 
+                <div class="lepost">{{.Content}}</div>
+
+        </div>
+    </a>
         <hr>
 
-        <div class="zone">
-            <i class="utilisateur"> @Matheo</i>
-            <p class="titre">J'aime pas la pizza</p>
-        </div>
-        <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
-
-        <hr>
-
-        <div class="zone">
-            <i class="utilisateur"> @L1</i>
-            <p class="titre">J'aime la pizza</p>
-        </div>
-        <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
+        {{end}}
     </div>
 
 {{end}}
