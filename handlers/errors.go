@@ -35,6 +35,6 @@ func NoItemsError(w http.ResponseWriter, req *http.Request) {
 func Error500(w http.ResponseWriter, req *http.Request, err error) {
 	Color(3, "[SERVER_INFO_PAGE] : 🟠 Template execution : ")
 	fmt.Println(err)
-	t, _ := template.ParseFiles("./templates/layouts/error500.html")
+	t, _ := template.ParseFiles("./templates/layouts/error500.html", "./templates/layouts/header.html", "./templates/layouts/sidebar.html")
 	t.Execute(w, nil)
 }

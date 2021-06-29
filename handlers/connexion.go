@@ -6,21 +6,27 @@ import (
 	BDD "../BDD"
 )
 
-func GetLogin(w http.ResponseWriter, r *http.Request, pseudo string, password string) Errors {
+func GetLogin(w http.ResponseWriter, r *http.Request, pseudo string, password string) (Errors, error) {
 	var DataPageConnexion Errors
 	DataPageConnexion.Pseudo = pseudo
 
-	correctPseudo, _ := BDD.VerifyBDD(pseudo, "pseudo")
+	correctPseudo, _, err := BDD.VerifyBDD(pseudo, "pseudo")
+	if err != nil {
+		return DataPageConnexion, err
+	}
 	if !correctPseudo {
 		DataPageConnexion.Error = "Ce pseudonyme n'existe pas dans notre base de donnée"
-		return DataPageConnexion
+		return DataPageConnexion, nil
 	}
 
-	correctPassword := BDD.VerifyPassword(password, pseudo)
+	correctPassword, err := BDD.VerifyPassword(password, pseudo)
+	if err != nil {
+		return DataPageConnexion, err
+	}
 	if !correctPassword {
 		DataPageConnexion.Error = "Mot de passe incorrect !"
-		return DataPageConnexion
+		return DataPageConnexion, nil
 	}
-	return DataPageConnexion
+	return DataPageConnexion, nil
 
 }

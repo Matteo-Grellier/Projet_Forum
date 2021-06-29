@@ -4,13 +4,20 @@ import (
 	BDD "../BDD"
 )
 
-func AddTopic(titre string, content string, categId int, user string) (string, int) {
+func AddTopic(titre string, content string, categId int, user string) (string, int, error) {
 
 	var data = []string{titre, content}
 	if verifyInput(data) {
-		BDD.AddTopic(titre, content, user, categId)
+		err := BDD.AddTopic(titre, content, user, categId)
+		if err != nil {
+			return "", 0, err
+		}
 	} else {
-		return "Il manque un item.", 0
+		return "Il manque un item.", 0, nil
 	}
-	return "", BDD.DisplayTopicID()
+	topicID, err := BDD.DisplayTopicID()
+	if err != nil {
+		return "", 0, err
+	}
+	return "", topicID, nil
 }

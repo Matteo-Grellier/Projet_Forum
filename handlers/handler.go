@@ -47,9 +47,15 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		pseudo := r.FormValue("Pseudo")
 		password := r.FormValue("Password")
-		statusConnexion := GetLogin(w, r, pseudo, password)
+		statusConnexion, BDDerror := GetLogin(w, r, pseudo, password)
+		if BDDerror != nil {
+			Error500(w, r, BDDerror)
+		}
 		if statusConnexion.Error == "" {
-			CreateCookie(w, r, pseudo)
+			BDDerror = CreateCookie(w, r, pseudo)
+			if BDDerror != nil {
+				Error500(w, r, BDDerror)
+			}
 			Color(1, "[CONNEXION] : 🟢 Vous êtes connecté ")
 			http.Redirect(w, r, "/categories", http.StatusSeeOther)
 		} else {
@@ -57,6 +63,7 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 			t.Execute(w, statusConnexion)
 		}
 	}
+
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'connexion'")
 	t.Execute(w, nil)
 }
@@ -71,17 +78,23 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var statusRegister Errors
+
 	if r.Method == "POST" {
 		pseudo := r.FormValue("Pseudo")
 		email := r.FormValue("Email")
 		password := r.FormValue("Password")
 		confirmPwd := r.FormValue("ConfirmPassword")
-		statusRegister := GetRegister(pseudo, email, password, confirmPwd)
+		statusRegister, BDDerror = GetRegister(pseudo, email, password, confirmPwd)
 		if statusRegister.Error == "" {
 			http.Redirect(w, r, "/connexion", http.StatusSeeOther)
 		} else {
 			t.Execute(w, statusRegister)
 		}
+	}
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'inscription'")
 	t.Execute(w, nil)
@@ -99,9 +112,13 @@ func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 		Categories []BDD.Category
 		User       UserConnectedStruct
 	}
+	allCategories, BDDerror := BDD.DisplayCategories()
+	if BDDerror != nil {
+		Error500(w, req, BDDerror)
+	}
 
 	dataOk := TabCategories{
-		Categories: BDD.DisplayCategories(),
+		Categories: allCategories,
 		User:       userConnected,
 	}
 
@@ -120,10 +137,20 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 
 	// Récupération de l'ID de la catégorie
 	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
+	oneCategory, BDDerror := BDD.DisplayCategory(categoryID)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
+	}
+	allTopics, BDDerror := BDD.DisplayTopics(categoryID)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
+	}
 
 	DataPageCategoryOK := DataPageCategory{
-		Category:      BDD.DisplayCategory(categoryID),
-		Topics:        BDD.DisplayTopics(categoryID),
+		Category:      oneCategory,
+		Topics:        allTopics,
 		CategoryID:    categoryID,
 		UserConnected: VerifyUserConnected(w, r),
 	}
@@ -142,8 +169,16 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 			content := r.FormValue("post")
 
 			// Ajout du topic OU affichage de l'erreur
-			DataPageCategoryOK.Error, topicID = AddTopic(titre, content, categoryID, pseudo)
-			DataPageCategoryOK.Topics = BDD.DisplayTopics(categoryID)
+			DataPageCategoryOK.Error, topicID, BDDerror = AddTopic(titre, content, categoryID, pseudo)
+			if BDDerror != nil {
+				Error500(w, r, BDDerror)
+				return
+			}
+			DataPageCategoryOK.Topics, BDDerror = BDD.DisplayTopics(categoryID)
+			if BDDerror != nil {
+				Error500(w, r, BDDerror)
+				return
+			}
 			if DataPageCategoryOK.Error != "" {
 				t.Execute(w, DataPageCategoryOK)
 				return
@@ -153,6 +188,10 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 		} else {
 			DataPageCategoryOK.Error = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un topic."
 		}
+	}
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
@@ -167,14 +206,22 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	}
 
 	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
-
+	oneTopic, BDDerror := BDD.DisplayOneTopic(TopicID)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+	}
 	DataPageTopicOK := TopicDataUsed{
 		ErrorMessage:  "",
-		Topic:         BDD.DisplayOneTopic(TopicID),
+		Topic:         oneTopic,
 		UserConnected: VerifyUserConnected(w, r),
 	}
 	userPseudo := DataPageTopicOK.UserConnected.PseudoConnected
-	DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+
+	allPosts, BDDerror := BDD.DisplayPosts(TopicID, userPseudo)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+	}
+	DataPageTopicOK.Posts = allPosts
 
 	if DataPageTopicOK.Topic.Category_name == "nil" {
 		NoItemsError(w, r)
@@ -186,7 +233,11 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		if r.FormValue("Post") != "" {
 			if DataPageTopicOK.UserConnected.Connected {
 				postContent := r.FormValue("Post")
-				BDD.AddPost(userPseudo, postContent, TopicID)
+				BDDerror = BDD.AddPost(userPseudo, postContent, TopicID)
+				if BDDerror != nil {
+					Error500(w, r, BDDerror)
+					return
+				}
 			} else {
 				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un post."
 			}
@@ -195,7 +246,11 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 			if DataPageTopicOK.UserConnected.Connected {
 				comment := r.FormValue("Comment")
 				postID, _ := strconv.Atoi(r.FormValue("postID"))
-				BDD.AddComment(comment, userPseudo, postID)
+				BDDerror = BDD.AddComment(comment, userPseudo, postID)
+				if BDDerror != nil {
+					Error500(w, r, BDDerror)
+					return
+				}
 			} else {
 				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un commentaire."
 			}
@@ -204,14 +259,21 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 			if DataPageTopicOK.UserConnected.Connected {
 				post_id, _ := strconv.Atoi(r.FormValue("post_id"))
 				likeOrDislike, _ := strconv.Atoi(r.FormValue("status"))
-				BDD.AddLike(userPseudo, post_id, likeOrDislike)
+				BDDerror = BDD.AddLike(userPseudo, post_id, likeOrDislike)
+				if BDDerror != nil {
+					Error500(w, r, BDDerror)
+					return
+				}
 			} else {
 				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour liker un post."
 			}
 		}
-		DataPageTopicOK.Posts = BDD.DisplayPosts(TopicID, userPseudo)
+		DataPageTopicOK.Posts, BDDerror = BDD.DisplayPosts(TopicID, userPseudo)
+		if BDDerror != nil {
+			Error500(w, r, BDDerror)
+			return
+		}
 	}
-
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 	t.Execute(w, DataPageTopicOK)
 }

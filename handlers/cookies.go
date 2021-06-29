@@ -11,7 +11,7 @@ import (
 
 // Création du cookie. Renvoie la valeur du cookie.
 // Fonction appelée lorsqu'un utilisateur se connecte.
-func CreateCookie(w http.ResponseWriter, r *http.Request, username string) {
+func CreateCookie(w http.ResponseWriter, r *http.Request, username string) error {
 	id := guuid.New()
 	start := time.Now()
 	start2 := start.Add(time.Minute * 15)
@@ -22,7 +22,7 @@ func CreateCookie(w http.ResponseWriter, r *http.Request, username string) {
 	http.SetCookie(w, &c)
 
 	// Ajout de l'UUID dans la base de données.
-	BDD.AddUUID(username, id.String())
+	return BDD.AddUUID(username, id.String())
 }
 
 // Renvoie la valeur du cookie actif. Renvoie une erreur lorsqu'il n'y a plus de cookie.
