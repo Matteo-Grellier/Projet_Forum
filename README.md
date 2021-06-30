@@ -151,7 +151,7 @@ Projet réalisé à Nantes Ynov Campus par les apprenants de la promo B1 Informa
 
 - ``Mattéo GRELLIER`` alias [@Matteo-Grellier](https://github.com/Matteo-Grellier)
 
-- ``Malo LOYER-VIAUD`` alias [@Karrwolf](https://github.com/Karrwolf)
+- ``Malo LOYER-VIAUD`` alias [@Karrwolf](https://github.com/Karrwolf) (ATTENTION Problème de GIT, Malo est aussi nommé [@LemonIceStuff](https://github.com/LemonIceStuff))
 
 - ``Olivia MOREAU`` alias [@Liv44](https://github.com/Liv44)
 
