@@ -23,6 +23,8 @@ Le forum devra avoir la possibilité de :
 
 # 👉 Pour commencer
 
+👉 Télécharger ``Golang``: https://golang.org 
+
 ## ☝️ Pré-requis
 
 Avant de commencer, nous avons besoin d'installer des packages sur notre 💻 terminal en utilisant la commande suivante ``go get`` suivie de :
