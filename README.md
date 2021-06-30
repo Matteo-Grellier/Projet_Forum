@@ -1,7 +1,6 @@
 # 📑 Projet_Forum
 
-
-Ce projet consiste à créer un site internet
+Ce projet consiste en la création d'un forum en ligne, ce site doit reprendre les caractéristiques d'un forum classique : la publication de post par des utilisateurs, like ou dislike de posts, pouvoir s'inscrire/se connecter, une multitude de catégories, la création de topics etc...
 
 # 📝 Consignes
 
@@ -20,6 +19,32 @@ Le forum devra avoir la possibilité de :
 - Un système de filtrage des sujets :
     - Par catégorie
     - Les sujets auquels on aura likés ou postés
+
+## Fonctionnalités attendues
+
+- Pouvoir s'inscrire et se connecter
+
+- Les mots de passe seront *hashés*
+
+- Une session utilisateur en utilisant un cookie avec un temps d'expiration
+
+## Contraintes 
+
+- Serveur web en **Golang**
+
+- Une **URL** par page
+
+- Base de donnée gérée & administrée avec **SQLite**
+
+- Les mots de passe seront sécurisés
+
+- Les sessions de connexion exploiteront des cookies
+
+- Les packages autorisés :
+     - Packages standards
+     - **bcrypt**
+     - **sqlite3**
+     - **uuid**
 
 # 👉 Pour commencer
 
@@ -136,4 +161,5 @@ Réalisé en B1 Informatique chez Ynov par :
 
 Lien des contributions 👉 [ici](https://github.com/Matteo-Grellier/Projet_Forum/graphs/contributors).
 
-
+***
+*Nantes YNOV Campus - B1 Informatique - 2020/2021*
