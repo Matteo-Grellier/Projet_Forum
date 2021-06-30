@@ -6,23 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="../static/images/icon.png">
     <link rel="stylesheet" href="../static/css/topic.css">
-    <link rel="stylesheet" href="../../static/css/likes.css">
+    <link rel="stylesheet" href="../static/css/likes.css">
 
     <title>Posts Likés</title>
 </head>
 {{template "sidebar" .UserConnected.Connected}} {{template "header" .UserConnected.Connected}}
 
 <body id="body">
+    <div class="Title">
+        <h1>Tes posts likés : </h1>
+    </div>
     <div class="posts">
-        <p>Ici nous pouvons trouver les posts likés</p>
+        
         {{range .Posts}}
-            <a href="/topic?top={{.Topic_ID}}">
+        <div onclick="location.href='/topic?top={{.Topic_ID}}';" style="cursor: pointer;" class="likedTopic">
                 <div class="id">
                     <div class="photo_profile">pp</div>
                     <div class="pseudo">{{.User_pseudo}}</div>
-                <p class="textComment">{{.Content}}</p>
+                <div class="topicLink">
+                    <p class="textComment">Post : </p>
+                    <a class="content"> {{.Content}} </a>
                 </div>
-            </a>
+                </div>
+                </a>
+            </div>
+            <hl></hl>
         {{end}}
     </div>
 </body>
