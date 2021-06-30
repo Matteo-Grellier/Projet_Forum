@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Fonction qui permet de hasher un mot de passe
 func HashPassword(password string) string {
 	var passByte = []byte(password)
 
@@ -28,41 +29,50 @@ func GetRegister(pseudo string, email string, password string, confirmPwd string
 	DataPageInscription.Mail = email
 	DataPageInscription.Pseudo = pseudo
 
+	// On vérifie le mail dans la BDD
 	correctEmail, errMail, err := BDD.VerifyBDD(email, "mail")
 	if err != nil {
 		return DataPageInscription, err
 	}
+	// On vérifie le pseudo dans la BDD
 	correctPseudo, errPseudo, err := BDD.VerifyBDD(pseudo, "pseudo")
 	if err != nil {
 		return DataPageInscription, err
 	}
 	correctPassword, errPassword := verifMdp(password)
 
+	// On vérifie que tous les champs sont bien remplis
 	if !verifyInput(allDataRegister) {
 		DataPageInscription.Error = "Veuillez rentrer tous les champs."
 		return DataPageInscription, nil
 
+		// On vérifie que le pseudo n'est pas déjà dans la BDD
 	} else if correctPseudo {
 		DataPageInscription.Error = errPseudo
 		return DataPageInscription, nil
 
+		//On regarde si le mail est sous la bonne forme
 	} else if !isValidEmail(email) {
 		DataPageInscription.Error = "Mail non valide."
 		return DataPageInscription, nil
 
+		// On vérifie que l'email n'est pas déjà dans la BDD
 	} else if correctEmail {
 		DataPageInscription.Error = errMail
 		return DataPageInscription, nil
 
+		// On regarde si les 2 mots de passe correspondent
 	} else if !sameMdp(password, confirmPwd) {
 		DataPageInscription.Error = "Les mots de passe ne correspondent pas."
 		return DataPageInscription, nil
 
+		// On regarde si le mot de passe correspond aux critères demandés
 	} else if !correctPassword {
 		DataPageInscription.Error = errPassword
 		return DataPageInscription, nil
 	}
 
+	// Lorsque toutes les conditions sont remplies, on ajoute à la BDD.
 	BDDerror = BDD.AddUser(pseudo, email, newPass)
 	return DataPageInscription, BDDerror
 }
@@ -84,6 +94,7 @@ func verifyInput(label []string) bool {
 	return true
 }
 
+// Vérifie tous les critères pour le mot de passe (7 caractères, min 1 Minuscule, min 1 Majuscule, min 1 chiffre)
 func verifMdp(mdp string) (bool, string) {
 	var maj int = 0
 	var min int = 0
@@ -119,6 +130,7 @@ func verifMdp(mdp string) (bool, string) {
 	return true, ""
 }
 
+// Vérification si les mots de passes correspondent dans l'inscription
 func sameMdp(firstpwd string, secondpwd string) bool {
 	if firstpwd != secondpwd {
 		return false

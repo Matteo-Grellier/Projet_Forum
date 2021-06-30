@@ -1,13 +1,26 @@
 package BDD
 
+import (
+	"database/sql"
+	"fmt"
+)
+
+// Fonction pour ouvrir la Base De Données
+func OpenDataBase() *sql.DB {
+	/*Ouverture de la base de données*/
+	db, err := sql.Open("sqlite3", "./BDD/BDDForum1.db")
+	if err != nil {
+		fmt.Println("Could Not open Database")
+	}
+	return db
+}
+
+// Définition des structures utilisées pour les requêtes à la BDD
+
 type User struct {
 	Pseudo   string
 	Mail     string
 	Password string
-}
-type DataUsed struct {
-	Users  []User
-	Topics []Topic
 }
 
 type Category struct {

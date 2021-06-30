@@ -15,8 +15,12 @@ L'utilisateur connecté devra avoir la possibilité de :
 - Réagir aux posts du sujet (likes, dislikes, commentaires)
 
 Un système de filtrage des sujets est mis en place :
-    - Par catégorie
-    - Les sujets que l'utilisateur aura liké ou posté
+
+- Par catégorie
+
+- Les sujets que l'utilisateur aura liké ou posté
+
+
 
 ## Fonctionnalités attendues
 
@@ -151,7 +155,7 @@ Projet réalisé à Nantes Ynov Campus par les apprenants de la promo B1 Informa
 
 - ``Mattéo GRELLIER`` alias [@Matteo-Grellier](https://github.com/Matteo-Grellier)
 
-- ``Malo LOYER-VIAUD`` alias [@Karrwolf](https://github.com/Karrwolf)
+- ``Malo LOYER-VIAUD`` alias [@Karrwolf](https://github.com/Karrwolf) (ATTENTION Problème de GIT, Malo est aussi nommé [@LemonIceStuff](https://github.com/LemonIceStuff))
 
 - ``Olivia MOREAU`` alias [@Liv44](https://github.com/Liv44)
 
