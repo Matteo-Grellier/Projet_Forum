@@ -9,20 +9,17 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type Errors struct {
-	Error  string
-	Pseudo string
-	Mail   string
-}
-
-var ErrorMessage string
-
 // Exécution de la page Home
 func Home(w http.ResponseWriter, req *http.Request) {
+	// La fonction Erreur404 est lancée à la racine du site.
 	if !Error404(w, req) {
 		return
 	}
+
+	// On va chercher les fichiers HTML pour l'affichage de la page
 	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
+
+	// On vérifie si l'utilisateur est connecté
 	userConnected := VerifyUserConnected(w, req)
 
 	if err != nil {
@@ -44,14 +41,17 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// SI une requête est envoyée
 	if r.Method == "POST" {
 		pseudo := r.FormValue("Pseudo")
 		password := r.FormValue("Password")
+		// On lance la fonction pour connecter un utilisateur avec les données du formulaire
 		statusConnexion, BDDerror := GetLogin(w, r, pseudo, password)
 		if BDDerror != nil {
 			Error500(w, r, BDDerror)
 		}
 		if statusConnexion.Error == "" {
+			// On créé un cookie
 			BDDerror = CreateCookie(w, r, pseudo)
 			if BDDerror != nil {
 				Error500(w, r, BDDerror)
@@ -70,8 +70,6 @@ func ConnexionPage(w http.ResponseWriter, r *http.Request) {
 
 //Exécution de la page Inscription
 func InscriptionPage(w http.ResponseWriter, r *http.Request) {
-
-	// Déclaration des fichiers à parser
 	t, err := template.ParseFiles("templates/inscription.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 	if err != nil {
 		Error500(w, r, err)
@@ -80,11 +78,14 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 
 	var statusRegister Errors
 
+	// SI une requête est envoyée
 	if r.Method == "POST" {
 		pseudo := r.FormValue("Pseudo")
 		email := r.FormValue("Email")
 		password := r.FormValue("Password")
 		confirmPwd := r.FormValue("ConfirmPassword")
+
+		// On lance la fonction permettant d'inscrire un utilisateur avec les données du formulaire
 		statusRegister, BDDerror = GetRegister(pseudo, email, password, confirmPwd)
 		if BDDerror != nil {
 			Error500(w, r, BDDerror)
@@ -105,26 +106,25 @@ func InscriptionPage(w http.ResponseWriter, r *http.Request) {
 func CategoriesPage(w http.ResponseWriter, req *http.Request) {
 	t, err := template.ParseFiles("templates/categories.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html")
 
+	// On vérifie si l'utilisateur est connecté
 	userConnected := VerifyUserConnected(w, req)
 	if err != nil {
 		Error500(w, req, err)
 	}
-	type TabCategories struct {
-		Categories []BDD.Category
-		User       UserConnectedStruct
-	}
+
 	allCategories, BDDerror := BDD.DisplayCategories()
 	if BDDerror != nil {
 		Error500(w, req, BDDerror)
 	}
 
-	dataOk := TabCategories{
+	// On ajoute les catégories du site dans la structure de données envoyées à la page
+	DataPageCategoriesOK := DataPageCategories{
 		Categories: allCategories,
 		User:       userConnected,
 	}
 
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Catégories'")
-	t.Execute(w, dataOk)
+	t.Execute(w, DataPageCategoriesOK)
 }
 
 //Exécution de la page oneCategory
@@ -136,19 +136,22 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Récupération de l'ID de la catégorie
+	// Récupération de l'ID de la catégorie via l'URL
 	categoryID, _ := strconv.Atoi(r.URL.Query().Get("cat"))
+
+	// On va chercher le nom de la catégorie
 	oneCategory, BDDerror := BDD.DisplayCategory(categoryID)
 	if BDDerror != nil {
 		Error500(w, r, BDDerror)
 		return
 	}
+	// On va chercher les topics liés à cette catégorie
 	allTopics, BDDerror := BDD.DisplayTopics(categoryID)
 	if BDDerror != nil {
 		Error500(w, r, BDDerror)
 		return
 	}
-
+	// On ajoute les données envoyées à la page
 	DataPageCategoryOK := DataPageCategory{
 		Category:      oneCategory,
 		Topics:        allTopics,
@@ -160,32 +163,39 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Si une requête est envoyée
 	if r.Method == "POST" {
 
-		// Vérification du cookie du navigateur
-		if VerifyUserConnected(w, r).Connected {
-			pseudo := VerifyUserConnected(w, r).PseudoConnected
+		// On vérifie que l'utilisateur est bien connecté
+		if DataPageCategoryOK.UserConnected.Connected {
+			pseudo := DataPageCategoryOK.UserConnected.PseudoConnected
 			var topicID int
 			titre := r.FormValue("titre")
 			content := r.FormValue("post")
 
-			// Ajout du topic OU affichage de l'erreur
-			DataPageCategoryOK.Error, topicID, BDDerror = AddTopic(titre, content, categoryID, pseudo)
-			if BDDerror != nil {
-				Error500(w, r, BDDerror)
-				return
-			}
-			DataPageCategoryOK.Topics, BDDerror = BDD.DisplayTopics(categoryID)
-			if BDDerror != nil {
-				Error500(w, r, BDDerror)
-				return
-			}
-			if DataPageCategoryOK.Error != "" {
+			// On vérifie que les champs ont bien été remplis
+			var data = []string{titre, content}
+			if verifyInput(data) {
+				// On ajoute le topic dans la BDD
+				BDDerror = BDD.AddTopic(titre, content, pseudo, categoryID)
+				if BDDerror != nil {
+					Error500(w, r, BDDerror)
+					return
+				}
+			} else {
+				DataPageCategoryOK.Error = "Il manque un item."
 				t.Execute(w, DataPageCategoryOK)
 				return
-			} else {
-				http.Redirect(w, r, "/topic?top="+strconv.Itoa(topicID), http.StatusSeeOther)
 			}
+
+			// On va chercher l'ID du topic que l'on vient de créer
+			topicID, BDDerror := BDD.DisplayLastTopic()
+			if BDDerror != nil {
+				Error500(w, r, BDDerror)
+				return
+			}
+			// On redirige vers la nouvelle page de topic créé
+			http.Redirect(w, r, "/topic?top="+strconv.Itoa(topicID), http.StatusSeeOther)
 		} else {
 			DataPageCategoryOK.Error = "Vous n'êtes pas connectés. Vous devez vous connecter pour ajouter un topic."
 		}
@@ -207,8 +217,10 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		Error500(w, r, err)
 		return
 	}
-
+	// On va chercher l'ID du topic via l'URL
 	TopicID, _ := strconv.Atoi(r.URL.Query().Get("top"))
+
+	// On va chercher les détails du topic demandé
 	oneTopic, BDDerror := BDD.DisplayOneTopic(TopicID)
 	if BDDerror != nil {
 		Error500(w, r, BDDerror)
@@ -218,8 +230,11 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		Topic:         oneTopic,
 		UserConnected: VerifyUserConnected(w, r),
 	}
+
+	// On Déclare une variable qui stocke le pseudo de l'utilisateur connecté
 	userPseudo := DataPageTopicOK.UserConnected.PseudoConnected
 
+	// On va chercher tous les posts du topic
 	allPosts, BDDerror := BDD.DisplayPosts(TopicID, userPseudo)
 	if BDDerror != nil {
 		Error500(w, r, BDDerror)
@@ -230,10 +245,11 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		NoItemsError(w, r)
 		return
 	}
-	// Si la méthode est 'Post'
+	// Si un requête est envoyée
 	if r.Method == "POST" {
-		// On vérifie quelle formulaire est envoyé
+		// On vérifie quel formulaire a été envoyé
 		if r.FormValue("Post") != "" {
+			// On vérifie que l'utilisateur soit connecté avant de pouvoir ajouter un post
 			if DataPageTopicOK.UserConnected.Connected {
 				postContent := r.FormValue("Post")
 				BDDerror = BDD.AddPost(userPseudo, postContent, TopicID)
@@ -246,6 +262,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 			}
 
 		} else if r.FormValue("Comment") != "" {
+			// On vérifie que l'utilisateur soit connecté avant de pouvoir ajouter un commentaire
 			if DataPageTopicOK.UserConnected.Connected {
 				comment := r.FormValue("Comment")
 				postID, _ := strconv.Atoi(r.FormValue("postID"))
@@ -260,6 +277,7 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
 		} else if r.FormValue("like") == "0" {
 			if DataPageTopicOK.UserConnected.Connected {
+				// On vérifie que l'utilisateur soit connecté avant de pouvoir liker/disliker un post
 				post_id, _ := strconv.Atoi(r.FormValue("post_id"))
 				likeOrDislike, _ := strconv.Atoi(r.FormValue("status"))
 				BDDerror = BDD.AddLike(userPseudo, post_id, likeOrDislike)
@@ -271,6 +289,8 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 				DataPageTopicOK.ErrorMessage = "Vous n'êtes pas connectés. Vous devez vous connecter pour liker un post."
 			}
 		}
+
+		// On recharge les posts, commentaires, likes affichés sur le site si certains ont été ajoutés
 		DataPageTopicOK.Posts, BDDerror = BDD.DisplayPosts(TopicID, userPseudo)
 		if BDDerror != nil {
 			Error500(w, r, BDDerror)

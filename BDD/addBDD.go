@@ -7,8 +7,9 @@ import (
 // Fonction permettant d'ajouter l'utilisateur dans la base de donnée
 func AddUser(pseudo string, mail string, password string) error {
 	db := OpenDataBase()
-	// On prépare la table "user" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
+	// On prépare la table "user" en indiquant dans quelles colonnes nous stockons les données reçues
 	createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
+
 	if err != nil {
 		db.Close()
 		return err
@@ -30,10 +31,12 @@ func AddUUID(pseudo string, UUID string) error {
 
 	// Vérification de la présence de l'utilisateur dans la table session
 	correctPseudo, _, err := VerifyBDD(pseudo, "session")
+
 	if err != nil {
 		db.Close()
 		return err
 	}
+	// Si l'utilisateur est déjà dans la table, on update la donnée, sinon on ajoute un élément
 	if correctPseudo {
 		actionBDD, errAction = db.Prepare("UPDATE session SET UUID = ? WHERE user_pseudo = ?")
 	} else {
@@ -57,8 +60,9 @@ func AddUUID(pseudo string, UUID string) error {
 // Fonction permettant d'ajouter un topic dans la base de donnée
 func AddTopic(title string, content string, user_pseudo string, categoryID int) error {
 	db := OpenDataBase()
-	// On prépare la table "topic" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
+	// On prépare la table "topic" en indiquant dans quelles colonnes nous stockons les données reçues
 	createNew, err := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
+
 	if err != nil {
 		db.Close()
 		return err
@@ -71,18 +75,22 @@ func AddTopic(title string, content string, user_pseudo string, categoryID int) 
 }
 
 // Fonction permettant d'ajouter un like dans la base de donnée
-// A Completer !
 func AddLike(user_pseudo string, post_ID int, Liked int) error {
 	db := OpenDataBase()
 	var actionBDD *sql.Stmt
 	var errAction error
+
+	// On vérifie si l'utilisateur a déjà liké/disliké le post, on stocke le status du like
 	correctPseudo, statusLike, err := VerifyLike(post_ID, user_pseudo)
 	if err != nil {
 		db.Close()
 		return err
 	}
+
+	// On prépare la table "like" en indiquant dans quelles colonnes nous stockons les données reçues
 	if correctPseudo {
 		actionBDD, errAction = db.Prepare("UPDATE like SET liked = ? WHERE user_pseudo = ? AND post_id = ?")
+		// On ajoute le status du like en fonction du status du like déjà en place
 		if statusLike == 1 && Liked != -1 || statusLike == -1 && Liked != 1 {
 			_, err := actionBDD.Exec(0, user_pseudo, post_ID)
 			if err != nil {
@@ -100,6 +108,7 @@ func AddLike(user_pseudo string, post_ID int, Liked int) error {
 		return errAction
 	}
 
+	// On ajoute nos données
 	_, err = actionBDD.Exec(Liked, user_pseudo, post_ID)
 	if err != nil {
 		db.Close()
@@ -112,7 +121,7 @@ func AddLike(user_pseudo string, post_ID int, Liked int) error {
 // Fonction permettant d'ajouter un post dans la base de donnée
 func AddPost(pseudo string, post string, id int) error {
 	db := OpenDataBase()
-	// On prépare la table "post" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
+	// On prépare la table "post" en indiquant dans quelles listes nous stockons les données reçues
 	add, err := db.Prepare("INSERT INTO post (user_pseudo, content, topic_id) VALUES (?, ?, ?)")
 	if err != nil {
 		db.Close()
@@ -131,7 +140,7 @@ func AddPost(pseudo string, post string, id int) error {
 // Fonction permettant d'ajouter un commentaire dans la base de donnée
 func AddComment(comment string, user string, postId int) error {
 	db := OpenDataBase()
-	// On prépare la table "Comment" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
+	// On prépare la table "Comment" en indiquant dans quelles listes nous stockons les données reçues
 	createNew, err := db.Prepare("INSERT INTO Comment (content, user_pseudo, post_id) VALUES (?, ?, ?)")
 	if err != nil {
 		db.Close()

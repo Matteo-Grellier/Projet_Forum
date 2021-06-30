@@ -4,14 +4,13 @@ import (
 	handlers "./handlers"
 
 	"net/http"
-
-	BDD "./BDD"
 )
 
 func main() {
 
 	handlers.Color(2, "[SERVER_INFO] : Starting local Server...")
 
+	// Déclaration des URL et des fonctions associées
 	http.HandleFunc("/", handlers.Home)
 	http.HandleFunc("/connexion", handlers.ConnexionPage)
 	http.HandleFunc("/inscription", handlers.InscriptionPage)
@@ -19,12 +18,7 @@ func main() {
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
 	http.HandleFunc("/topic", handlers.OneTopicPage)
 
-	// http.HandleFunc("/postsActivity", handlers.Posts_Activity)
-	http.HandleFunc("/BDD", BDD.Afficher)
-
-	// http.HandleFunc("/like", handlers.Like)
-
-	// Fonctions exécutées après une requête
+	// Fonction exécutée lors d'une déconnexion
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)
 
 	// Récupération des fichiers static pour l'affichage des pages

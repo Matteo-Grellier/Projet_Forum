@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// Affichage des logs en couleur
 func Color(couleur int, str string) {
 	colorRed := "\033[31m"
 	colorGreen := "\033[32m"

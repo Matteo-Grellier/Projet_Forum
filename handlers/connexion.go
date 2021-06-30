@@ -6,11 +6,12 @@ import (
 	BDD "../BDD"
 )
 
-// Fonction qui vérifie si l'utilisateur est dans la base de donnée
+// Fonction qui vérifie que l'utilisateur peut se connecter
 func GetLogin(w http.ResponseWriter, r *http.Request, pseudo string, password string) (Errors, error) {
 	var DataPageConnexion Errors
 	DataPageConnexion.Pseudo = pseudo
 
+	// On vérifie que l'utilisateur fait bien partie de la base de données
 	correctPseudo, _, err := BDD.VerifyBDD(pseudo, "pseudo")
 	if err != nil {
 		return DataPageConnexion, err
@@ -20,6 +21,7 @@ func GetLogin(w http.ResponseWriter, r *http.Request, pseudo string, password st
 		return DataPageConnexion, nil
 	}
 
+	// On vérifie que le mot de passe entré et le mot de passe dans la base de données correspondent
 	correctPassword, err := BDD.VerifyPassword(password, pseudo)
 	if err != nil {
 		return DataPageConnexion, err
