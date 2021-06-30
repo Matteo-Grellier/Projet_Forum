@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ldivng="en">
+<hedivd>
+    <metdiv charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="../static/images/icon.png">
+        <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="../static/css/all_categories.css">
+
+        <title>Catégories</title>
+        </head>
+
+        <body>
+            {{template "sidebar" .User.Connected}} {{template "header" .User.Connected}}
+            <h2 class="Toutelescategories">Toutes les catégories :</h2>
+            <div class="lescategories">
+                {{range .Categories}}
+                <a href="/oneCategory?cat={{.Id}}" class="one-categorie">{{.Name}}</a> {{end}}
+            </div>
+        </body>
+
+</html>

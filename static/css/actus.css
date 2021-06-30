@@ -1,0 +1,80 @@
+body {
+    font-size: 20px;
+}
+
+.rectangle {
+    min-width: 1400px;
+    min-height: 200px;
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+    background: #00ADB5;
+}
+
+
+/* .actus {
+    grid-column: 5;
+    grid-row: 3;
+} */
+
+.zoneactus {
+    height: auto;
+    position: relative;
+    left: 1200px;
+    top: 215px;
+    float: right;
+    width: auto;
+    height: auto;
+    border-radius: 12% 10%;
+    border: 2px solid #eeeeee;
+    background: #FF5722;
+}
+
+.fil_actu {
+    text-align: center;
+    color: #ffffff;
+}
+
+.zone {
+    position: inherit;
+    margin-right: 20%;
+    margin-top: 5px;
+}
+
+.titre {
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 7%;
+    color: #ffffff;
+}
+
+.utilisateur {
+    cursor: pointer;
+    text-decoration: underline;
+    font-style: italic;
+    margin-left: 80%;
+    color: #ffffff;
+}
+
+.lepost {
+    width: inherit;
+    cursor: pointer;
+    margin-left: 3%;
+    color: #ffffff;
+}
+
+hr {
+    border: none;
+    border-top: 3px double #ffffff;
+    color: #ffffff;
+    overflow: visible;
+    text-align: center;
+    height: 5px;
+    margin-top: 7%;
+}
+
+hr:after {
+    background: #FF5722;
+    padding: 0 4px;
+    position: relative;
+    top: -13px;
+}

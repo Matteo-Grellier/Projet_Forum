@@ -1,0 +1,208 @@
+body {
+    background: #303841;
+    margin: 0;
+    padding: 0;
+    font-family: 'Concert One', cursive;
+}
+
+.topic {
+    display: flex;
+    flex-direction: column;
+    width: 850px;
+    height: auto;
+    margin-left: 30%;
+    margin-top: 150px;
+    justify-content: center;
+    background-color: #FF5722;
+    border-radius: 30px;
+}
+
+.borderTitle {
+    border-radius: 25px;
+    border-width: 4px;
+    border-style: solid;
+    border-color: white;
+}
+
+.borderComment {
+    border-radius: 25px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: white;
+}
+
+.photo_profile {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+    height: 55px;
+    padding-right: 30px;
+    background-color: #555;
+}
+
+.pseudo {
+    margin-top: 15px;
+    float: right;
+}
+
+.id {
+    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    text-align: center;
+    margin-right: 500px;
+}
+
+.description_topic {
+    background-color: white;
+    text-align: center;
+    font-size: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 25px;
+    margin-top: 5%;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.commentaire_topic {
+    margin-top: 20px;
+    padding-right: 55px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 15px;
+    background-color: #00adb5;
+}
+
+.like {
+    margin-left: 25px;
+    margin-bottom: 15px;
+}
+
+.textComment {
+    margin-bottom: 20px;
+    margin-left: 20px;
+    font-size: 20px;
+}
+
+.ligne {
+    margin-left: 38%;
+    margin-top: 20px;
+    color: white;
+    width: 200px;
+}
+
+.sujet {
+    position: relative;
+    color: white;
+    text-align: center;
+    margin-top: 130px;
+    left: 70px;
+    margin-bottom: -120px;
+}
+
+.categorie {
+    position: relative;
+    color: white;
+    text-align: right;
+    margin-top: 170px;
+    margin-right: 10px;
+    margin-bottom: -120px;
+}
+
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
+
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
+
+.boutons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.reponse {
+    width: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    padding: 9px 18px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: white;
+    color: black;
+    cursor: pointer;
+    z-index: 500;
+}
+
+.commentaryZone {
+    border-radius: 25px;
+    width: 700px;
+    margin-left: 40px;
+    background-color: white;
+    border: orangered;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.vl {
+    border-left: 6px solid #ff4500;
+    height: 220px;
+    margin-left: 30px;
+}
+
+.commentaire {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    position: relative;
+    top: 180px;
+    align-items: center;
+    left: 400px;
+}
+
+.btn button {
+    padding: 9px 18px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: #FF5722;
+    color: #fff;
+    cursor: pointer;
+}
+
+.btn_comm {
+    position: relative;
+    align-items: center;
+    top: -45px;
+    left: 410px;
+}
+
+.btn_comm button {
+    padding: 9px 9px;
+    border: none;
+    outline: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    background: #FF5722;
+    color: #fff;
+    cursor: pointer;
+}

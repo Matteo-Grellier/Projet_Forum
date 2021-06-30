@@ -1,40 +1,21 @@
 <!DOCTYPE html>
-    {{template "sidebar"}} {{template "header"}}
-<html lang="fr">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../static/css/home.css">
-        <script src="../scripts/display.js" defer></script>
-        <title>Acceuil</title>
-    </head>
+<html lang="en" >
 
-    <body>
-        <div class="zoneactus">
-            <h2>Fil d'actu</h2>
-            <div class="zone">
-                <i class="utilisateur"> @Olivia</i>
-                <p class="titre">J'aime la pizza</p>
-            </div>
-                <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="shortcut icon" href="../static/images/icon.png">
 
-            <hr>
+    <title>Home</title>
+</head>
 
-            <div class="zone">
-                <i class="utilisateur"> @Matheo</i>
-                <p class="titre">J'aime pas la pizza</p>
-            </div>
-                <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
+<body class="scroller">
+    {{template "sidebar" .UserConnected.Connected}} {{template "header" .UserConnected.Connected}}
+    <div class="actus" >{{template "actus" .}}</div>
+    <div class="buttonall1">{{template "boutton_all_categories"}}</div>
+</body>
 
-                <hr>
-
-            <div class="zone">
-                <i class="utilisateur"> @L1</i>
-                <p class="titre">J'aime la pizza</p>
-            </div>
-                <div class="lepost">J'adore la pizza c'est bon comme bonne bouffe en sah</div>
-        </div>
-
-    </body>
 </html>

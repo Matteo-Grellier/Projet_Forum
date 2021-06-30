@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFFICHAGE BDD D2BUT PROJET</title>
+</head>
+
+<body>
+    <h1>Ceci est mon test BDD. Je veux afficher et créer des nouveaux utilisateurs :</h1>
+    {{range .Users}}
+    <p>@{{.Pseudo}}</p>
+    <p>mail :{{.Mail}}</p>
+    {{end}} {{range .Topics}}
+    <p>Titre du topic : {{.Title}}</p>
+    <p>{{.Content}}</p>
+    <p>User : @{{.User_pseudo}}</p>
+    {{end}}
+
+    <form action="/BDD" method="post">
+        <button name="update" value="update">UPDATE</button>
+        <button name="delete" value="delete">DELETE</button>
+        <button name="create" value="create">CREATE</button>
+        <!-- <button value="read">READ</button> -->
+
+    </form>
+
+</body>
+
+</html>

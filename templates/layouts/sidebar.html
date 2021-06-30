@@ -7,8 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
-
     <!-- SideBar Menu -->
     <div class="sidebar">
         <div class="logo_content">
@@ -19,32 +17,31 @@
         </div>
         <ul class="nav_list">
             <li>
-                <a href="">
+                <a href="/">
                     <i class='bx bxs-home'></i>
                     <span class="links_name">Accueil</span>
                 </a>
                 <span class="tooltip">Accueil</span>
             </li>
             <li>
-                <a href="">
-                    <i class='bx bxs-news'></i>
-                    <span class="links_name">L'actualité</span>
-                </a>
-                <span class="tooltip">L'actualité</span>
-            </li>
-            <li>
-                <a href="">
+                <a href="/categories">
                     <i class='bx bxs-category'></i>
                     <span class="links_name">Catégories</span>
                 </a>
                 <span class="tooltip">Catégories</span>
             </li>
+            {{ if .}}
+            <li>
+                <a href="/likes">
+                    <i class='bx bxs-like'></i>
+                    <span class="links_name">Posts Likés</span>
+                </a>
+                <span class="tooltip">Posts Likés</span>
+            </li>
+            {{end}}
         </ul>
     </div>
     <!-- SideBar Menu End -->
 
     <script src="../static/js/sidebar.js"></script>
-
-</body>
-
 {{end}}

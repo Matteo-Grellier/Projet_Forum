@@ -1,0 +1,37 @@
+body {
+    background: #303841;
+}
+
+.Toutelescategories {
+    position: relative;
+    text-align: center;
+    top: 175px;
+    color: #fff;
+}
+
+.lescategories {
+    background-color: #FF5722;
+    position: relative;
+    margin-top: 200px;
+    margin-left: 150px;
+    margin-right: 150px;
+    border-radius: 25px;
+    flex-shrink: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    text-align : center;
+}  
+
+.one-categorie {
+    text-decoration: none;
+    justify-content: center;
+    color: #fff;
+    margin: 20px;
+    font-size: 25px;
+}
+
+.one-categorie:hover {
+    text-decoration: underline;
+}
+
+/*{{template "sidebar"}} {{template "header"}}*/
