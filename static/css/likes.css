@@ -1,0 +1,60 @@
+body {
+    background-color: #303841;
+    padding-left: 100px;
+}
+
+.posts {
+    
+    display: flex;
+    flex-direction: column;
+    width: 850px;
+    height: auto;
+    position: relative;
+    top: 200px;
+    margin-left: 25%;
+    justify-content: center;
+    background-color: #FF5722;
+    border-radius: 30px;
+}
+
+.Title{
+    display: flex;
+    position: relative;
+    text-align: center;
+    top: 200px;
+    left: 580px;
+    color: white;
+}
+.likedTopic{
+    border-bottom: #00adb5;
+    border-top: #00adb5;
+    border-left: #00adb5;
+    border-right: #00adb5;
+    border-style: solid;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: white;
+}
+
+.textComment{
+    width: 100px;
+    font-size: 30px;
+}
+
+.topicLink{
+    
+    padding-left: 50px;
+    margin-top: 70px;
+    display: flex;
+}
+.content{
+    position: absolute;
+    width: auto;
+    padding-top: 10px;
+    margin-left: 10px;
+    margin-left: 130px;
+
+}

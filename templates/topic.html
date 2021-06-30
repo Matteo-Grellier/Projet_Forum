@@ -15,7 +15,7 @@
 
 <body id="body">
 
-    {{template "sidebar"}} {{template "header" .UserConnected.Connected}} {{template "boxpost" .Topic}}
+    {{template "sidebar" .UserConnected.Connected}} {{template "header" .UserConnected.Connected}} {{template "boxpost" .Topic}}
 
     <h1 class="categorie">CATÉGORIE : {{.Topic.Category_name}}</h1>
     <h1 class="sujet">NOM DU SUJET : {{.Topic.Title}}</h1>

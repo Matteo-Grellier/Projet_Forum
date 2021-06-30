@@ -17,6 +17,7 @@ func main() {
 	http.HandleFunc("/categories", handlers.CategoriesPage)
 	http.HandleFunc("/oneCategory", handlers.OneCategoryPage)
 	http.HandleFunc("/topic", handlers.OneTopicPage)
+	http.HandleFunc("/likes", handlers.LikesPage)
 
 	// Fonction exécutée lors d'une déconnexion
 	http.HandleFunc("/deconnexion", handlers.GetDeconnected)

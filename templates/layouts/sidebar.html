@@ -30,6 +30,15 @@
                 </a>
                 <span class="tooltip">Catégories</span>
             </li>
+            {{ if .}}
+            <li>
+                <a href="/likes">
+                    <i class='bx bxs-like'></i>
+                    <span class="links_name">Posts Likés</span>
+                </a>
+                <span class="tooltip">Posts Likés</span>
+            </li>
+            {{end}}
         </ul>
     </div>
     <!-- SideBar Menu End -->

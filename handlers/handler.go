@@ -22,15 +22,26 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	// On vérifie si l'utilisateur est connecté
 	userConnected := VerifyUserConnected(w, req)
 
+	// On affiche les 3 derniers posts publiés
+	Posts, BDDerr := BDD.DisplayPostsActus()
+	if BDDerr != nil {
+		Error500(w, req, BDDerr)
+		return
+	}
+
+	// On envoie les données utiles
+	DataPageHomeOK := DataPageHome{
+		UserConnected: userConnected,
+		Posts:         Posts,
+	}
 	if err != nil {
 		t, _ = template.ParseFiles("./templates/layouts/error500.html")
 		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page500'")
 		t.Execute(w, nil)
 		return
 	}
-
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
-	t.Execute(w, userConnected)
+	t.Execute(w, DataPageHomeOK)
 }
 
 // Exécution de la page Connexion
@@ -299,4 +310,31 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 	t.Execute(w, DataPageTopicOK)
+}
+
+func LikesPage(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/likes.html", "templates/layouts/header.html", "templates/layouts/sidebar.html")
+	if err != nil {
+		Error500(w, r, err)
+		return
+	}
+	// On regarde si l'utilisateur est connecté
+	user_connected := VerifyUserConnected(w, r)
+	if !user_connected.Connected {
+		Error500(w, r, err)
+		return
+	}
+	// On va chercher les posts likés
+	posts, BDDerror := BDD.DisplayLikedPosts(user_connected.PseudoConnected)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
+	}
+	// On retourne les données utiles pour la page
+	DataPageLikesOK := DataPageLikes{
+		UserConnected: user_connected,
+		Posts:         posts,
+	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'likes'")
+	t.Execute(w, DataPageLikesOK)
 }
