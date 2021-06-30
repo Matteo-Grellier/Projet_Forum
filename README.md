@@ -15,8 +15,12 @@ L'utilisateur connecté devra avoir la possibilité de :
 - Réagir aux posts du sujet (likes, dislikes, commentaires)
 
 Un système de filtrage des sujets est mis en place :
-    - Par catégorie
-    - Les sujets que l'utilisateur aura liké ou posté
+
+- Par catégorie
+
+- Les sujets que l'utilisateur aura liké ou posté
+
+
 
 ## Fonctionnalités attendues
 
