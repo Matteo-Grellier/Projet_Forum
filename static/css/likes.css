@@ -3,26 +3,32 @@ body {
     padding-left: 100px;
 }
 
+.id{
+    position: inherit;
+    display: flex;
+}
+
 .posts {
-    
     display: flex;
     flex-direction: column;
-    width: 850px;
+    width: 800px;
     height: auto;
     position: relative;
     top: 200px;
-    margin-left: 25%;
+    left: 33%;
     justify-content: center;
     background-color: #FF5722;
     border-radius: 30px;
 }
 
 .Title{
+    font-size: 30px;
+    padding-bottom: 10px;
     display: flex;
     position: relative;
     text-align: center;
     top: 200px;
-    left: 580px;
+    left: 670px;
     color: white;
 }
 .likedTopic{
@@ -40,21 +46,30 @@ body {
 }
 
 .textComment{
-    width: 100px;
+    padding-left:-1000px; 
     font-size: 30px;
+    display:block ruby;
 }
 
 .topicLink{
-    
-    padding-left: 50px;
+    position: inherit;
+    padding-left: -800px;
     margin-top: 70px;
     display: flex;
 }
 .content{
-    position: absolute;
-    width: auto;
+    width: 500px;
+    position:inherit;
     padding-top: 10px;
-    margin-left: 10px;
-    margin-left: 130px;
+}
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
 
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
 }

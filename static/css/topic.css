@@ -10,7 +10,7 @@ body {
     flex-direction: column;
     width: 850px;
     height: auto;
-    margin-left: 25%;
+    margin-left: 30%;
     margin-top: 150px;
     justify-content: center;
     background-color: #FF5722;
@@ -172,8 +172,8 @@ body {
 .btn {
     position: relative;
     top: 180px;
-    left: 1260px;
     align-items: center;
+    left: 400px;
 }
 
 .btn button {

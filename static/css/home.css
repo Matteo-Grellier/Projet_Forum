@@ -8,7 +8,17 @@ body {
     grid-gap: 5px;
 }
 
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
 
+.scroller {
+    overflow-y: scroll;
+    scrollbar-color: rebeccapurple green;
+    scrollbar-width: thin;
+}
 /* .actus {
     grid-column: 5;
     grid-row: 3;
@@ -80,7 +90,9 @@ a:link {
     outline: none;
 }
 
-
+.zoneactus{
+    margin-top: 50px;
+}
 /* Animate neon flicker */
 
 @keyframes flicker {
