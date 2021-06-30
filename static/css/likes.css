@@ -1,0 +1,16 @@
+body {
+    background-color: #303841;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    width: 850px;
+    height: auto;
+    position: relative;
+    top: 200px;
+    margin-left: 25%;
+    justify-content: center;
+    background-color: #FF5722;
+    border-radius: 30px;
+}

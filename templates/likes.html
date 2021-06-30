@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/images/icon.png">
+    <link rel="stylesheet" href="../static/css/topic.css">
+    <link rel="stylesheet" href="../../static/css/likes.css">
+
+    <title>Posts Likés</title>
+</head>
+{{template "sidebar" .UserConnected.Connected}} {{template "header" .UserConnected.Connected}}
+
+<body id="body">
+    <div class="posts">
+        <p>Ici nous pouvons trouver les posts likés</p>
+        {{range .Posts}}
+            <a href="/topic?top={{.Topic_ID}}">
+                <div class="id">
+                    <div class="photo_profile">pp</div>
+                    <div class="pseudo">{{.User_pseudo}}</div>
+                <p class="textComment">{{.Content}}</p>
+                </div>
+            </a>
+        {{end}}
+    </div>
+</body>
+</html>

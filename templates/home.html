@@ -13,8 +13,8 @@
 </head>
 
 <body>
-    {{template "sidebar"}} {{template "header" .Connected}}
-    <div class="actus">{{template "actus"}}</div>
+    {{template "sidebar" .UserConnected.Connected}} {{template "header" .UserConnected.Connected}}
+    <div class="actus">{{template "actus" .}}</div>
     <div class="buttonall1">{{template "boutton_all_categories"}}</div>
 </body>
 

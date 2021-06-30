@@ -15,6 +15,16 @@ type DataPageCategory struct {
 	Error         string
 	UserConnected UserConnectedStruct
 }
+
+type DataPageHome struct {
+	UserConnected UserConnectedStruct
+	Posts         []BDD.Post
+}
+
+type DataPageLikes struct {
+	UserConnected UserConnectedStruct
+	Posts         []BDD.Post
+}
 type UserConnectedStruct struct {
 	PseudoConnected string
 	Connected       bool

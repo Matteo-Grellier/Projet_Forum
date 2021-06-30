@@ -109,6 +109,26 @@ func DisplayOneTopic(idTopic int) (Topic, error) {
 	return eachTopic, nil
 }
 
+func DisplayPostsActus() ([]Post, error) {
+	db := OpenDataBase()
+	var eachPost Post
+	var tabPosts []Post
+	searchPosts, err := db.Prepare("SELECT content, user_pseudo, topic_id FROM post ORDER BY rowid DESC LIMIT 3")
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	Posts, err := searchPosts.Query()
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	for Posts.Next() {
+		Posts.Scan(&eachPost.Content, &eachPost.User_pseudo, &eachPost.Topic_ID)
+		tabPosts = append(tabPosts, eachPost)
+	}
+	return tabPosts, nil
+}
 func DisplayPosts(idTopic int, userConnected string) ([]Post, error) {
 	db := OpenDataBase()
 	var eachPost Post
@@ -212,4 +232,43 @@ func DisplayLikes(postID int, user_pseudo string) (int, int, int, error) {
 	}
 	foundLikes.Close()
 	return counterLikes, counterDislikes, statusLike, nil
+}
+
+func DisplayLikedPosts(user_pseudo string) ([]Post, error) {
+	db := OpenDataBase()
+	var eachPostID int
+	var statusLike int
+	var eachPost Post
+	var tabPosts []Post
+	searchLikes, err := db.Prepare("SELECT liked, post_id FROM like WHERE user_pseudo = ?")
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	foundLikes, err := searchLikes.Query(user_pseudo)
+	if err != nil {
+		db.Close()
+		return nil, err
+	}
+	for foundLikes.Next() {
+		foundLikes.Scan(&statusLike, &eachPostID)
+		if statusLike == 1 {
+			searchPosts, err := db.Prepare("SELECT content, user_pseudo, topic_id FROM post WHERE ID = ?")
+			if err != nil {
+				db.Close()
+				return nil, err
+			}
+
+			Posts, err := searchPosts.Query(eachPostID)
+			if err != nil {
+				db.Close()
+				return nil, err
+			}
+			for Posts.Next() {
+				Posts.Scan(&eachPost.Content, &eachPost.User_pseudo, &eachPost.Topic_ID)
+				tabPosts = append(tabPosts, eachPost)
+			}
+		}
+	}
+	return tabPosts, nil
 }

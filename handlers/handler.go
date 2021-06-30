@@ -24,16 +24,23 @@ func Home(w http.ResponseWriter, req *http.Request) {
 	}
 	t, err := template.ParseFiles("./templates/home.html", "./templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/bouton_all_categories.html", "./templates/layouts/actus.html")
 	userConnected := VerifyUserConnected(w, req)
-
+	Posts, BDDerr := BDD.DisplayPostsActus()
+	if BDDerr != nil {
+		Error500(w, req, BDDerr)
+		return
+	}
+	DataPageHomeOK := DataPageHome{
+		UserConnected: userConnected,
+		Posts:         Posts,
+	}
 	if err != nil {
 		t, _ = template.ParseFiles("./templates/layouts/error500.html")
 		Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'Page500'")
 		t.Execute(w, nil)
 		return
 	}
-
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'home'")
-	t.Execute(w, userConnected)
+	t.Execute(w, DataPageHomeOK)
 }
 
 // Exécution de la page Connexion
@@ -277,4 +284,29 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 	}
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'topic'")
 	t.Execute(w, DataPageTopicOK)
+}
+
+func LikesPage(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/likes.html", "templates/layouts/header.html", "templates/layouts/sidebar.html")
+	if err != nil {
+		Error500(w, r, err)
+		return
+	}
+	user_connected := VerifyUserConnected(w, r)
+	if !user_connected.Connected {
+		// ATTENTION ICI RETOURNER UNE ERREUR DE CONNEXION
+		Error500(w, r, err)
+		return
+	}
+	posts, BDDerror := BDD.DisplayLikedPosts(user_connected.PseudoConnected)
+	if BDDerror != nil {
+		Error500(w, r, BDDerror)
+		return
+	}
+	DataPageLikesOK := DataPageLikes{
+		UserConnected: user_connected,
+		Posts:         posts,
+	}
+	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'likes'")
+	t.Execute(w, DataPageLikesOK)
 }
