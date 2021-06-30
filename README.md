@@ -1,32 +1,30 @@
 # 📑 Projet_Forum
 
-Ce projet consiste en la création d'un forum en ligne, ce site doit reprendre les caractéristiques d'un forum classique : la publication de post par des utilisateurs, like ou dislike de posts, pouvoir s'inscrire/se connecter, une multitude de catégories, la création de topics etc...
+Ce projet consiste en la création d'un forum en ligne qui reprend les caractéristiques d'un forum classique : la publication de posts par des utilisateurs, like ou dislike de posts, pouvoir s'inscrire/se connecter, une multitude de catégories, la création de topics etc...
 
 # 📝 Consignes
 
-Le forum devra avoir la possibilité de :
+L'utilisateur non connecté pourra : 
 
-- Créer des sujets
+- Lire des sujets, posts, commentaires
 
-- Chaques sujets aura une ou plusieurs catégories
+L'utilisateur connecté devra avoir la possibilité de :
 
-- Les autres utilisateurs pourront réagir (likes, dislikes, commentaires)
+- Créer des sujets (liés à une catégorie)
 
-- La lecture des sujets & des commentaires seront accessible par tout le monde
+- Réagir aux posts du sujet (likes, dislikes, commentaires)
 
-- La participation aux conversations, aux réactions nécessitera un compte utilisateur
-
-- Un système de filtrage des sujets :
+Un système de filtrage des sujets est mis en place :
     - Par catégorie
-    - Les sujets auquels on aura likés ou postés
+    - Les sujets que l'utilisateur aura liké ou posté
 
 ## Fonctionnalités attendues
 
-- Pouvoir s'inscrire et se connecter
+- L'utilisateur peut s'inscrire et se connecter
 
 - Les mots de passe seront *hashés*
 
-- Une session utilisateur en utilisant un cookie avec un temps d'expiration
+- Une session utilisateur sera mise en place en utilisant un cookie avec un temps d'expiration
 
 ## Contraintes 
 
@@ -36,15 +34,11 @@ Le forum devra avoir la possibilité de :
 
 - Base de donnée gérée & administrée avec **SQLite**
 
-- Les mots de passe seront sécurisés
-
-- Les sessions de connexion exploiteront des cookies
-
 - Les packages autorisés :
      - Packages standards
-     - **bcrypt**
+     - **bcrypt** (mots de passe sécurisés)
      - **sqlite3**
-     - **uuid**
+     - **uuid** (sessions de connexion avec cookies)
 
 # 👉 Pour commencer
 
@@ -97,12 +91,12 @@ Le dossier ``Projet_Forum`` se découpe en plusieurs sous dossiers :
 
 ![img](https://raw.githubusercontent.com/Matteo-Grellier/Projet_Forum/README/static/images/Architecture.png)
 
-* BDD : Dossier qui regroupe l'ensemble des fonctions pour l'exécution des différentes tâches.
+* BDD : Dossier qui regroupe l'ensemble des fonctions pour les fonctionnalités liées à la base de données. (Ajout d'un post, ajout d'un utilisateur, etc.)
 
-* Handlers : Dossier qui regroupe l'ensemble des fonctions pour le fonctionnement du site.
+* Handlers : Dossier qui regroupe l'ensemble des fonctions pour l'affichage des pages du site et les fonctionnalités plus globales. (Création du cookie, vérification des entrées lors de l'inscription, etc.)
 
 * Templates : Dossier qui regroupe les pages HTML (Hypertext Markup Language).
-    * Layouts : Dossier qui regroupe des templates utilisées dans les pages HTML.
+    * Layouts : Dossier qui regroupe des templates utilisées dans plusieurs pages HTML. (header.html, sidebar.html)
 
 * Static : 
     * CSS : Feuilles de style en cascade.
@@ -132,9 +126,9 @@ Base de données :
 
 - <img alt="SQLite" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
 
-Conteneur : 
+<!-- Conteneur : 
 
-- <img alt="Docker" src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"/>
+- <img alt="Docker" src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white"/> -->
 
 
 # ⚙️ Version
@@ -151,15 +145,15 @@ Liste des versions :
 
 # 👥 Équipe
 
-Réalisé en B1 Informatique chez Ynov par :
+Projet réalisé à Nantes Ynov Campus par les apprenants de la promo B1 Informatique 2020/2021
 
 - ``Elouan DUMONT`` alias [@ByMSRT](https://github.com/ByMSRT)
-
-- ``Olivia MOREAU`` alias [@Liv44](https://github.com/Liv44)
 
 - ``Mattéo GRELLIER`` alias [@Matteo-Grellier](https://github.com/Matteo-Grellier)
 
 - ``Malo LOYER-VIAUD`` alias [@Karrwolf](https://github.com/Karrwolf)
+
+- ``Olivia MOREAU`` alias [@Liv44](https://github.com/Liv44)
 
 Lien des contributions 👉 [ici](https://github.com/Matteo-Grellier/Projet_Forum/graphs/contributors).
 
