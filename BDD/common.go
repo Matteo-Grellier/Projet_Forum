@@ -1,5 +1,7 @@
 package BDD
 
+// Définition des structures
+
 type User struct {
 	Pseudo   string
 	Mail     string

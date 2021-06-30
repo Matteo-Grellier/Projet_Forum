@@ -6,6 +6,7 @@ import (
 	BDD "../BDD"
 )
 
+// Fonction qui vérifie si l'utilisateur est dans la base de donnée
 func GetLogin(w http.ResponseWriter, r *http.Request, pseudo string, password string) (Errors, error) {
 	var DataPageConnexion Errors
 	DataPageConnexion.Pseudo = pseudo

@@ -4,6 +4,7 @@ import (
 	BDD "../BDD"
 )
 
+// Fonction qui permet d'ajouter un topic dans la bonne catégorie
 func AddTopic(titre string, content string, categId int, user string) (string, int, error) {
 
 	var data = []string{titre, content}

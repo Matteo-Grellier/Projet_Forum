@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// Fonction qui permet de hashé le mot de passe
 func HashPassword(password string) string {
 	var passByte = []byte(password)
 
@@ -84,6 +85,7 @@ func verifyInput(label []string) bool {
 	return true
 }
 
+// Vérifie tout les critères pour le mot de passe (7 caractères, min 1 Minuscule, min 1 Majuscule, min 1 chiffre)
 func verifMdp(mdp string) (bool, string) {
 	var maj int = 0
 	var min int = 0
@@ -119,6 +121,7 @@ func verifMdp(mdp string) (bool, string) {
 	return true, ""
 }
 
+// Vérification si les mots de passes correspondent dans l'inscription
 func sameMdp(firstpwd string, secondpwd string) bool {
 	if firstpwd != secondpwd {
 		return false

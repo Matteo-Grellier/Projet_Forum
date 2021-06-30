@@ -42,6 +42,7 @@ func VerifyBDD(element string, column string) (bool, string, error) {
 	return false, "", nil
 }
 
+// Vérifie si l'utilisateur à déjà liké
 func VerifyLike(post_id int, user_pseudo string) (bool, int, error) {
 	var oneUser string
 	var statusLike int

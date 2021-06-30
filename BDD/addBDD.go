@@ -4,13 +4,16 @@ import (
 	"database/sql"
 )
 
+// Fonction permettant d'ajouter l'utilisateur dans la base de donnée
 func AddUser(pseudo string, mail string, password string) error {
 	db := OpenDataBase()
+	// On prépare la table "user" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
 	createNew, err := db.Prepare("INSERT INTO user (pseudo, mail, password) VALUES (?, ?, ?)")
 	if err != nil {
 		db.Close()
 		return err
 	}
+	// On ajoute nos données envoyées par le formulaire
 	_, err = createNew.Exec(pseudo, mail, password)
 	if err != nil {
 		db.Close()
@@ -51,18 +54,24 @@ func AddUUID(pseudo string, UUID string) error {
 	return nil
 }
 
+// Fonction permettant d'ajouter un topic dans la base de donnée
 func AddTopic(title string, content string, user_pseudo string, categoryID int) error {
 	db := OpenDataBase()
+	// On prépare la table "topic" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
 	createNew, err := db.Prepare("INSERT INTO topic (title, content, user_pseudo, category_id) VALUES (?, ?, ?, ?)")
 	if err != nil {
 		db.Close()
 		return err
 	}
+	// On ajoute nos données envoyées par le formulaire
 	createNew.Exec(title, content, user_pseudo, categoryID)
 	createNew.Exec("commit")
 	db.Close()
 	return nil
 }
+
+// Fonction permettant d'ajouter un like dans la base de donnée
+// A Completer !
 func AddLike(user_pseudo string, post_ID int, Liked int) error {
 	db := OpenDataBase()
 	var actionBDD *sql.Stmt
@@ -100,14 +109,16 @@ func AddLike(user_pseudo string, post_ID int, Liked int) error {
 	return nil
 }
 
+// Fonction permettant d'ajouter un post dans la base de donnée
 func AddPost(pseudo string, post string, id int) error {
 	db := OpenDataBase()
+	// On prépare la table "post" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
 	add, err := db.Prepare("INSERT INTO post (user_pseudo, content, topic_id) VALUES (?, ?, ?)")
 	if err != nil {
 		db.Close()
 		return err
 	}
-
+	// On ajoute nos données envoyées par le formulaire
 	_, err = add.Exec(pseudo, post, id)
 	if err != nil {
 		db.Close()
@@ -117,13 +128,16 @@ func AddPost(pseudo string, post string, id int) error {
 	return nil
 }
 
+// Fonction permettant d'ajouter un commentaire dans la base de donnée
 func AddComment(comment string, user string, postId int) error {
 	db := OpenDataBase()
+	// On prépare la table "Comment" en indiquant dans quelles listes nous allons stockés les données reçu, tout en gérant l'erreur si le nom de la liste n'est pas répertorié dans la table.
 	createNew, err := db.Prepare("INSERT INTO Comment (content, user_pseudo, post_id) VALUES (?, ?, ?)")
 	if err != nil {
 		db.Close()
 		return err
 	}
+	// On ajoute nos données envoyées par le formulaire
 	_, err = createNew.Exec(comment, user, postId)
 
 	if err != nil {

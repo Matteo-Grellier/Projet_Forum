@@ -198,6 +198,8 @@ func OneCategoryPage(w http.ResponseWriter, r *http.Request) {
 	Color(1, "[SERVER_INFO_PAGE] : 🟢 Page 'one_category'")
 	t.Execute(w, DataPageCategoryOK)
 }
+
+//Exécution d'une page topic
 func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 
 	t, err := template.ParseFiles("templates/topic.html", "templates/layouts/sidebar.html", "./templates/layouts/header.html", "./templates/layouts/boxPost.html", "./templates/layouts/boxComm.html")
@@ -228,9 +230,9 @@ func OneTopicPage(w http.ResponseWriter, r *http.Request) {
 		NoItemsError(w, r)
 		return
 	}
-
+	// Si la méthode est 'Post'
 	if r.Method == "POST" {
-
+		// On vérifie quelle formulaire est envoyé
 		if r.FormValue("Post") != "" {
 			if DataPageTopicOK.UserConnected.Connected {
 				postContent := r.FormValue("Post")

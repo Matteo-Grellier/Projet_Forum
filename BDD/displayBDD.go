@@ -1,5 +1,6 @@
 package BDD
 
+// Fonction permettant d'afficher les catégories venant de la base de donnée
 func DisplayCategories() ([]Category, error) {
 	db := OpenDataBase()
 	var eachCategory Category
@@ -18,6 +19,7 @@ func DisplayCategories() ([]Category, error) {
 	return tabCategories, nil
 }
 
+// Fonction permettant d'afficher les topics venant de la base de donnée
 func DisplayTopics(idCat int) ([]Topic, error) {
 	db := OpenDataBase()
 	var eachTopic Topic
@@ -42,6 +44,8 @@ func DisplayTopics(idCat int) ([]Topic, error) {
 	db.Close()
 	return tabTopics, nil
 }
+
+// Fonction permettant d'afficher les topics suivant les ID venant de la base de donnée
 func DisplayTopicID() (int, error) {
 	var topicID int
 	db := OpenDataBase()
@@ -57,6 +61,7 @@ func DisplayTopicID() (int, error) {
 	return topicID, nil
 }
 
+// Fonction permettant d'afficher la catégorie venant de la base de donnée
 func DisplayCategory(idCat int) (string, error) {
 	var nameElement string
 	db := OpenDataBase()
@@ -82,6 +87,7 @@ func DisplayCategory(idCat int) (string, error) {
 	return nameElement, nil
 }
 
+// Fonction permettant d'afficher un topic suivant l'ID venant de la base de donnée
 func DisplayOneTopic(idTopic int) (Topic, error) {
 	db := OpenDataBase()
 	var eachTopic Topic
@@ -109,6 +115,7 @@ func DisplayOneTopic(idTopic int) (Topic, error) {
 	return eachTopic, nil
 }
 
+// Fonction permettant d'afficher les posts venant de la base de donnée
 func DisplayPosts(idTopic int, userConnected string) ([]Post, error) {
 	db := OpenDataBase()
 	var eachPost Post
@@ -157,6 +164,7 @@ func DisplayPosts(idTopic int, userConnected string) ([]Post, error) {
 	return tabPosts, nil
 }
 
+// Fonction permettant d'afficher les commentaires venant de la base de donnée
 func DisplayComments(postId int) ([]Comment, int, error) {
 	db := OpenDataBase()
 	var eachComment Comment
@@ -181,6 +189,7 @@ func DisplayComments(postId int) ([]Comment, int, error) {
 	return tabComments, counter, nil
 }
 
+// Fonction permettant d'afficher les likes venant de la base de donnée
 func DisplayLikes(postID int, user_pseudo string) (int, int, int, error) {
 	// postID := 227
 	var counterLikes int
