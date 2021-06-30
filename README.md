@@ -140,9 +140,10 @@ Base de données :
 Liste des versions :
 
 [![Generic badge](https://img.shields.io/static/v1?label=DERNIERE&message=VERSION&color=<green>?style=flat-square)](https://shields.io/)
-- 👉 [v3.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v3.0)
+- 👉 [v4.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v4.0)
 
 [![Generic badge](https://img.shields.io/badge/PRECEDENTE-VERSION-red)](https://shields.io/)
+- 👉 [v3.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v3.0)
 - 👉 [v2.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v2.0)
 - 👉 [v1.0](https://github.com/Matteo-Grellier/Projet_Forum/releases/tag/v1.0)
 
