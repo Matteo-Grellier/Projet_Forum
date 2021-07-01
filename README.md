@@ -54,7 +54,7 @@ Avant de commencer, nous avons besoin d'installer des packages sur notre 💻 te
 
 - ``golang.org/x/crypto/bcrypt``
 
-- ``github.com/satori/go.uuid``
+- ``github.com/google/uuid``
 
 - ``github.com/mattn/go-sqlite3``
 
