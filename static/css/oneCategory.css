@@ -8,11 +8,11 @@ body {
 .title {
     position: relative;
     text-align: center;
-    left: 50px;
+    left: -220px;
     top: 200px;
 }
 
-.textTitle{
+.textTitle {
     left: 800px;
     display: flex;
     position: relative;
@@ -27,7 +27,7 @@ body {
     background-color: #FF5722;
     position: relative;
     top: 250px;
-    left: 550px;
+    left: 300px;
     height: 450px;
     width: 900px;
     border-radius: 8%;

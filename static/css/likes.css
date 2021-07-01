@@ -3,7 +3,7 @@ body {
     padding-left: 100px;
 }
 
-.id{
+.id {
     position: inherit;
     display: flex;
 }
@@ -14,24 +14,25 @@ body {
     width: 800px;
     height: auto;
     position: relative;
-    top: 200px;
-    left: 33%;
+    top: 220px;
+    left: 20%;
     justify-content: center;
     background-color: #FF5722;
     border-radius: 30px;
 }
 
-.Title{
+.Title {
     font-size: 30px;
     padding-bottom: 10px;
     display: flex;
     position: relative;
     text-align: center;
     top: 200px;
-    left: 670px;
+    left: 470px;
     color: white;
 }
-.likedTopic{
+
+.likedTopic {
     border-bottom: #00adb5;
     border-top: #00adb5;
     border-left: #00adb5;
@@ -45,23 +46,25 @@ body {
     background-color: white;
 }
 
-.textComment{
-    padding-left:-1000px; 
+.textComment {
+    padding-left: -1000px;
     font-size: 30px;
-    display:block ruby;
+    display: block ruby;
 }
 
-.topicLink{
+.topicLink {
     position: inherit;
     padding-left: -800px;
     margin-top: 70px;
     display: flex;
 }
-.content{
+
+.content {
     width: 500px;
-    position:inherit;
+    position: inherit;
     padding-top: 10px;
 }
+
 .scroller {
     overflow-y: scroll;
     scrollbar-color: rebeccapurple green;
